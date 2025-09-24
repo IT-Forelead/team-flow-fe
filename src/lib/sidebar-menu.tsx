@@ -1,9 +1,9 @@
 import {
-    BarChart3Icon, BrainIcon,
-    CalendarIcon,
-    FileTextIcon,
-    LayoutDashboardIcon, Settings2Icon,
-    SettingsIcon, Users2Icon, UsersIcon,
+	BrainIcon,
+	ChartNoAxesCombinedIcon,
+	HomeIcon,
+	SettingsIcon,
+	UsersIcon,
 } from 'lucide-react';
 import type { ReactNode } from 'react';
 
@@ -35,44 +35,50 @@ export interface SidebarFooterItem {
 }
 
 export const mainMenuItems: SidebarMenuItem[] = [
+	// {
+	// 	title: 'Dashboard',
+	// 	titleKey: 'navigation.dashboard',
+	// 	icon: <LayoutDashboardIcon />,
+	// 	url: '',
+	// 	items: [
+	// 		{
+	// 			title: 'Reports',
+	// 			titleKey: 'navigation.reports',
+	// 			url: '/reports',
+	// 		},
+	// 	],
+	// },
 	{
-		title: 'Dashboard',
-		titleKey: 'navigation.dashboard',
-		icon: <LayoutDashboardIcon />,
-		url: '',
-		items: [
-			{
-				title: 'Reports',
-				titleKey: 'navigation.reports',
-				url: '/reports',
-			},
-		],
+		title: 'Home',
+		titleKey: 'navigation.home',
+		icon: <HomeIcon />,
+		url: '/',
 	},
 	{
-		title: 'AIAgents',
+		title: 'Reports',
+		titleKey: 'navigation.reports',
+		icon: <ChartNoAxesCombinedIcon />,
+		url: '/reports',
+	},
+	{
+		title: 'Users',
 		titleKey: 'navigation.users',
 		url: '/users',
 		icon: <UsersIcon />,
 	},
-    {
-        title: 'AI Agents',
-        titleKey: 'navigation.agents',
-        url: '/agents',
-        icon: <BrainIcon />,
-    },
+	{
+		title: 'AI Agents',
+		titleKey: 'navigation.agents',
+		url: '/ai-agents',
+		icon: <BrainIcon />,
+	},
 ];
 
 export const footerMenuItems: SidebarFooterItem[] = [
 	{
-		title: 'AIAgents',
+		title: 'Settings',
 		titleKey: 'navigation.settings',
 		url: '/settings',
 		icon: <SettingsIcon />,
-	},
-	{
-		title: 'Help',
-		titleKey: 'navigation.help',
-		url: '/help',
-		icon: <FileTextIcon />,
 	},
 ];
