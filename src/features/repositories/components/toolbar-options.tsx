@@ -6,7 +6,6 @@ import { useTranslation } from 'react-i18next';
 
 import { CalendarDatePicker } from '@/components/custom/calendar-date-picker.tsx';
 import { DatePicker } from '@/components/custom/date-picker.tsx';
-import { CreateAgent } from '@/features/ai-agents/components/actions/CreateAgent.tsx';
 import { AddUser } from '@/features/users/components/actions/AddUser.tsx';
 import { BulkDeleteUser } from '@/features/users/components/actions/BulkDeleteUser.tsx';
 
@@ -45,7 +44,30 @@ const ToolbarOptions = ({
 		<>
 			{/* Desktop layout */}
 			<div className="hidden lg:flex lg:items-center lg:gap-2">
-				<CreateAgent />
+				<AddUser />
+				<CalendarDatePicker
+					date={dateRange}
+					onDateSelect={range => {
+						console.log('Selected date range:', range);
+						if (range.from && range.to) {
+							setDateRange(range as DateRange);
+						} else {
+							// Clear selection
+							setDateRange({ from: undefined, to: undefined });
+						}
+					}}
+					placeholder={t('calendar.selectDateRange', 'Select date range')}
+					variant="outline"
+				/>
+				<DatePicker
+					date={singleDate}
+					onDateSelect={date => {
+						console.log('Selected single date:', date);
+						setSingleDate(date);
+					}}
+					placeholder={t('calendar.selectDate', 'Select date')}
+					variant="outline"
+				/>
 				{selectionCount > 0 && (
 					<Button variant="outline" size="default" onClick={() => setDeleteDialogOpen(true)}>
 						<TrashIcon className="mr-2 size-4" aria-hidden="true" />
@@ -56,7 +78,34 @@ const ToolbarOptions = ({
 
 			{/* Mobile layout - Full width below main toolbar controls */}
 			<div className="flex flex-col gap-2 lg:hidden">
-				<CreateAgent className="w-full" />
+				<AddUser className="w-full" />
+				<div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
+					<CalendarDatePicker
+						date={dateRange}
+						onDateSelect={range => {
+							console.log('Selected date range:', range);
+							if (range.from && range.to) {
+								setDateRange(range as DateRange);
+							} else {
+								// Clear selection
+								setDateRange({ from: undefined, to: undefined });
+							}
+						}}
+						placeholder={t('calendar.selectDateRange', 'Select date range')}
+						variant="outline"
+						className="w-full"
+					/>
+					<DatePicker
+						date={singleDate}
+						onDateSelect={date => {
+							console.log('Selected single date:', date);
+							setSingleDate(date);
+						}}
+						placeholder={t('calendar.selectDate', 'Select date')}
+						variant="outline"
+						className="w-full"
+					/>
+				</div>
 				{selectionCount > 0 && (
 					<Button
 						variant="outline"

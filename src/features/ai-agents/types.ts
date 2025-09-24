@@ -2,37 +2,27 @@ import type { PaginationFilter } from '@/types/common.ts';
 
 export interface Agent {
 	id: string;
+	createdAt: string;
 	name: string;
-	email: string;
-	phone: string;
-	age: number;
-	created_at: string;
-	expense_count: number;
-	total_expenses: string;
+	prompt: string;
+	description?: string;
 }
 
 export interface AgentCreate {
 	name: string;
-	email: string;
-	phone: string;
-	age: number;
+	prompt: string;
+	description?: string;
 }
 
 export interface AgentFilter extends PaginationFilter {
-	search?: string;
-	from_date?: string;
-	to_date?: string;
-	sort_by?: string;
-	sort_order?: 'asc' | 'desc';
-	[key: string]: unknown; // Add index signature for DataTable compatibility
+	name?: string;
 }
 
 export interface AgentUpdate {
 	id: string;
 	name?: string;
-	email?: string;
-	phone?: string;
-	age?: number;
+	prompt?: string;
+	description?: string;
 }
 
 export interface AgentCreateResponse {

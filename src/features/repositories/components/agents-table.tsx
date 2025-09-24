@@ -8,7 +8,7 @@ import { lazy } from 'react';
 import { useUsersData } from '../utils/data-fetching';
 
 const ToolbarOptions = lazy(() => import('@/features/users/components/toolbar-options.tsx'));
-const UsersTable = () => {
+const AgentsTable = () => {
 	const {
 		users,
 		total,
@@ -52,7 +52,7 @@ const UsersTable = () => {
 					<ToolbarOptions
 						selectedUsers={selectedRows.map(row => ({
 							id: row.id,
-							name: row.firstName,
+							name: row.name,
 						}))}
 						allSelectedUserIds={allSelectedIds}
 						totalSelectedCount={totalSelectedCount}
@@ -65,4 +65,4 @@ const UsersTable = () => {
 	);
 };
 
-export default UsersTable;
+export default AgentsTable;

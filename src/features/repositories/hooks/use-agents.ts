@@ -35,14 +35,14 @@ export function useUpdateAgent() {
 	});
 }
 
-export function useGetAgents(filter?: AgentFilter) {
+export function useGetUsers(filter?: AgentFilter) {
 	return useQuery({
 		queryKey: ['agents', filter],
 		queryFn: filter ? () => getAgents(filter) : skipToken,
 		placeholderData: keepPreviousData,
 	});
 }
-useGetAgents.isQueryHook = true;
+useGetUsers.isQueryHook = true;
 
 export function useDeleteAgent() {
 	const queryClient = useQueryClient();

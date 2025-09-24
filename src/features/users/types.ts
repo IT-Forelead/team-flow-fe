@@ -1,38 +1,39 @@
-import type { PaginationFilter } from '@/types/common.ts';
+import type { PaginationFilter, Position, Role } from '@/types/common.ts';
 
 export interface User {
 	id: string;
-	name: string;
+	createdAt: string;
+	firstName: string;
+	lastName: string;
 	email: string;
-	phone: string;
-	age: number;
-	created_at: string;
-	expense_count: number;
-	total_expenses: string;
+	userName: string;
+	role: Role;
+	position?: Position;
 }
 
 export interface UserCreate {
-	name: string;
+	firstName: string;
+	lastName: string;
 	email: string;
-	phone: string;
-	age: number;
+	userName: string;
+	role: Role;
+	position?: Position;
 }
 
 export interface UserFilter extends PaginationFilter {
-	search?: string;
-	from_date?: string;
-	to_date?: string;
-	sort_by?: string;
-	sort_order?: 'asc' | 'desc';
-	[key: string]: unknown; // Add index signature for DataTable compatibility
+	fullName?: string;
+	role?: Role;
+	position?: Position;
 }
 
 export interface UserUpdate {
 	id: string;
-	name?: string;
+	firstName?: string;
+	lastName?: string;
 	email?: string;
-	phone?: string;
-	age?: number;
+	userName?: string;
+	role?: Role;
+	position?: Position;
 }
 
 export interface UserCreateResponse {

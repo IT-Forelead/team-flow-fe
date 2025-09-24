@@ -1,4 +1,4 @@
-import { useGetAgents } from '@/features/ai-agents/hooks/use-agents.ts';
+import { useGetUsers } from '@/features/users/hooks/use-users';
 import { useDebounce } from '@/hooks/use-debounce.tsx';
 import type { PaginationState, SortingState } from '@tanstack/react-table';
 import { useState } from 'react';
@@ -45,10 +45,10 @@ export function useAgentsData() {
 	};
 
 	const {
-		data: agents,
+		data: users,
 		isFetching,
 		refetch,
-	} = useGetAgents({
+	} = useGetUsers({
 		page: currentPage,
 		limit: pageSize,
 		...(debouncedSearch.length >= 3 ? { search: debouncedSearch } : {}),
@@ -63,8 +63,8 @@ export function useAgentsData() {
 
 	return {
 		// Data
-		agents: agents?.data.data ?? [],
-		total: agents?.data.total ?? 0,
+		users: users?.data.data ?? [],
+		total: users?.data.total ?? 0,
 		isFetching,
 		refetch,
 

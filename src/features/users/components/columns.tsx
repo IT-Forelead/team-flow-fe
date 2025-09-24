@@ -1,5 +1,4 @@
 import { DataTableColumnHeader } from '@/components/data-table/column-header';
-import { Badge } from '@/components/ui/badge';
 import { Checkbox } from '@/components/ui/checkbox.tsx';
 import type { User } from '@/features/users/types.ts';
 import type { ColumnDef } from '@tanstack/react-table';
@@ -11,16 +10,18 @@ export const getColumns = (
 	// Base columns without the select column
 	const baseColumns: ColumnDef<User>[] = [
 		{
-			accessorKey: 'id',
-			header: ({ column }) => <DataTableColumnHeader column={column} title="ID" />,
-			cell: ({ row }) => <div className="truncate text-left">{row.getValue('id')}</div>,
+			id: 'rowNumber',
+			header: ({ column }) => <DataTableColumnHeader column={column} title="№" />,
+			cell: ({ row }) => row.index + 1,
 			size: 70,
 		},
 		{
-			accessorKey: 'name',
-			header: ({ column }) => <DataTableColumnHeader column={column} title="Name" />,
+			accessorKey: 'full_name',
+			header: ({ column }) => <DataTableColumnHeader column={column} title="Full Name" />,
 			cell: ({ row }) => (
-				<div className="truncate text-left font-medium">{row.getValue('name')}</div>
+				<div className="truncate text-left font-medium">
+					{row.original.firstName + ' ' + row.original.lastName}
+				</div>
 			),
 			size: 200,
 		},
@@ -37,60 +38,38 @@ export const getColumns = (
 			size: 250,
 		},
 		{
-			accessorKey: 'phone',
-			header: ({ column }) => <DataTableColumnHeader column={column} title="Phone" />,
+			accessorKey: 'userName',
+			header: ({ column }) => <DataTableColumnHeader column={column} title="User Name" />,
 			cell: ({ row }) => {
 				return (
 					<div className="flex items-center truncate">
-						<span className="truncate">{row.getValue('phone')}</span>
+						<span className="truncate">{row.original.userName}</span>
 					</div>
 				);
 			},
 			size: 150,
 		},
 		{
-			accessorKey: 'age',
-			header: ({ column }) => <DataTableColumnHeader column={column} title="Age" />,
+			accessorKey: 'position',
+			header: ({ column }) => <DataTableColumnHeader column={column} title="Position" />,
 			cell: ({ row }) => {
-				return <div className="max-w-full truncate text-left">{row.getValue('age')}</div>;
+				return <div className="max-w-full truncate text-left">{row.original?.position}</div>;
 			},
 			size: 80,
 		},
 		{
-			accessorKey: 'expense_count',
-			header: ({ column }) => <DataTableColumnHeader column={column} title="Expenses" />,
+			accessorKey: 'role',
+			header: ({ column }) => <DataTableColumnHeader column={column} title="Role" />,
 			cell: ({ row }) => {
-				const count = row.getValue('expense_count') as number;
-				return (
-					<div className="max-w-full text-left">
-						<Badge variant="outline" className="truncate">
-							{count}
-						</Badge>
-					</div>
-				);
+				return <div className="max-w-full truncate text-left">{row.original.role}</div>;
 			},
 			size: 100,
 		},
 		{
-			accessorKey: 'total_expenses',
-			header: ({ column }) => <DataTableColumnHeader column={column} title="Total Amount" />,
+			accessorKey: 'createdAt',
+			header: ({ column }) => <DataTableColumnHeader column={column} title="Created At" />,
 			cell: ({ row }) => {
-				const amount = row.getValue('total_expenses') as string;
-				// Format as currency
-				const formatted = new Intl.NumberFormat('en-US', {
-					style: 'currency',
-					currency: 'USD',
-				}).format(Number.parseFloat(amount || '0'));
-
-				return <div className="max-w-full truncate text-left font-medium">{formatted}</div>;
-			},
-			size: 150,
-		},
-		{
-			accessorKey: 'created_at',
-			header: ({ column }) => <DataTableColumnHeader column={column} title="Joined" />,
-			cell: ({ row }) => {
-				return <div className="max-w-full truncate text-left">{row.original.created_at}</div>;
+				return <div className="max-w-full truncate text-left">{row.original.createdAt}</div>;
 			},
 			size: 120,
 		},

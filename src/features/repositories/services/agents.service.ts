@@ -1,5 +1,5 @@
+import type { Agent } from 'node:http';
 import type {
-	Agent,
 	AgentCreate,
 	AgentCreateResponse,
 	AgentFilter,

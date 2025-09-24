@@ -1,16 +1,16 @@
 import { LazyComponent } from '@/components/common/lazy-component.tsx';
 import { DataTable } from '@/components/data-table/data-table.tsx';
-import { getColumns } from '@/features/users/components/columns.tsx';
-import type { User } from '@/features/users/types.ts';
+import { getColumns } from '@/features/ai-agents/components/columns.tsx';
+import type { Agent } from '@/features/ai-agents/types.ts';
+import { useAgentsData } from '@/features/ai-agents/utils/data-fetching.ts';
 import { useExportConfig } from '@/features/users/utils/config.ts';
 import { usersTableConfig } from '@/features/users/utils/table-config.ts';
 import { lazy } from 'react';
-import { useUsersData } from '../utils/data-fetching';
 
 const ToolbarOptions = lazy(() => import('@/features/users/components/toolbar-options.tsx'));
 const AgentsTable = () => {
 	const {
-		users,
+		agents,
 		total,
 		isFetching,
 		currentPage,
@@ -21,14 +21,14 @@ const AgentsTable = () => {
 		onSortingChange,
 		search,
 		onSearchChange,
-	} = useUsersData();
+	} = useAgentsData();
 
 	const exportConfig = useExportConfig();
 
 	return (
-		<DataTable<User>
+		<DataTable<Agent>
 			getColumns={getColumns}
-			data={users}
+			data={agents}
 			totalItems={total}
 			isLoading={isFetching}
 			currentPage={currentPage}
