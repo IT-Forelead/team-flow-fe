@@ -9,47 +9,47 @@ import { useUsersData } from '../utils/data-fetching';
 
 const ToolbarOptions = lazy(() => import('@/features/users/components/toolbar-options.tsx'));
 const UsersTable = () => {
-	const {
-		users,
-		total,
-		isFetching,
-		currentPage,
-		pageSize,
-		onPageChange,
-		onPageSizeChange,
-		sorting,
-		onSortingChange,
-		search,
-		onSearchChange,
-	} = useUsersData();
+  const {
+    users,
+    total,
+    isFetching,
+    currentPage,
+    pageSize,
+    onPageChange,
+    onPageSizeChange,
+    sorting,
+    onSortingChange,
+    search,
+    onSearchChange,
+  } = useUsersData();
 
-	const exportConfig = useExportConfig();
+  const exportConfig = useExportConfig();
 
-	return (
-		<DataTable<User>
-			getColumns={getColumns}
-			data={users}
-			totalItems={total}
-			isLoading={isFetching}
-			currentPage={currentPage}
-			pageSize={pageSize}
-			onPageChange={onPageChange}
-			onPageSizeChange={onPageSizeChange}
-			sorting={sorting}
-			onSortingChange={onSortingChange}
-			searchValue={search}
-			onSearchChange={onSearchChange}
-			exportConfig={exportConfig}
-			idField="id"
-			pageSizeOptions={[10, 20, 30, 40, 50, 100, 150]}
-			renderToolbarContent={() => (
-				<LazyComponent>
-					<ToolbarOptions />
-				</LazyComponent>
-			)}
-			config={usersTableConfig}
-		/>
-	);
+  return (
+    <DataTable<User>
+      getColumns={getColumns}
+      data={users}
+      totalItems={total}
+      isLoading={isFetching}
+      currentPage={currentPage}
+      pageSize={pageSize}
+      onPageChange={onPageChange}
+      onPageSizeChange={onPageSizeChange}
+      sorting={sorting}
+      onSortingChange={onSortingChange}
+      searchValue={search}
+      onSearchChange={onSearchChange}
+      exportConfig={exportConfig}
+      idField="id"
+      pageSizeOptions={[10, 20, 30, 40, 50, 100, 150]}
+      renderToolbarContent={() => (
+        <LazyComponent>
+          <ToolbarOptions />
+        </LazyComponent>
+      )}
+      config={usersTableConfig}
+    />
+  );
 };
 
 export default UsersTable;

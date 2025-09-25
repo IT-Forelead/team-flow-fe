@@ -9,47 +9,47 @@ import { lazy } from 'react';
 
 const ToolbarOptions = lazy(() => import('@/features/ai-agents/components/toolbar-options.tsx'));
 const AgentsTable = () => {
-	const {
-		agents,
-		total,
-		isFetching,
-		currentPage,
-		pageSize,
-		onPageChange,
-		onPageSizeChange,
-		sorting,
-		onSortingChange,
-		search,
-		onSearchChange,
-	} = useAgentsData();
+  const {
+    agents,
+    total,
+    isFetching,
+    currentPage,
+    pageSize,
+    onPageChange,
+    onPageSizeChange,
+    sorting,
+    onSortingChange,
+    search,
+    onSearchChange,
+  } = useAgentsData();
 
-	const exportConfig = useExportConfig();
+  const exportConfig = useExportConfig();
 
-	return (
-		<DataTable<Agent>
-			getColumns={getColumns}
-			data={agents}
-			totalItems={total}
-			isLoading={isFetching}
-			currentPage={currentPage}
-			pageSize={pageSize}
-			onPageChange={onPageChange}
-			onPageSizeChange={onPageSizeChange}
-			sorting={sorting}
-			onSortingChange={onSortingChange}
-			searchValue={search}
-			onSearchChange={onSearchChange}
-			exportConfig={exportConfig}
-			idField="id"
-			pageSizeOptions={[10, 20, 30, 40, 50, 100, 150]}
-			renderToolbarContent={() => (
-				<LazyComponent>
-					<ToolbarOptions />
-				</LazyComponent>
-			)}
-			config={usersTableConfig}
-		/>
-	);
+  return (
+    <DataTable<Agent>
+      getColumns={getColumns}
+      data={agents}
+      totalItems={total}
+      isLoading={isFetching}
+      currentPage={currentPage}
+      pageSize={pageSize}
+      onPageChange={onPageChange}
+      onPageSizeChange={onPageSizeChange}
+      sorting={sorting}
+      onSortingChange={onSortingChange}
+      searchValue={search}
+      onSearchChange={onSearchChange}
+      exportConfig={exportConfig}
+      idField="id"
+      pageSizeOptions={[10, 20, 30, 40, 50, 100, 150]}
+      renderToolbarContent={() => (
+        <LazyComponent>
+          <ToolbarOptions />
+        </LazyComponent>
+      )}
+      config={usersTableConfig}
+    />
+  );
 };
 
 export default AgentsTable;

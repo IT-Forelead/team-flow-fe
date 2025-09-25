@@ -10,63 +10,63 @@ import { toast } from 'sonner';
 type AuthContextProviderProps = PropsWithChildren;
 
 export default function AuthContextProvider({ children }: AuthContextProviderProps) {
-	const [authToken, setAuthToken] = useState<string | null>(localStorage.getItem('accessToken'));
-	const [currentUser, setCurrentUser] = useState<CurrentUser | null>(null);
-	const navigate = useNavigate();
-	const {
-		mutate: logoutUser,
-		isSuccess: logoutSuccess,
-		isError: logoutError,
-		isPending: logoutPending,
-	} = useLogout();
-	const { data: currentUserData, isPending: isUserDataPending } = useCurrentUser();
+  const [authToken, setAuthToken] = useState<string | null>(localStorage.getItem('accessToken'));
+  const [currentUser, setCurrentUser] = useState<CurrentUser | null>(null);
+  const navigate = useNavigate();
+  const {
+    mutate: logoutUser,
+    isSuccess: logoutSuccess,
+    isError: logoutError,
+    isPending: logoutPending,
+  } = useLogout();
+  const { data: currentUserData, isPending: isUserDataPending } = useCurrentUser();
 
-	const logout = async () => {
-		logoutUser(undefined, {
-			onSuccess: () => {
-				localStorage.removeItem('accessToken');
-				setAuthToken(null);
-				setCurrentUser(null);
-				toast.success('Profildan muvaffaqiyatli chiqildi');
-				navigate('/auth/login');
-			},
-			onError: error => {
-				if (isAxiosError<ServerError>(error)) {
-					toast.error(error.response?.data?.message);
-				} else {
-					toast.error('Profildan chiqishda xatolik yuz berdi!');
-				}
-			},
-		});
-	};
+  const logout = async () => {
+    logoutUser(undefined, {
+      onSuccess: () => {
+        localStorage.removeItem('accessToken');
+        setAuthToken(null);
+        setCurrentUser(null);
+        toast.success('Profildan muvaffaqiyatli chiqildi');
+        navigate('/auth/login');
+      },
+      onError: error => {
+        if (isAxiosError<ServerError>(error)) {
+          toast.error(error.response?.data?.message);
+        } else {
+          toast.error('Profildan chiqishda xatolik yuz berdi!');
+        }
+      },
+    });
+  };
 
-	useEffect(() => {
-		if (currentUserData) {
-			setCurrentUser(currentUserData.data);
-		}
-	}, [currentUserData]);
+  useEffect(() => {
+    if (currentUserData) {
+      setCurrentUser(currentUserData.data);
+    }
+  }, [currentUserData]);
 
-	const role = currentUser?.role || null;
+  const role = currentUser?.role || null;
 
-	// Helper function for role checking
-	const hasRole = (roles: Role | Role[]): boolean => {
-		if (!role) return false;
-		if (Array.isArray(roles)) {
-			return roles.includes(role);
-		}
-		return role === roles;
-	};
+  // Helper function for role checking
+  const hasRole = (roles: Role | Role[]): boolean => {
+    if (!role) return false;
+    if (Array.isArray(roles)) {
+      return roles.includes(role);
+    }
+    return role === roles;
+  };
 
-	const value = {
-		authToken,
-		currentUser,
-		role,
-		hasRole,
-		logout,
-		isLoading: logoutPending || (authToken ? isUserDataPending : false),
-		isSuccessLogout: logoutSuccess,
-		isErrorLogout: logoutError,
-		isLoggedIn: Boolean(authToken),
-	};
-	return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+  const value = {
+    authToken,
+    currentUser,
+    role,
+    hasRole,
+    logout,
+    isLoading: logoutPending || (authToken ? isUserDataPending : false),
+    isSuccessLogout: logoutSuccess,
+    isErrorLogout: logoutError,
+    isLoggedIn: Boolean(authToken),
+  };
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }

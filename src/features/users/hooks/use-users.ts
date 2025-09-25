@@ -1,45 +1,45 @@
 import type { UserCreate, UserFilter, UserUpdate } from '@/features/users/types.ts';
 import type { ApiResponse, ServerError } from '@/types/common.ts';
 import {
-	keepPreviousData,
-	skipToken,
-	useMutation,
-	useQuery,
-	useQueryClient,
+  keepPreviousData,
+  skipToken,
+  useMutation,
+  useQuery,
+  useQueryClient,
 } from '@tanstack/react-query';
 import { createUser, deleteUser, getUsers, updateUser } from '../services/users.service.ts';
 
 export function useCreateUser() {
-	return useMutation<ApiResponse, ServerError, UserCreate>({
-		mutationFn: createUser,
-	});
+  return useMutation<ApiResponse, ServerError, UserCreate>({
+    mutationFn: createUser,
+  });
 }
 
 export function useUpdateUser() {
-	const queryClient = useQueryClient();
-	return useMutation<ApiResponse, ServerError, { id: string; data: UserUpdate }>({
-		mutationFn: ({ id, data }: { id: string; data: UserUpdate }) => updateUser(id, data),
-		onSuccess: () => {
-			queryClient.invalidateQueries({ queryKey: ['users'] }).then();
-		},
-	});
+  const queryClient = useQueryClient();
+  return useMutation<ApiResponse, ServerError, { id: string; data: UserUpdate }>({
+    mutationFn: ({ id, data }: { id: string; data: UserUpdate }) => updateUser(id, data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['users'] }).then();
+    },
+  });
 }
 
 export function useGetUsers(filter?: UserFilter) {
-	return useQuery({
-		queryKey: ['users', filter],
-		queryFn: filter ? () => getUsers(filter) : skipToken,
-		placeholderData: keepPreviousData,
-	});
+  return useQuery({
+    queryKey: ['users', filter],
+    queryFn: filter ? () => getUsers(filter) : skipToken,
+    placeholderData: keepPreviousData,
+  });
 }
 useGetUsers.isQueryHook = true;
 
 export function useDeleteUser() {
-	const queryClient = useQueryClient();
-	return useMutation({
-		mutationFn: (id: string) => deleteUser(id),
-		onSuccess: () => {
-			queryClient.invalidateQueries({ queryKey: ['users'] }).then();
-		},
-	});
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (id: string) => deleteUser(id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['users'] }).then();
+    },
+  });
 }

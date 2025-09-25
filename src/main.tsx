@@ -9,13 +9,13 @@ import { ThemeProvider } from '@/providers/theme-provider.tsx';
 const root = createRoot(document.getElementById('root') as HTMLElement);
 
 root.render(
-	<StrictMode>
-		<ThemeProvider defaultTheme="system" storageKey="ui-theme">
-			<PageTitleProvider>
-				<Suspense fallback={<AppLoader />}>
-					<App />
-				</Suspense>
-			</PageTitleProvider>
-		</ThemeProvider>
-	</StrictMode>
+  <StrictMode>
+    <ThemeProvider defaultTheme="system" storageKey="ui-theme">
+      <PageTitleProvider>
+        <Suspense fallback={<AppLoader />}>
+          <App />
+        </Suspense>
+      </PageTitleProvider>
+    </ThemeProvider>
+  </StrictMode>
 );

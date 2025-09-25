@@ -1,3 +1,3 @@
 export const UpdateProject = () => {
-	return <></>;
+  return <></>;
 };

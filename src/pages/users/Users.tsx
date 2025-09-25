@@ -5,14 +5,14 @@ import { lazy } from 'react';
 const UsersTable = lazy(() => import('@/features/users/components/users-table.tsx'));
 
 const Users = () => {
-	return (
-		<div>
-			{/* DataTable with custom configuration */}
-			<LazyComponent>
-				<UsersTable />
-			</LazyComponent>
-		</div>
-	);
+  return (
+    <div>
+      {/* DataTable with custom configuration */}
+      <LazyComponent>
+        <UsersTable />
+      </LazyComponent>
+    </div>
+  );
 };
 
 export default Users;
