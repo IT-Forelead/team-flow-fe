@@ -6,7 +6,7 @@ export interface User {
   firstName: string;
   lastName: string;
   email: string;
-  userName: string;
+  username: string;
   role: Role;
   position?: Position;
 }
@@ -30,7 +30,7 @@ export interface UserUpdate {
   firstName?: string;
   lastName?: string;
   email?: string;
-  userName?: string;
+  username?: string;
   role?: Role;
   position?: Position;
 }

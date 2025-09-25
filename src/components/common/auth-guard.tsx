@@ -14,7 +14,7 @@ export function AuthGuard({ children }: PropsWithChildren) {
 
   // Agar foydalanuvchi autentifikatsiya qilinmagan bo'lsa, login sahifasiga yo'naltirish
   // va joriy sahifa manzilini saqlash, keyinroq qaytib yo'naltirish uchun
-  if (!isLoggedIn || !currentUser) {
+  if (!isLoggedIn) {
     return <Navigate to="/auth/login" state={{ from: { pathname: location.pathname } }} replace />;
   }
 

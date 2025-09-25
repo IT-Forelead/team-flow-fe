@@ -18,25 +18,9 @@ export interface ApiResponse {
   message: string;
 }
 
-export interface DecodedToken {
-  exp: number;
-  iat: number;
-  id: string;
-  role: {
-    id: string;
-    name: string;
-    privileges: string[];
-  };
-  phone: string;
-  firstname: string;
-  lastname: string;
-  market: string;
-  address: string;
-}
-
 // Role constants
 export const Role = {
-  SUPER_ADMIN: 'super_admin',
+  ADMIN: 'admin',
   MANAGER: 'manager',
   DEVELOPER: 'developer',
 } as const;
@@ -44,9 +28,9 @@ export const Role = {
 // Union type
 export type Role = (typeof Role)[keyof typeof Role];
 
-// Select options (label/value juftliklari)
+// Select options (label/value)
 export const RoleOptions: { label: string; value: Role }[] = [
-  { label: 'Super Admin', value: Role.SUPER_ADMIN },
+  { label: 'Admin', value: Role.ADMIN },
   { label: 'Manager', value: Role.MANAGER },
   { label: 'Developer', value: Role.DEVELOPER },
 ];

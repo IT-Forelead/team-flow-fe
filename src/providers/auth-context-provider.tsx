@@ -1,72 +1,59 @@
 import { AuthContext } from '@/context/auth-context';
 import { useCurrentUser, useLogout } from '@/features/auth/hooks/use-auth.ts';
 import type { CurrentUser } from '@/features/auth/types.ts';
-import type { Role, ServerError } from '@/types/common.ts';
-import { isAxiosError } from 'axios';
+import { clearAuth, isAuthenticated } from '@/lib/auth';
+import type { Role } from '@/types/common.ts';
 import { type PropsWithChildren, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
-import { toast } from 'sonner';
 
-type AuthContextProviderProps = PropsWithChildren;
-
-export default function AuthContextProvider({ children }: AuthContextProviderProps) {
-  const [authToken, setAuthToken] = useState<string | null>(localStorage.getItem('accessToken'));
+export default function AuthContextProvider({ children }: PropsWithChildren) {
+  const [authToken, setAuthToken] = useState(() =>
+    isAuthenticated() ? localStorage.getItem('accessToken') : null
+  );
   const [currentUser, setCurrentUser] = useState<CurrentUser | null>(null);
   const navigate = useNavigate();
-  const {
-    mutate: logoutUser,
-    isSuccess: logoutSuccess,
-    isError: logoutError,
-    isPending: logoutPending,
-  } = useLogout();
-  const { data: currentUserData, isPending: isUserDataPending } = useCurrentUser();
 
-  const logout = async () => {
+  const { mutate: logoutUser, isPending: logoutPending } = useLogout();
+  const { data: userData, isPending: userPending } = useCurrentUser();
+
+  const logout = () =>
     logoutUser(undefined, {
       onSuccess: () => {
-        localStorage.removeItem('accessToken');
+        clearAuth();
         setAuthToken(null);
         setCurrentUser(null);
-        toast.success('Profildan muvaffaqiyatli chiqildi');
         navigate('/auth/login');
       },
-      onError: error => {
-        if (isAxiosError<ServerError>(error)) {
-          toast.error(error.response?.data?.message);
-        } else {
-          toast.error('Profildan chiqishda xatolik yuz berdi!');
-        }
-      },
     });
+
+  const hasRole = (roles: Role | Role[]) => {
+    const role = currentUser?.role;
+    return !!role && (Array.isArray(roles) ? roles.includes(role) : role === roles);
   };
 
   useEffect(() => {
-    if (currentUserData) {
-      setCurrentUser(currentUserData.data);
+    const token = localStorage.getItem('accessToken');
+    if (token && isAuthenticated() && token !== authToken) {
+      setAuthToken(token);
     }
-  }, [currentUserData]);
+    if (userData?.data) setCurrentUser(userData.data);
+  }, [userData, authToken]);
 
-  const role = currentUser?.role || null;
-
-  // Helper function for role checking
-  const hasRole = (roles: Role | Role[]): boolean => {
-    if (!role) return false;
-    if (Array.isArray(roles)) {
-      return roles.includes(role);
-    }
-    return role === roles;
-  };
-
-  const value = {
-    authToken,
-    currentUser,
-    role,
-    hasRole,
-    logout,
-    isLoading: logoutPending || (authToken ? isUserDataPending : false),
-    isSuccessLogout: logoutSuccess,
-    isErrorLogout: logoutError,
-    isLoggedIn: Boolean(authToken),
-  };
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+  return (
+    <AuthContext.Provider
+      value={{
+        authToken,
+        currentUser,
+        role: currentUser?.role || null,
+        hasRole,
+        logout,
+        isLoading: logoutPending || !!(authToken && userPending && !currentUser),
+        isSuccessLogout: false,
+        isErrorLogout: false,
+        isLoggedIn: !!(authToken && isAuthenticated()),
+      }}
+    >
+      {children}
+    </AuthContext.Provider>
+  );
 }

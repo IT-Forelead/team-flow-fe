@@ -60,7 +60,7 @@ export function UpdateUser({ user, open, onOpenChange }: UpdateUserProps) {
         firstName: user.firstName,
         lastName: user.lastName,
         email: user.email,
-        username: user.userName,
+        username: user.username,
         role: user.role,
         position: user.position,
       });

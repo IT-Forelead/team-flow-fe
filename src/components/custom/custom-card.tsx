@@ -37,14 +37,14 @@ export const CustomCardDescription = ({
   className?: string;
 }) => {
   return (
-    <p
+    <div
       className={cn(
         'max-w-sm font-[var(--font-sans)] text-secondary text-sm leading-[1.35]',
         className
       )}
     >
       {children}
-    </p>
+    </div>
   );
 };
 

@@ -6,91 +6,30 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from '@/components/ui/dialog';
-import { useDisclosure } from '@/hooks/use-disclosure';
-import { cn } from '@/utils/utils';
-import { AlertTriangle, Trash2 } from 'lucide-react';
-import type { ReactNode } from 'react';
+import { AlertCircle, AlertTriangle, Info } from 'lucide-react';
 
 export interface AlertModalProps {
-  /**
-   * Title of the alert modal
-   */
   title: string;
-
-  /**
-   * Description/message content
-   */
   description: string;
-
-  /**
-   * Trigger button element
-   */
-  trigger?: ReactNode;
-
-  /**
-   * Trigger button props (if not providing custom trigger)
-   */
-  triggerProps?: {
-    variant?: 'default' | 'destructive' | 'outline' | 'secondary' | 'ghost';
-    size?: 'default' | 'sm' | 'lg' | 'icon';
-    className?: string;
-    children?: ReactNode;
-    icon?: ReactNode;
-  };
-
-  /**
-   * Confirm button text
-   */
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
   confirmText?: string;
-
-  /**
-   * Cancel button text
-   */
   cancelText?: string;
-
-  /**
-   * Confirm button variant
-   */
   confirmVariant?: 'default' | 'destructive' | 'outline' | 'secondary' | 'ghost';
-
-  /**
-   * Loading state
-   */
   isLoading?: boolean;
-
-  /**
-   * Loading text
-   */
   loadingText?: string;
-
-  /**
-   * Callback when confirmed
-   */
   onConfirm: () => void;
-
-  /**
-   * Callback when cancelled (optional)
-   */
   onCancel?: () => void;
-
-  /**
-   * Alert type for styling
-   */
   type?: 'danger' | 'warning' | 'info';
-
-  /**
-   * Auto close after confirmation
-   */
   autoClose?: boolean;
 }
 
 export function AlertModal({
   title,
   description,
-  trigger,
-  triggerProps,
+  open,
+  onOpenChange,
   confirmText = 'Confirm',
   cancelText = 'Cancel',
   confirmVariant = 'destructive',
@@ -101,12 +40,10 @@ export function AlertModal({
   type = 'danger',
   autoClose = true,
 }: AlertModalProps) {
-  const { isOpen, onClose, onOpenChange } = useDisclosure();
-
   const handleConfirm = () => {
     onConfirm();
     if (autoClose) {
-      onClose();
+      onOpenChange(false);
     }
   };
 
@@ -114,61 +51,38 @@ export function AlertModal({
     if (onCancel) {
       onCancel();
     }
-    onClose();
+    onOpenChange(false);
   };
 
-  // Icon based on type
   const getIcon = () => {
     switch (type) {
       case 'danger':
-        return <AlertTriangle className="h-6 w-6 text-red-600" />;
+        return <AlertTriangle className="h-8 w-8 text-red-500" />;
       case 'warning':
-        return <AlertTriangle className="h-6 w-6 text-yellow-600" />;
+        return <AlertCircle className="h-8 w-8 text-amber-500" />;
       case 'info':
-        return <AlertTriangle className="h-6 w-6 text-blue-600" />;
+        return <Info className="h-8 w-8 text-blue-500" />;
       default:
-        return <AlertTriangle className="h-6 w-6 text-red-600" />;
+        return <AlertTriangle className="h-8 w-8 text-red-500" />;
     }
   };
 
-  // Default trigger button
-  const defaultTrigger = (
-    <Button
-      variant={triggerProps?.variant || 'destructive'}
-      size={triggerProps?.size || 'sm'}
-      className={triggerProps?.className}
-    >
-      {triggerProps?.icon || <Trash2 className="h-4 w-4" />}
-      {triggerProps?.children && (
-        <span className={triggerProps?.icon ? 'ml-2' : ''}>{triggerProps?.children}</span>
-      )}
-    </Button>
-  );
-
   return (
-    <Dialog open={isOpen} onOpenChange={onOpenChange}>
-      <DialogTrigger asChild>{trigger || defaultTrigger}</DialogTrigger>
+    <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
-          <div className="flex items-center gap-3">
-            {getIcon()}
-            <div>
-              <DialogTitle className={cn('text-lg font-semibold')}>{title}</DialogTitle>
-              <DialogDescription className="mt-2 text-sm text-gray-600">
-                {description}
-              </DialogDescription>
-            </div>
-          </div>
+          <DialogTitle className="text-lg font-medium">{title}</DialogTitle>
         </DialogHeader>
 
-        <DialogFooter className="mt-6">
-          <Button
-            type="button"
-            variant="outline"
-            onClick={handleCancel}
-            disabled={isLoading}
-            className="w-full sm:w-auto"
-          >
+        <div className="flex flex-col items-center text-center space-y-3">
+          <div className="flex-shrink-0">{getIcon()}</div>
+          <DialogDescription className="text-sm text-muted-foreground">
+            {description}
+          </DialogDescription>
+        </div>
+
+        <DialogFooter>
+          <Button type="button" variant="outline" onClick={handleCancel} disabled={isLoading}>
             {cancelText}
           </Button>
           <Button
@@ -176,7 +90,6 @@ export function AlertModal({
             variant={confirmVariant}
             onClick={handleConfirm}
             disabled={isLoading}
-            className="w-full sm:w-auto"
           >
             {isLoading ? loadingText : confirmText}
           </Button>

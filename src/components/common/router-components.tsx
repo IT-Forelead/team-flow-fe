@@ -10,23 +10,27 @@ import { Navigate } from 'react-router';
 export function MainLayoutWrapper() {
   return (
     <AuthContextProvider>
-      {/*<AuthGuard>*/}
-      <DefaultLayout />
-      {/*</AuthGuard>*/}
+      <AuthGuard>
+        <DefaultLayout />
+      </AuthGuard>
     </AuthContextProvider>
   );
 }
 
 /**
- * AuthLayoutWrapper component with auth layout
+ * AuthLayoutWrapper component with auth context and auth layout
  */
 export function AuthLayoutWrapper() {
-  return <AuthLayout />;
+  return (
+    <AuthContextProvider>
+      <AuthLayout />
+    </AuthContextProvider>
+  );
 }
 
 /**
- * RootRedirect component to redirect to the dashboard
+ * RootRedirect component to redirect to the home page
  */
 export function RootRedirect() {
-  return <Navigate to="/dashboard" replace />;
+  return <Navigate to="/home" replace />;
 }

@@ -10,7 +10,7 @@ import {
 import { Input } from '@/components/ui/input.tsx';
 import { PasswordInput } from '@/components/ui/password-input';
 import { type LoginSchema, createLoginSchema } from '@/features/auth/schema/auth.schema';
-import { getUserFromToken } from '@/lib/auth';
+import { setAuthTokens } from '@/lib/auth';
 import type { ServerError } from '@/types/common';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { isAxiosError } from 'axios';
@@ -28,21 +28,17 @@ export const LoginForm = () => {
 
   const form = useForm<LoginSchema>({
     resolver: zodResolver(createLoginSchema()),
+    defaultValues: {
+      username: '',
+      password: '',
+    },
   });
 
   function onFormSubmit(values: LoginSchema) {
     login(values, {
       onSuccess: data => {
-        localStorage.setItem('accessToken', data?.data.accessToken);
-        localStorage.setItem('refreshToken', data?.data.refreshToken);
-        const user = getUserFromToken() ?? null;
-        if (user) {
-          // location.state?.from sahifasiga qaytish yoki default dashboard ga yo'naltirish
-          const from = location.state?.from?.pathname || '/dashboard';
-          navigate(from, { replace: true });
-        } else {
-          navigate('/auth/login');
-        }
+        setAuthTokens(data.data.accessToken, data.data.refreshToken);
+        navigate(location.state?.from?.pathname || '/home', { replace: true });
       },
       onError: error => {
         if (isAxiosError<ServerError>(error)) {
@@ -96,7 +92,6 @@ export const LoginForm = () => {
                       inputSize="xl"
                       placeholder="Enter your password"
                       {...field}
-                      value={field.value ?? ''}
                     />
                   </FormControl>
                   <FormMessage />

@@ -56,20 +56,20 @@ export function NavUser({ user, logout }: NavUserProps) {
                         isCollapsed && 'text-xs'
                       )}
                     >
-                      {`${user?.firstname?.[0] ?? ''}${user?.lastname?.[0] ?? ''}`.toUpperCase() ||
+                      {`${user?.firstName?.[0] ?? ''}${user?.lastName?.[0] ?? ''}`.toUpperCase() ||
                         'SU'}
                     </AvatarFallback>
-                    <AvatarImage src={user?.firstname} alt={user?.firstname} />
+                    <AvatarImage src={user?.firstName} alt={user?.firstName} />
                   </Avatar>
                 </div>
                 {!isCollapsed && (
                   <>
                     <div className="grid flex-1 text-left text-sm leading-tight transition-all duration-300 font-sans">
                       <span className="truncate font-medium text-[var(--label)]">
-                        {user?.firstname || 'USERNAME'}
+                        {user?.firstName || 'First Name'}
                       </span>
                       <span className="truncate text-[var(--secondaryLabel)] text-xs">
-                        {user?.lastname}
+                        {user?.lastName || 'Last Name'}
                       </span>
                     </div>
                     <ChevronsUpDown className="ml-auto size-4 text-[var(--tertiaryLabel)] transition-colors group-hover:text-[var(--secondaryLabel)]" />
@@ -86,16 +86,16 @@ export function NavUser({ user, logout }: NavUserProps) {
               <DropdownMenuLabel className="p-0 font-normal">
                 <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                   <Avatar className="h-8 w-8 rounded-lg">
-                    <AvatarImage src={user?.firstname} alt={user?.lastname} />
+                    {/*<AvatarImage src={user?.firstname} alt={user?.lastname} />*/}
                     <AvatarFallback className="rounded-lg">
-                      {`${user?.firstname?.[0] ?? ''}${user?.lastname?.[0] ?? ''}`.toUpperCase()}
+                      {`${user?.firstName?.[0] ?? ''}${user?.lastName?.[0] ?? ''}`.toUpperCase()}
                     </AvatarFallback>
                   </Avatar>
                   <div className="grid flex-1 text-left text-sm leading-tight">
                     <span className="truncate font-semibold">
-                      {`${user?.firstname} ${user?.lastname}`}
+                      {`${user?.firstName} ${user?.lastName}`}
                     </span>
-                    <span className="truncate text-xs">{user?.phone}</span>
+                    <span className="truncate text-xs">{user?.username}</span>
                   </div>
                 </div>
               </DropdownMenuLabel>

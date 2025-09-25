@@ -12,7 +12,7 @@ export default function DashboardPage() {
         {currentUser && (
           <div className="rounded-lg border bg-card p-6 shadow-sm">
             <h2 className="mb-4 font-semibold text-2xl">
-              Welcome, {currentUser.firstname} {currentUser.lastname}!
+              Welcome, {currentUser.firstName} {currentUser.lastName}!
             </h2>
             <p className="text-muted-foreground">
               Good to see you back. Here's your dashboard overview with the latest updates.

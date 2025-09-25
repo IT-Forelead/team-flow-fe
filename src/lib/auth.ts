@@ -1,25 +1,25 @@
-import type { DecodedToken } from '@/types/common.ts';
 import { type JwtPayload, jwtDecode } from 'jwt-decode';
 
-// check if the token is valid
-function checkToken(token: string): boolean {
-  const decoded = jwtDecode<JwtPayload>(token);
-  return (decoded.exp ?? 0) > Date.now() / 1000;
-}
+const TOKEN_KEY = 'accessToken';
+const REFRESH_KEY = 'refreshToken';
 
-// check if the user is authenticated
 export function isAuthenticated(): boolean {
-  const token = localStorage.getItem('accessToken');
-  if (token) {
-    return checkToken(token); // tokenni tekshirish
+  try {
+    const token = localStorage.getItem(TOKEN_KEY);
+    if (!token) return false;
+    const { exp } = jwtDecode<JwtPayload>(token);
+    return (exp ?? 0) > Date.now() / 1000;
+  } catch {
+    return false;
   }
-  return false;
 }
 
-//get user from token
-export function getUserFromToken() {
-  const token = localStorage.getItem('accessToken');
-  if (token) {
-    return jwtDecode<JwtPayload>(token) as DecodedToken;
-  }
-}
+export const clearAuth = () => {
+  localStorage.removeItem(TOKEN_KEY);
+  localStorage.removeItem(REFRESH_KEY);
+};
+
+export const setAuthTokens = (accessToken: string, refreshToken: string) => {
+  localStorage.setItem(TOKEN_KEY, accessToken);
+  localStorage.setItem(REFRESH_KEY, refreshToken);
+};

@@ -1,6 +1,7 @@
 import { DataTableColumnHeader } from '@/components/data-table/column-header';
 import { Checkbox } from '@/components/ui/checkbox.tsx';
 import type { User } from '@/features/users/types.ts';
+import { humanizeDateTime } from '@/utils/humanize.ts';
 import type { ColumnDef } from '@tanstack/react-table';
 import { DataTableRowActions } from './row-actions';
 
@@ -16,7 +17,7 @@ export const getColumns = (
       size: 70,
     },
     {
-      accessorKey: 'full_name',
+      accessorKey: 'fullName',
       header: ({ column }) => <DataTableColumnHeader column={column} title="Full Name" />,
       cell: ({ row }) => (
         <div className="truncate text-left font-medium">
@@ -38,12 +39,12 @@ export const getColumns = (
       size: 250,
     },
     {
-      accessorKey: 'userName',
+      accessorKey: 'username',
       header: ({ column }) => <DataTableColumnHeader column={column} title="User Name" />,
       cell: ({ row }) => {
         return (
           <div className="flex items-center truncate">
-            <span className="truncate">{row.original.userName}</span>
+            <span className="truncate">{row.original.username}</span>
           </div>
         );
       },
@@ -69,7 +70,11 @@ export const getColumns = (
       accessorKey: 'createdAt',
       header: ({ column }) => <DataTableColumnHeader column={column} title="Created At" />,
       cell: ({ row }) => {
-        return <div className="max-w-full truncate text-left">{row.original.createdAt}</div>;
+        return (
+          <div className="max-w-full truncate text-left">
+            {humanizeDateTime(row.original.createdAt)}
+          </div>
+        );
       },
       size: 120,
     },

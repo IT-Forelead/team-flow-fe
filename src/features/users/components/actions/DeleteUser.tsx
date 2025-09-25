@@ -12,7 +12,7 @@ interface DeleteUserProps {
 export const DeleteUser = ({ open, onOpenChange, userId, fullName }: DeleteUserProps) => {
   const { mutate: deleteUser, isPending } = useDeleteUser();
 
-  function onSubmit() {
+  const onSubmit = () => {
     deleteUser(userId, {
       onSuccess: response => {
         toast.success(response?.message || 'User deleted successfully');
@@ -22,21 +22,18 @@ export const DeleteUser = ({ open, onOpenChange, userId, fullName }: DeleteUserP
         toast.error(error.message || 'Failed to delete user');
       },
     });
-  }
-
-  if (!open) return null;
+  };
 
   return (
     <AlertModal
+      open={open}
+      onOpenChange={onOpenChange}
       title="Delete User"
       description={`Are you sure you want to delete "${fullName}"? This action cannot be undone.`}
       confirmText="Delete"
-      cancelText="Cancel"
-      confirmVariant="destructive"
       isLoading={isPending}
       loadingText="Deleting..."
       onConfirm={onSubmit}
-      onCancel={() => onOpenChange(false)}
       type="danger"
       autoClose={false}
     />
