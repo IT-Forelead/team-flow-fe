@@ -9,7 +9,6 @@ import {
 	CommandSeparator,
 } from '@/components/ui/command';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-import { useI18n } from '@/hooks/use-i18n';
 import { cn } from '@/utils/utils';
 import type { Column, Table } from '@tanstack/react-table';
 import { Check, GripVertical, RotateCcw, Settings2 } from 'lucide-react';
@@ -30,7 +29,6 @@ export function DataTableViewOptions<TData>({
 	columnMapping,
 	size = 'default',
 }: DataTableViewOptionsProps<TData>) {
-	const { t } = useI18n();
 	// Get columns that can be hidden
 	const columns = React.useMemo(
 		() =>
@@ -166,7 +164,7 @@ export function DataTableViewOptions<TData>({
 		<Popover>
 			<PopoverTrigger asChild>
 				<Button
-					aria-label={t('dataTable.view')}
+					aria-label="View"
 					variant="outline"
 					size={size}
 					leftIcon={<Settings2 className="h-4 w-4" />}
@@ -176,9 +174,9 @@ export function DataTableViewOptions<TData>({
 			</PopoverTrigger>
 			<PopoverContent align="end" className="w-fit p-0">
 				<Command className="bg-transparent">
-					<CommandInput placeholder={t('dataTable.searchColumns')} />
+					<CommandInput placeholder="Search columns..." />
 					<CommandList>
-						<CommandEmpty>{t('dataTable.noColumnsFound')}</CommandEmpty>
+						<CommandEmpty>No columns found.</CommandEmpty>
 						<CommandGroup>
 							{orderedColumns.map(column => (
 								<CommandItem
@@ -211,7 +209,7 @@ export function DataTableViewOptions<TData>({
 								className="cursor-pointer justify-center text-center"
 							>
 								<RotateCcw className="mr-2 h-4 w-4" />
-								{t('dataTable.resetColumnOrderAction')}
+								Reset Column Order
 							</CommandItem>
 						</CommandGroup>
 					</CommandList>

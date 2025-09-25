@@ -24,7 +24,6 @@ import {
 	agentCreateSchema,
 } from '@/features/ai-agents/schema/agents.schema.ts';
 import type { AgentCreate } from '@/features/ai-agents/types.ts';
-import { useI18n } from '@/hooks/use-i18n.ts';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { PlusIcon } from 'lucide-react';
 import { useState } from 'react';
@@ -36,13 +35,12 @@ interface CreateAgentProps {
 }
 
 export function CreateAgent({ className }: CreateAgentProps) {
-	const { t } = useI18n('agents');
 	const [open, setOpen] = useState(false);
 
     const {mutate: createAgent, isPending} = useCreateAgent();
 
 	const form = useForm<AgentCreateSchema>({
-		resolver: zodResolver(agentCreateSchema(t)),
+		resolver: zodResolver(agentCreateSchema()),
 		defaultValues: {
 			name: '',
 		},

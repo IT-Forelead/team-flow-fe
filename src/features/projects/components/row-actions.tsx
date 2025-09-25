@@ -11,7 +11,7 @@ import type { Row, Table as TanstackTable } from '@tanstack/react-table';
 import * as React from 'react';
 
 import { CopyIcon, EditIcon, EllipsisIcon, HeartIcon, TrashIcon } from 'lucide-react';
-import { DeleteAgent } from './actions/DeleteAgent.tsx';
+import { DeleteProject } from './actions/DeleteProject.tsx';
 
 interface DataTableRowActionsProps<TData> {
 	row: Row<TData>;
@@ -59,7 +59,7 @@ export function DataTableRowActions<TData>({ row, table }: DataTableRowActionsPr
 				</DropdownMenuContent>
 			</DropdownMenu>
 
-			<DeleteAgent
+			<DeleteProject
 				open={deleteDialogOpen}
 				onOpenChange={setDeleteDialogOpen}
 				resetSelection={resetSelection}

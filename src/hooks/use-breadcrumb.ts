@@ -1,7 +1,5 @@
-import { useI18n } from '@/hooks/use-i18n';
 import { footerMenuItems, mainMenuItems } from '@/lib/sidebar-menu';
 import type { SidebarFooterItem, SidebarMenuItem, SidebarSubMenuItem } from '@/lib/sidebar-menu';
-import { removeLocaleFromPath } from '@/plugins/i18n-routing';
 import { useMemo } from 'react';
 import { useLocation } from 'react-router';
 
@@ -13,11 +11,10 @@ interface BreadcrumbItem {
 
 export const useBreadcrumb = () => {
 	const location = useLocation();
-	const { t } = useI18n();
 
 	const breadcrumbItems = useMemo(() => {
-		// Get the current path without a locale
-		const currentPath = removeLocaleFromPath(location.pathname);
+		// Get the current path
+		const currentPath = location.pathname;
 		const items: BreadcrumbItem[] = [];
 
 		// Always start with "Project"
@@ -75,7 +72,7 @@ export const useBreadcrumb = () => {
 				// Special handling for Dashboard (empty URL)
 				const parentUrl = parentItem.url === '' ? '/' : parentItem.url;
 				items.push({
-					title: parentItem.titleKey ? t(parentItem.titleKey) : parentItem.title,
+					title: parentItem.title,
 					url: parentUrl,
 					isActive: false,
 				});
@@ -83,7 +80,7 @@ export const useBreadcrumb = () => {
 
 			// Add current page
 			items.push({
-				title: foundItem.titleKey ? t(foundItem.titleKey) : foundItem.title,
+				title: foundItem.title,
 				isActive: true,
 			});
 		} else {
@@ -101,14 +98,14 @@ export const useBreadcrumb = () => {
 			} else {
 				// Root path - show Dashboard
 				items.push({
-					title: t('navigation.dashboard'),
+					title: 'Dashboard',
 					isActive: true,
 				});
 			}
 		}
 
 		return items;
-	}, [location.pathname, t]);
+	}, [location.pathname]);
 
 	return { breadcrumbItems };
 };

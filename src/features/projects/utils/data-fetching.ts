@@ -1,9 +1,9 @@
-import { useGetUsers } from '@/features/users/hooks/use-users';
+import { useGetProjects } from '@/features/projects/hooks/use-projects.ts';
 import { useDebounce } from '@/hooks/use-debounce.tsx';
 import type { PaginationState, SortingState } from '@tanstack/react-table';
 import { useState } from 'react';
 
-export function useAgentsData() {
+export function useProjectsData() {
 	const [pagination, setPagination] = useState<PaginationState>({
 		pageIndex: 0,
 		pageSize: 30,
@@ -45,10 +45,10 @@ export function useAgentsData() {
 	};
 
 	const {
-		data: users,
+		data: projects,
 		isFetching,
 		refetch,
-	} = useGetUsers({
+	} = useGetProjects({
 		page: currentPage,
 		limit: pageSize,
 		...(debouncedSearch.length >= 3 ? { search: debouncedSearch } : {}),
@@ -63,8 +63,8 @@ export function useAgentsData() {
 
 	return {
 		// Data
-		users: users?.data.data ?? [],
-		total: users?.data.total ?? 0,
+		projects: projects?.data.data ?? [],
+		total: projects?.data.total ?? 0,
 		isFetching,
 		refetch,
 

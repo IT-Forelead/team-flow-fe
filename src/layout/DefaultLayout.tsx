@@ -1,6 +1,5 @@
 import { AppSidebar } from '@/components/common/app-sidebar.tsx';
-import { LocalizedNavLink } from '@/components/common/localized-nav-link';
-import { LanguageToggle } from '@/components/custom/language-toggle.tsx';
+import { NavLink } from 'react-router';
 import { ModeToggle } from '@/components/custom/mode-toggle.tsx';
 import {
 	Breadcrumb,
@@ -45,12 +44,12 @@ export const DefaultLayout = () => {
 														</BreadcrumbPage>
 													) : item.url ? (
 														<BreadcrumbLink asChild>
-															<LocalizedNavLink
+															<NavLink
 																to={item.url}
 																className="flex items-center gap-2 text-secondary hover:text-primary transition-colors text-sm font-medium font"
 															>
 																{item.title}
-															</LocalizedNavLink>
+															</NavLink>
 														</BreadcrumbLink>
 													) : (
 														<span className="text-secondary text-sm font-medium font">
@@ -69,7 +68,6 @@ export const DefaultLayout = () => {
 
 							{/* Right section */}
 							<div className="flex items-center px-2">
-								<LanguageToggle />
 								<ModeToggle />
 							</div>
 

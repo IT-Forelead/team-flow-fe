@@ -11,11 +11,8 @@ import {
 	SidebarMenuSubItem,
 } from '@/components/ui/sidebar.tsx';
 import { useAuthContext } from '@/hooks/use-auth-context.ts';
-import { useI18n } from '@/hooks/use-i18n';
 import { useSidebar } from '@/hooks/use-sidebar';
 import { mainMenuItems } from '@/lib/sidebar-menu.tsx';
-import { removeLocaleFromPath } from '@/plugins/i18n-routing.ts';
-import type { Role } from '@/types/common.ts';
 import { cn } from '@/utils/utils';
 import { ChevronDown, ChevronRightIcon } from 'lucide-react';
 import { useEffect, useState } from 'react';
@@ -23,15 +20,14 @@ import { useLocation } from 'react-router';
 
 export function NavMain() {
 	const location = useLocation();
-	const { t } = useI18n();
 	const { state } = useSidebar();
-	const { currentUser } = useAuthContext();
+	const { hasRole } = useAuthContext();
 	const isCollapsed = state === 'collapsed';
 	const [openItems, setOpenItems] = useState<string[]>([]);
 
 	// Auto-open a menu if it has an active subitem
 	useEffect(() => {
-		const currentPath = removeLocaleFromPath(location.pathname);
+		const currentPath = location.pathname;
 		const shouldBeOpen: string[] = [];
 
 		for (const item of mainMenuItems) {
@@ -59,7 +55,7 @@ export function NavMain() {
 					isCollapsed ? 'text-transparent' : 'text-[var(--secondaryLabel)]'
 				)}
 			>
-				{t('navigation.menu')}
+				Menu
 			</SidebarGroupLabel>
 
 			<SidebarMenu className="space-y-1">
@@ -67,14 +63,12 @@ export function NavMain() {
 					.filter(item => {
 						// If an item has no roles specified, it's visible to all
 						if (!item.roles || item.roles.length === 0) return true;
-						// If a user has no role, hide items with role restrictions
-						if (!currentUser?.role) return false;
-						// Check if a user's role is in the allowed roles
-						return item.roles.includes(currentUser.role as Role);
+						// Check if a user has any of the required roles
+						return hasRole(item.roles);
 					})
 					.map(item => {
-						// Get the current path without a locale prefix for comparison
-						const currentPath = removeLocaleFromPath(location.pathname);
+						// Get the current path for comparison
+						const currentPath = location.pathname;
 
 						// Check if this item or any of its subitems is active
 						const hasActiveSubItem = item.items?.some(subItem => subItem.url === currentPath);
@@ -88,7 +82,7 @@ export function NavMain() {
 									<Popover>
 										<PopoverTrigger asChild>
 											<SidebarMenuButton
-												tooltip={t(item.titleKey || item.title)}
+												tooltip={item.title}
 												className={cn(
 													'relative h-9 w-9 rounded-lg p-0 transition-all duration-200',
 													'hover:!bg-blue-500 hover:!text-white text-[var(--sidebar-foreground)]',
@@ -105,7 +99,7 @@ export function NavMain() {
 										>
 											<div className="mb-2 border-[var(--sidebar-border)] border-b pb-2">
 												<div className="flex items-center gap-2 px-1 font-medium text-[var(--sidebar-foreground)] text-sm">
-													{t(item.titleKey || item.title)}
+													{item.title}
 												</div>
 											</div>
 											<div className="space-y-1">
@@ -124,7 +118,7 @@ export function NavMain() {
 																	isSubActive && 'font-semibold text-blue-500'
 																)}
 															>
-																{t(subItem.titleKey || subItem.title)}
+																{subItem.title}
 															</div>
 														</LocalizedNavLink>
 													);
@@ -154,7 +148,7 @@ export function NavMain() {
 									// Item with direct URL
 									<LocalizedNavLink to={item.url} className="block">
 										<SidebarMenuButton
-											tooltip={isCollapsed ? t(item.titleKey || item.title) : undefined}
+											tooltip={isCollapsed ? item.title : undefined}
 											className={cn(
 												'relative h-9 w-full rounded-lg px-2 transition-all duration-200',
 												'hover:!bg-blue-500 hover:!text-white text-[var(--sidebar-foreground)]',
@@ -167,7 +161,7 @@ export function NavMain() {
 											>
 												{item.icon}
 												{!isCollapsed && (
-													<span className="font-medium">{t(item.titleKey || item.title)}</span>
+													<span className="font-medium">{item.title}</span>
 												)}
 											</div>
 										</SidebarMenuButton>
@@ -176,7 +170,7 @@ export function NavMain() {
 									// Item without direct URL (parent only) - acts as a toggle
 									<SidebarMenuButton
 										onClick={hasSubItems ? toggleOpen : undefined}
-										tooltip={isCollapsed ? t(item.titleKey || item.title) : undefined}
+										tooltip={isCollapsed ? item.title : undefined}
 										className={cn(
 											'relative h-9 w-full rounded-lg px-2 transition-all duration-200',
 											'hover:!bg-blue-500 hover:!text-white text-[var(--sidebar-foreground)]',
@@ -193,7 +187,7 @@ export function NavMain() {
 											<div className="flex items-center gap-2">
 												{item.icon}
 												{!isCollapsed && (
-													<span className="font-medium">{t(item.titleKey || item.title)}</span>
+													<span className="font-medium">{item.title}</span>
 												)}
 											</div>
 											{!isCollapsed && hasSubItems && (
@@ -226,7 +220,7 @@ export function NavMain() {
 															>
 																<span className="flex items-center gap-0.5 text-sm">
 																	<ChevronRightIcon className="size-4" />
-																	{t(subItem.titleKey || subItem.title)}
+																	{subItem.title}
 																</span>
 															</SidebarMenuSubButton>
 														</LocalizedNavLink>

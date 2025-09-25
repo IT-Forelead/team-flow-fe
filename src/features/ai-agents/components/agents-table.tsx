@@ -7,7 +7,7 @@ import { useExportConfig } from '@/features/users/utils/config.ts';
 import { usersTableConfig } from '@/features/users/utils/table-config.ts';
 import { lazy } from 'react';
 
-const ToolbarOptions = lazy(() => import('@/features/users/components/toolbar-options.tsx'));
+const ToolbarOptions = lazy(() => import('@/features/ai-agents/components/toolbar-options.tsx'));
 const AgentsTable = () => {
 	const {
 		agents,
@@ -42,22 +42,9 @@ const AgentsTable = () => {
 			exportConfig={exportConfig}
 			idField="id"
 			pageSizeOptions={[10, 20, 30, 40, 50, 100, 150]}
-			renderToolbarContent={({
-				selectedRows,
-				allSelectedIds,
-				totalSelectedCount,
-				resetSelection,
-			}) => (
+			renderToolbarContent={() => (
 				<LazyComponent>
-					<ToolbarOptions
-						selectedUsers={selectedRows.map(row => ({
-							id: row.id,
-							name: row.name,
-						}))}
-						allSelectedUserIds={allSelectedIds}
-						totalSelectedCount={totalSelectedCount}
-						resetSelection={resetSelection}
-					/>
+					<ToolbarOptions />
 				</LazyComponent>
 			)}
 			config={usersTableConfig}

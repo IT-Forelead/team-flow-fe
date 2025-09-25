@@ -42,22 +42,9 @@ const UsersTable = () => {
 			exportConfig={exportConfig}
 			idField="id"
 			pageSizeOptions={[10, 20, 30, 40, 50, 100, 150]}
-			renderToolbarContent={({
-				selectedRows,
-				allSelectedIds,
-				totalSelectedCount,
-				resetSelection,
-			}) => (
+			renderToolbarContent={() => (
 				<LazyComponent>
-					<ToolbarOptions
-						selectedUsers={selectedRows.map(row => ({
-							id: row.id,
-							name: row.firstName,
-						}))}
-						allSelectedUserIds={allSelectedIds}
-						totalSelectedCount={totalSelectedCount}
-						resetSelection={resetSelection}
-					/>
+					<ToolbarOptions />
 				</LazyComponent>
 			)}
 			config={usersTableConfig}

@@ -1,4 +1,4 @@
-import { LocalizedNavLink } from '@/components/common/localized-nav-link';
+import { NavLink } from 'react-router';
 import {
 	CustomCard,
 	CustomCardDescription,
@@ -6,12 +6,10 @@ import {
 } from '@/components/custom/custom-card.tsx';
 import { Typography } from '@/components/ui/typography.tsx';
 import { LoginForm } from '@/features/auth/components/LoginForm.tsx';
-import { useI18n } from '@/hooks/use-i18n';
 import { KeyRound } from 'lucide-react';
 import { motion } from 'motion/react';
 
 const Login = () => {
-	const { t } = useI18n();
 
 	return (
 		<motion.div
@@ -36,18 +34,18 @@ const Login = () => {
 					<Typography variant="large">Welcome Back</Typography>
 				</div>
 				<CustomCardTitle className="mb-2 text-center font-semibold text-[var(--label)] text-xl">
-					{t('auth.loginTitle')}
+					Sign in to your account
 				</CustomCardTitle>
 				<LoginForm />
 				<CustomCardDescription>
 					<div className="mt-2 border-[var(--border)]/30 border-t pt-4 text-center text-sm">
-						<span className="text-[var(--secondaryLabel)]">{t('auth.dontHaveAccount')} </span>
-						<LocalizedNavLink
+						<span className="text-[var(--secondaryLabel)]">Don't have an account? </span>
+						<NavLink
 							to="/register"
 							className="font-medium text-[var(--system-blue)] transition-colors duration-200 hover:text-[var(--system-blue)]/80"
 						>
-							{t('auth.register')}
-						</LocalizedNavLink>
+							Sign up
+						</NavLink>
 					</div>
 				</CustomCardDescription>
 			</CustomCard>

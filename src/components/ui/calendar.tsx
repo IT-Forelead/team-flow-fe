@@ -1,37 +1,7 @@
-import { enUS, ru } from 'date-fns/locale';
+import { enUS } from 'date-fns/locale';
 import { ChevronDownIcon, ChevronLeftIcon, ChevronRightIcon } from 'lucide-react';
 import * as React from 'react';
 import { type DayButton, DayPicker, getDefaultClassNames } from 'react-day-picker';
-import { useTranslation } from 'react-i18next';
-
-// Custom Uzbek locale
-const uz = {
-	...enUS,
-	localize: {
-		...enUS.localize,
-		month: (monthIndex: number) => {
-			const months = [
-				'Yanvar',
-				'Fevral',
-				'Mart',
-				'Aprel',
-				'May',
-				'Iyun',
-				'Iyul',
-				'Avgust',
-				'Sentabr',
-				'Oktabr',
-				'Noyabr',
-				'Dekabr',
-			];
-			return months[monthIndex];
-		},
-		day: (dayIndex: number) => {
-			const days = ['Yak', 'Du', 'Se', 'Cho', 'Pay', 'Jum', 'Sha'];
-			return days[dayIndex];
-		},
-	},
-};
 
 import { Button } from '@/components/ui/button';
 import { buttonVariants } from '@/components/ui/button-variants.tsx';
@@ -52,23 +22,10 @@ function Calendar({
 	size?: 'default' | 'large' | 'full';
 }) {
 	const defaultClassNames = getDefaultClassNames();
-	const { i18n } = useTranslation();
-
-	// Get the appropriate locale based on the current language
-	const getLocale = () => {
-		switch (i18n.language) {
-			case 'ru':
-				return ru;
-			case 'uz':
-				return uz;
-			default:
-				return enUS;
-		}
-	};
 
 	return (
 		<DayPicker
-			locale={getLocale()}
+			locale={enUS}
 			showOutsideDays={showOutsideDays}
 			className={cn(
 				'group/calendar bg-background p-1 [[data-slot=card-content]_&]:bg-transparent [[data-slot=popover-content]_&]:bg-transparent',
@@ -82,24 +39,7 @@ function Calendar({
 			captionLayout={captionLayout}
 			formatters={{
 				formatMonthDropdown: date => {
-					if (i18n.language === 'uz') {
-						const months = [
-							'Yan',
-							'Fev',
-							'Mar',
-							'Apr',
-							'May',
-							'Iyun',
-							'Iyul',
-							'Avg',
-							'Sen',
-							'Okt',
-							'Noy',
-							'Dek',
-						];
-						return months[date.getMonth()];
-					}
-					return date.toLocaleString(i18n.language === 'ru' ? 'ru' : 'en', { month: 'short' });
+					return date.toLocaleString('en', { month: 'short' });
 				},
 				...formatters,
 			}}

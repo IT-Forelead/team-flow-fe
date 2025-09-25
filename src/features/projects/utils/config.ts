@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 
 /**
- * Default export configuration for the users data table
+ * Default export configuration for the project data table
  */
 export function useExportConfig() {
 	// Column mapping for export

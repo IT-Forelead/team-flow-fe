@@ -8,28 +8,26 @@ import {
 import { useTheme } from '@/hooks/use-theme.ts';
 import { cn } from '@/utils/utils';
 import { CheckIcon, MonitorIcon, MoonIcon, SunIcon } from 'lucide-react';
-import { useTranslation } from 'react-i18next';
 
 export function ModeToggle() {
 	const { theme, setTheme } = useTheme();
-	const { t } = useTranslation();
 
 	const themeOptions = [
 		{
 			value: 'light',
-			label: t('theme.light'),
+			label: 'Light',
 			icon: SunIcon,
 			iconColor: 'text-amber-800 dark:text-amber-400',
 		},
 		{
 			value: 'dark',
-			label: t('theme.dark'),
+			label: 'Dark',
 			icon: MoonIcon,
 			iconColor: 'text-slate-600 dark:text-slate-400',
 		},
 		{
 			value: 'system',
-			label: t('theme.system'),
+			label: 'System',
 			icon: MonitorIcon,
 			iconColor: 'text-blue-600 dark:text-blue-400',
 		},
@@ -58,7 +56,7 @@ export function ModeToggle() {
 								)}
 							/>
 						</div>
-						<span className="sr-only">{t('theme.toggleTheme')}</span>
+						<span className="sr-only">Toggle theme</span>
 					</Button>
 				</DropdownMenuTrigger>
 				<DropdownMenuContent align="end" className="w-40">

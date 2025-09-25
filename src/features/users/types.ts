@@ -15,7 +15,7 @@ export interface UserCreate {
 	firstName: string;
 	lastName: string;
 	email: string;
-	userName: string;
+	username: string;
 	role: Role;
 	position?: Position;
 }
@@ -27,16 +27,10 @@ export interface UserFilter extends PaginationFilter {
 }
 
 export interface UserUpdate {
-	id: string;
 	firstName?: string;
 	lastName?: string;
 	email?: string;
 	userName?: string;
 	role?: Role;
 	position?: Position;
-}
-
-export interface UserCreateResponse {
-	id: string;
-	message: string;
 }

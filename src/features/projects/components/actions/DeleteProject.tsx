@@ -3,7 +3,7 @@ interface DeleteUserProps {
 	onOpenChange: (open: boolean) => void;
 	resetSelection: () => void;
 }
-export const DeleteAgent = (_props: DeleteUserProps) => {
+export const DeleteProject = (_props: DeleteUserProps) => {
 	// TODO: Implement delete user functionality
 	return <></>;
 };

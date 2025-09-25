@@ -13,7 +13,6 @@ import { formatInTimeZone, toDate } from 'date-fns-tz';
 import { CalendarIcon, X } from 'lucide-react';
 import * as React from 'react';
 import type { DateRange } from 'react-day-picker';
-import { useTranslation } from 'react-i18next';
 
 import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar.tsx';
@@ -57,7 +56,6 @@ export const CalendarDatePicker = React.forwardRef<HTMLButtonElement, CalendarDa
 		},
 		ref
 	) => {
-		const { t, i18n } = useTranslation();
 		const [isPopoverOpen, setIsPopoverOpen] = React.useState(false);
 		const [selectedRange, setSelectedRange] = React.useState<string | null>(
 			numberOfMonths === 2 ? 'This Year' : 'Today'
@@ -83,20 +81,20 @@ export const CalendarDatePicker = React.forwardRef<HTMLButtonElement, CalendarDa
 
 		const months = React.useMemo(
 			() => [
-				t('calendar.months.january', 'January'),
-				t('calendar.months.february', 'February'),
-				t('calendar.months.march', 'March'),
-				t('calendar.months.april', 'April'),
-				t('calendar.months.may', 'May'),
-				t('calendar.months.june', 'June'),
-				t('calendar.months.july', 'July'),
-				t('calendar.months.august', 'August'),
-				t('calendar.months.september', 'September'),
-				t('calendar.months.october', 'October'),
-				t('calendar.months.november', 'November'),
-				t('calendar.months.december', 'December'),
+				'January',
+				'February',
+				'March',
+				'April',
+				'May',
+				'June',
+				'July',
+				'August',
+				'September',
+				'October',
+				'November',
+				'December',
 			],
-			[t]
+			[]
 		);
 
 		const handleClose = () => setIsPopoverOpen(false);
@@ -238,49 +236,49 @@ export const CalendarDatePicker = React.forwardRef<HTMLButtonElement, CalendarDa
 
 		const dateRanges = React.useMemo(
 			() => [
-				{ label: t('calendar.ranges.today', 'Today'), start: today, end: today },
+				{ label: 'Today', start: today, end: today },
 				{
-					label: t('calendar.ranges.yesterday', 'Yesterday'),
+					label: 'Yesterday',
 					start: subDays(today, 1),
 					end: subDays(today, 1),
 				},
 				{
-					label: t('calendar.ranges.thisWeek', 'This Week'),
+					label: 'This Week',
 					start: startOfWeek(today, { weekStartsOn: 1 }),
 					end: endOfWeek(today, { weekStartsOn: 1 }),
 				},
 				{
-					label: t('calendar.ranges.lastWeek', 'Last Week'),
+					label: 'Last Week',
 					start: subDays(startOfWeek(today, { weekStartsOn: 1 }), 7),
 					end: subDays(endOfWeek(today, { weekStartsOn: 1 }), 7),
 				},
 				{
-					label: t('calendar.ranges.last7Days', 'Last 7 Days'),
+					label: 'Last 7 Days',
 					start: subDays(today, 6),
 					end: today,
 				},
 				{
-					label: t('calendar.ranges.thisMonth', 'This Month'),
+					label: 'This Month',
 					start: startOfMonth(today),
 					end: endOfMonth(today),
 				},
 				{
-					label: t('calendar.ranges.lastMonth', 'Last Month'),
+					label: 'Last Month',
 					start: startOfMonth(subDays(today, today.getDate())),
 					end: endOfMonth(subDays(today, today.getDate())),
 				},
 				{
-					label: t('calendar.ranges.thisYear', 'This Year'),
+					label: 'This Year',
 					start: startOfYear(today),
 					end: endOfYear(today),
 				},
 				{
-					label: t('calendar.ranges.lastYear', 'Last Year'),
+					label: 'Last Year',
 					start: startOfYear(subDays(today, 365)),
 					end: endOfYear(subDays(today, 365)),
 				},
 			],
-			[t, today]
+			[today]
 		);
 
 		const handleMouseOver = (part: string) => {
@@ -440,7 +438,7 @@ export const CalendarDatePicker = React.forwardRef<HTMLButtonElement, CalendarDa
 							'Dek',
 						],
 					};
-					const currentLang = i18n.language as keyof typeof monthNames;
+					const currentLang = 'en' as keyof typeof monthNames;
 					const months = monthNames[currentLang] || monthNames.en;
 					return months[date.getMonth()];
 				}
@@ -451,7 +449,7 @@ export const CalendarDatePicker = React.forwardRef<HTMLButtonElement, CalendarDa
 
 				return formatInTimeZone(date, timeZone, fmt);
 			},
-			[timeZone, i18n.language]
+			[timeZone]
 		);
 
 		return (
@@ -474,7 +472,7 @@ export const CalendarDatePicker = React.forwardRef<HTMLButtonElement, CalendarDa
 							size="default"
 							onClick={handleTogglePopover}
 							suppressHydrationWarning
-							aria-label={placeholder || t('calendar.selectDate', 'Select a date')}
+							aria-label={placeholder || 'Select a date'}
 							aria-expanded={isPopoverOpen}
 							aria-haspopup="dialog"
 						>
@@ -615,7 +613,7 @@ export const CalendarDatePicker = React.forwardRef<HTMLButtonElement, CalendarDa
 										</>
 									)
 								) : (
-									<span>{placeholder || t('calendar.selectDate', 'Select a date')}</span>
+									<span>{placeholder || 'Select a date'}</span>
 								)}
 							</span>
 							{allowClear && date?.from && (
@@ -623,7 +621,7 @@ export const CalendarDatePicker = React.forwardRef<HTMLButtonElement, CalendarDa
 									type="button"
 									onClick={handleClearSelection}
 									className="absolute right-2 top-1/2 -translate-y-1/2 h-4 w-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 z-10 bg-background"
-									aria-label={t('common.clear', 'Clear')}
+									aria-label={'Clear'}
 								>
 									<X className="h-3 w-3" />
 								</button>
@@ -643,7 +641,7 @@ export const CalendarDatePicker = React.forwardRef<HTMLButtonElement, CalendarDa
 								maxHeight: 'var(--radix-popover-content-available-height)',
 								overflowY: 'auto',
 							}}
-							aria-label={t('calendar.selectDate', 'Select a date')}
+							aria-label={'Select a date'}
 						>
 							<div className={cn(
 								'flex',
@@ -690,7 +688,7 @@ export const CalendarDatePicker = React.forwardRef<HTMLButtonElement, CalendarDa
 												value={monthFrom ? months[monthFrom.getMonth()] : undefined}
 											>
 												<SelectTrigger className="w-full sm:w-fit font-medium hover:bg-accent hover:text-accent-foreground focus:ring-0 focus:ring-offset-0">
-													<SelectValue placeholder={t('calendar.month', 'Month')} />
+													<SelectValue placeholder={'Month'} />
 												</SelectTrigger>
 												<SelectContent>
 													{months.map(month => (
@@ -708,7 +706,7 @@ export const CalendarDatePicker = React.forwardRef<HTMLButtonElement, CalendarDa
 												value={yearFrom ? yearFrom.toString() : undefined}
 											>
 												<SelectTrigger className="w-full sm:w-fit font-medium hover:bg-accent hover:text-accent-foreground focus:ring-0 focus:ring-offset-0">
-													<SelectValue placeholder={t('calendar.year', 'Year')} />
+													<SelectValue placeholder={'Year'} />
 												</SelectTrigger>
 												<SelectContent>
 													{years.map(year => (
@@ -729,7 +727,7 @@ export const CalendarDatePicker = React.forwardRef<HTMLButtonElement, CalendarDa
 													value={monthTo ? months[monthTo.getMonth()] : undefined}
 												>
 													<SelectTrigger className="w-full sm:w-fit font-medium hover:bg-accent hover:text-accent-foreground focus:ring-0 focus:ring-offset-0">
-														<SelectValue placeholder={t('calendar.month', 'Month')} />
+														<SelectValue placeholder={'Month'} />
 													</SelectTrigger>
 													<SelectContent>
 														{months.map(month => (
@@ -747,7 +745,7 @@ export const CalendarDatePicker = React.forwardRef<HTMLButtonElement, CalendarDa
 													value={yearTo ? yearTo.toString() : undefined}
 												>
 													<SelectTrigger className="w-full sm:w-fit font-medium hover:bg-accent hover:text-accent-foreground focus:ring-0 focus:ring-offset-0">
-														<SelectValue placeholder={t('calendar.year', 'Year')} />
+														<SelectValue placeholder={'Year'} />
 													</SelectTrigger>
 													<SelectContent>
 														{years.map(year => (

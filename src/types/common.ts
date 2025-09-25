@@ -13,6 +13,11 @@ export interface ServerError {
 	error_code?: string;
 }
 
+export interface ApiResponse {
+	id: string;
+	message: string;
+}
+
 export interface DecodedToken {
 	exp: number;
 	iat: number;

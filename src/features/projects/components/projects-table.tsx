@@ -1,16 +1,16 @@
 import { LazyComponent } from '@/components/common/lazy-component.tsx';
 import { DataTable } from '@/components/data-table/data-table.tsx';
-import { getColumns } from '@/features/users/components/columns.tsx';
-import type { User } from '@/features/users/types.ts';
+import { getColumns } from '@/features/projects/components/columns.tsx';
+import type { Project } from '@/features/projects/types.ts';
+import { useProjectsData } from '@/features/projects/utils/data-fetching.ts';
 import { useExportConfig } from '@/features/users/utils/config.ts';
 import { usersTableConfig } from '@/features/users/utils/table-config.ts';
 import { lazy } from 'react';
-import { useUsersData } from '../utils/data-fetching';
 
-const ToolbarOptions = lazy(() => import('@/features/users/components/toolbar-options.tsx'));
-const AgentsTable = () => {
+const ToolbarOptions = lazy(() => import('@/features/projects/components/toolbar-options.tsx'));
+const ProjectsTable = () => {
 	const {
-		users,
+		projects,
 		total,
 		isFetching,
 		currentPage,
@@ -21,14 +21,14 @@ const AgentsTable = () => {
 		onSortingChange,
 		search,
 		onSearchChange,
-	} = useUsersData();
+	} = useProjectsData();
 
 	const exportConfig = useExportConfig();
 
 	return (
-		<DataTable<User>
+		<DataTable<Project>
 			getColumns={getColumns}
-			data={users}
+			data={projects}
 			totalItems={total}
 			isLoading={isFetching}
 			currentPage={currentPage}
@@ -65,4 +65,4 @@ const AgentsTable = () => {
 	);
 };
 
-export default AgentsTable;
+export default ProjectsTable;

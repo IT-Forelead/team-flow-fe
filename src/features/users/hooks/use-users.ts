@@ -1,10 +1,5 @@
-import type {
-	UserCreate,
-	UserCreateResponse,
-	UserFilter,
-	UserUpdate,
-} from '@/features/users/types.ts';
-import type { ServerError } from '@/types/common.ts';
+import type { UserCreate, UserFilter, UserUpdate } from '@/features/users/types.ts';
+import type { ApiResponse, ServerError } from '@/types/common.ts';
 import {
 	keepPreviousData,
 	skipToken,
@@ -12,23 +7,17 @@ import {
 	useQuery,
 	useQueryClient,
 } from '@tanstack/react-query';
-import {
-	bulkDeleteUsers,
-	createUser,
-	deleteUser,
-	getUsers,
-	updateUser,
-} from '../services/users.service.ts';
+import { createUser, deleteUser, getUsers, updateUser } from '../services/users.service.ts';
 
 export function useCreateUser() {
-	return useMutation<UserCreateResponse, ServerError, UserCreate>({
+	return useMutation<ApiResponse, ServerError, UserCreate>({
 		mutationFn: createUser,
 	});
 }
 
 export function useUpdateUser() {
 	const queryClient = useQueryClient();
-	return useMutation({
+	return useMutation<ApiResponse, ServerError, { id: string; data: UserUpdate }>({
 		mutationFn: ({ id, data }: { id: string; data: UserUpdate }) => updateUser(id, data),
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: ['users'] }).then();
@@ -49,16 +38,6 @@ export function useDeleteUser() {
 	const queryClient = useQueryClient();
 	return useMutation({
 		mutationFn: (id: string) => deleteUser(id),
-		onSuccess: () => {
-			queryClient.invalidateQueries({ queryKey: ['users'] }).then();
-		},
-	});
-}
-
-export function useBulkDeleteUsers() {
-	const queryClient = useQueryClient();
-	return useMutation({
-		mutationFn: (ids: (string | number)[]) => bulkDeleteUsers(ids),
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: ['users'] }).then();
 		},

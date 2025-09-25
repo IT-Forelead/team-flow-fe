@@ -20,23 +20,21 @@ import { Input } from '@/components/ui/input';
 import { useCreateUser } from '@/features/users/hooks/use-users';
 import { type UserCreateSchema, userCreateSchema } from '@/features/users/schema/users.schema.ts';
 import type { UserCreate } from '@/features/users/types';
-import { useI18n } from '@/hooks/use-i18n.ts';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { PlusIcon } from 'lucide-react';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
-interface AddUserProps {
+interface AddProjectProps {
 	className?: string;
 }
 
-export function CreateAgent({ className }: AddUserProps = {}) {
-	const { t } = useI18n('users');
+export function CreateProject({ className }: AddProjectProps) {
 	const [open, setOpen] = useState(false);
 
 	const form = useForm<UserCreateSchema>({
-		resolver: zodResolver(userCreateSchema(t)),
+		resolver: zodResolver(userCreateSchema()),
 		defaultValues: {
 			name: '',
 			email: '',
@@ -52,7 +50,7 @@ export function CreateAgent({ className }: AddUserProps = {}) {
 			await createMutation.mutateAsync(data);
 
 			// Show a success message
-			toast.success(`User "${data.name}" created successfully`);
+			toast.success(`Agent "${data.name}" created successfully`);
 
 			// Reset form and close the dialog
 			form.reset();

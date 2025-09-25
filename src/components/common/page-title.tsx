@@ -1,4 +1,3 @@
-import { useI18n } from '@/hooks/use-i18n.ts';
 import { usePageTitle } from '@/hooks/use-page-title.ts';
 import { useEffect } from 'react';
 
@@ -8,12 +7,11 @@ interface PageTitleProps {
 
 export const PageTitle = ({ title }: PageTitleProps) => {
 	const { setTitle } = usePageTitle();
-	const { t } = useI18n();
 
 	useEffect(() => {
-		setTitle(t(title));
-		document.title = t(title);
-	}, [title, setTitle, t]);
+		setTitle(title);
+		document.title = title;
+	}, [title, setTitle]);
 
 	return null;
 };

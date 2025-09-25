@@ -1,7 +1,7 @@
 import { AuthContext } from '@/context/auth-context';
 import { useCurrentUser, useLogout } from '@/features/auth/hooks/use-auth.ts';
 import type { CurrentUser } from '@/features/auth/types.ts';
-import type { ServerError } from '@/types/common.ts';
+import type { Role, ServerError } from '@/types/common.ts';
 import { isAxiosError } from 'axios';
 import { type PropsWithChildren, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
@@ -46,9 +46,22 @@ export default function AuthContextProvider({ children }: AuthContextProviderPro
 		}
 	}, [currentUserData]);
 
+	const role = currentUser?.role || null;
+
+	// Helper function for role checking
+	const hasRole = (roles: Role | Role[]): boolean => {
+		if (!role) return false;
+		if (Array.isArray(roles)) {
+			return roles.includes(role);
+		}
+		return role === roles;
+	};
+
 	const value = {
 		authToken,
 		currentUser,
+		role,
+		hasRole,
 		logout,
 		isLoading: logoutPending || (authToken ? isUserDataPending : false),
 		isSuccessLogout: logoutSuccess,

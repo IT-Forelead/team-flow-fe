@@ -4,7 +4,6 @@ import { Settings, Undo2, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { SearchInput } from '@/components/custom/search-input';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-import { useI18n } from '@/hooks/use-i18n';
 import type { ReactNode } from 'react';
 import { DataTableExport } from './data-export';
 import type { TableConfig } from './utils/table-config';
@@ -55,7 +54,6 @@ export function DataTableToolbar<TData>({
 	searchValue,
 	onSearchChange,
 }: Omit<DataTableToolbarProps<TData>, 'totalSelectedItems' | 'deleteSelection'>) {
-	const { t } = useI18n();
 	const isFiltered =
 		table.getState().columnFilters.length > 0 ||
 		table.getState().globalFilter ||
@@ -69,7 +67,7 @@ export function DataTableToolbar<TData>({
 				<div className="flex flex-1 items-center gap-2">
 					{config.enableSearch && (
 						<SearchInput
-							placeholder={t('dataTable.searchPlaceholder')}
+							placeholder="Search..."
 							value={
 								config.manualSearching
 									? (searchValue ?? '')
@@ -139,9 +137,9 @@ export function DataTableToolbar<TData>({
 						<PopoverContent align="end" className="w-fit">
 							<div className="grid gap-4">
 								<div className="space-y-2">
-									<h4 className="font-medium leading-none">{t('dataTable.tableSettings')}</h4>
+									<h4 className="font-medium leading-none">Table Settings</h4>
 									<p className="text-muted-foreground text-sm">
-										{t('dataTable.tableSettingsDescription')}
+										Manage table layout and column settings
 									</p>
 								</div>
 								<div className="grid gap-2">
@@ -153,7 +151,7 @@ export function DataTableToolbar<TData>({
 											className="justify-start"
 										>
 											<Undo2 className="mr-2 h-4 w-4" />
-											{t('dataTable.resetColumnSizes')}
+											Reset Column Sizes
 										</Button>
 									)}
 									{resetColumnOrder && (
@@ -164,7 +162,7 @@ export function DataTableToolbar<TData>({
 											className="justify-start"
 										>
 											<Undo2 className="mr-2 h-4 w-4" />
-											{t('dataTable.resetColumnOrder')}
+											Reset Column Order
 										</Button>
 									)}
 								</div>
@@ -180,7 +178,7 @@ export function DataTableToolbar<TData>({
 				<div className="flex items-center gap-2">
 					{config.enableSearch && (
 						<SearchInput
-							placeholder={t('dataTable.searchPlaceholder')}
+							placeholder="Search..."
 							value={
 								config.manualSearching
 									? (searchValue ?? '')
@@ -249,9 +247,9 @@ export function DataTableToolbar<TData>({
 							<PopoverContent align="end" className="w-fit">
 								<div className="grid gap-4">
 									<div className="space-y-2">
-										<h4 className="font-medium leading-none">{t('dataTable.tableSettings')}</h4>
+										<h4 className="font-medium leading-none">Table Settings</h4>
 										<p className="text-muted-foreground text-sm">
-											{t('dataTable.tableSettingsDescription')}
+											Manage table layout and column settings
 										</p>
 									</div>
 									<div className="grid gap-2">
@@ -263,7 +261,7 @@ export function DataTableToolbar<TData>({
 												className="justify-start"
 											>
 												<Undo2 className="mr-2 h-4 w-4" />
-												{t('dataTable.resetColumnSizes')}
+												Reset Column Sizes
 											</Button>
 										)}
 										{resetColumnOrder && (
@@ -274,7 +272,7 @@ export function DataTableToolbar<TData>({
 												className="justify-start"
 											>
 												<Undo2 className="mr-2 h-4 w-4" />
-												{t('dataTable.resetColumnOrder')}
+												Reset Column Order
 											</Button>
 										)}
 									</div>

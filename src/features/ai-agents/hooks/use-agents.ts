@@ -4,13 +4,8 @@ import {
 	getAgents,
 	updateAgent,
 } from '@/features/ai-agents/services/agents.service.ts';
-import type {
-	AgentCreate,
-	AgentCreateResponse,
-	AgentFilter,
-	AgentUpdate,
-} from '@/features/ai-agents/types.ts';
-import type { ServerError } from '@/types/common.ts';
+import type { AgentCreate, AgentFilter, AgentUpdate } from '@/features/ai-agents/types.ts';
+import type { ApiResponse, ServerError } from '@/types/common.ts';
 import {
 	keepPreviousData,
 	skipToken,
@@ -20,7 +15,7 @@ import {
 } from '@tanstack/react-query';
 
 export function useCreateAgent() {
-	return useMutation<AgentCreateResponse, ServerError, AgentCreate>({
+	return useMutation<ApiResponse, ServerError, AgentCreate>({
 		mutationFn: createAgent,
 	});
 }

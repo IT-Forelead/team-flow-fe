@@ -1,19 +1,18 @@
 import { DataTableColumnHeader } from '@/components/data-table/column-header';
-import { Badge } from '@/components/ui/badge';
 import { Checkbox } from '@/components/ui/checkbox.tsx';
-import type { User } from '@/features/users/types.ts';
+import type { Project } from '@/features/projects/types.ts';
 import type { ColumnDef } from '@tanstack/react-table';
 import { DataTableRowActions } from './row-actions';
 
 export const getColumns = (
 	handleRowDeselection: ((rowId: string) => void) | null | undefined
-): ColumnDef<User>[] => {
+): ColumnDef<Project>[] => {
 	// Base columns without the select column
-	const baseColumns: ColumnDef<User>[] = [
+	const baseColumns: ColumnDef<Project>[] = [
 		{
-			accessorKey: 'id',
-			header: ({ column }) => <DataTableColumnHeader column={column} title="ID" />,
-			cell: ({ row }) => <div className="truncate text-left">{row.getValue('id')}</div>,
+			id: 'rowNumber',
+			header: ({ column }) => <DataTableColumnHeader column={column} title="№" />,
+			cell: ({ row }) => row.index + 1,
 			size: 70,
 		},
 		{
@@ -25,8 +24,8 @@ export const getColumns = (
 			size: 200,
 		},
 		{
-			accessorKey: 'email',
-			header: ({ column }) => <DataTableColumnHeader column={column} title="Email" />,
+			accessorKey: 'url',
+			header: ({ column }) => <DataTableColumnHeader column={column} title="Url" />,
 			cell: ({ row }) => {
 				return (
 					<div className="flex space-x-2 truncate">
@@ -37,60 +36,10 @@ export const getColumns = (
 			size: 250,
 		},
 		{
-			accessorKey: 'phone',
-			header: ({ column }) => <DataTableColumnHeader column={column} title="Phone" />,
+			accessorKey: 'createdAt',
+			header: ({ column }) => <DataTableColumnHeader column={column} title="Created At" />,
 			cell: ({ row }) => {
-				return (
-					<div className="flex items-center truncate">
-						<span className="truncate">{row.getValue('phone')}</span>
-					</div>
-				);
-			},
-			size: 150,
-		},
-		{
-			accessorKey: 'age',
-			header: ({ column }) => <DataTableColumnHeader column={column} title="Age" />,
-			cell: ({ row }) => {
-				return <div className="max-w-full truncate text-left">{row.getValue('age')}</div>;
-			},
-			size: 80,
-		},
-		{
-			accessorKey: 'expense_count',
-			header: ({ column }) => <DataTableColumnHeader column={column} title="Expenses" />,
-			cell: ({ row }) => {
-				const count = row.getValue('expense_count') as number;
-				return (
-					<div className="max-w-full text-left">
-						<Badge variant="outline" className="truncate">
-							{count}
-						</Badge>
-					</div>
-				);
-			},
-			size: 100,
-		},
-		{
-			accessorKey: 'total_expenses',
-			header: ({ column }) => <DataTableColumnHeader column={column} title="Total Amount" />,
-			cell: ({ row }) => {
-				const amount = row.getValue('total_expenses') as string;
-				// Format as currency
-				const formatted = new Intl.NumberFormat('en-US', {
-					style: 'currency',
-					currency: 'USD',
-				}).format(Number.parseFloat(amount || '0'));
-
-				return <div className="max-w-full truncate text-left font-medium">{formatted}</div>;
-			},
-			size: 150,
-		},
-		{
-			accessorKey: 'created_at',
-			header: ({ column }) => <DataTableColumnHeader column={column} title="Joined" />,
-			cell: ({ row }) => {
-				return <div className="max-w-full truncate text-left">{row.original.created_at}</div>;
+				return <div className="max-w-full truncate text-left">{row.original.createdAt}</div>;
 			},
 			size: 120,
 		},

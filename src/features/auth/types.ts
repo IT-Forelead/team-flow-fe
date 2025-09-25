@@ -6,7 +6,7 @@ export interface AuthToken {
 }
 
 export interface LoginCredentials {
-	phone: string;
+	username: string;
 	password: string;
 }
 

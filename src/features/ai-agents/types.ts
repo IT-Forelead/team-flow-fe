@@ -24,8 +24,3 @@ export interface AgentUpdate {
 	prompt?: string;
 	description?: string;
 }
-
-export interface AgentCreateResponse {
-	id: string;
-	message: string;
-}

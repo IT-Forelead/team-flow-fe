@@ -7,20 +7,16 @@ import {
 	SidebarMenuItem,
 } from '@/components/ui/sidebar.tsx';
 import { useAuthContext } from '@/hooks/use-auth-context.ts';
-import { useI18n } from '@/hooks/use-i18n';
 import { useSidebar } from '@/hooks/use-sidebar';
 import { footerMenuItems } from '@/lib/sidebar-menu.tsx';
-import { removeLocaleFromPath } from '@/plugins/i18n-routing.ts';
-import type { Role } from '@/types/common.ts';
 import { cn } from '@/utils/utils';
 import type * as React from 'react';
 import { useLocation } from 'react-router';
 
 export function NavSecondary({ ...props }: React.ComponentPropsWithoutRef<typeof SidebarGroup>) {
 	const location = useLocation();
-	const { t } = useI18n();
 	const { state } = useSidebar();
-	const { currentUser } = useAuthContext();
+	const { hasRole } = useAuthContext();
 	const isCollapsed = state === 'collapsed';
 
 	return (
@@ -31,19 +27,17 @@ export function NavSecondary({ ...props }: React.ComponentPropsWithoutRef<typeof
 						.filter(item => {
 							// If an item has no roles specified, it's visible to all
 							if (!item.roles || item.roles.length === 0) return true;
-							// If a user has no role, hide items with role restrictions
-							if (!currentUser?.role) return false;
-							// Check if a user's role is in the allowed roles
-							return item.roles.includes(currentUser.role as Role);
+							// Check if user has any of the required roles
+							return hasRole(item.roles);
 						})
 						.map(item => {
-							const currentPath = removeLocaleFromPath(location.pathname);
+							const currentPath = location.pathname;
 							const isActive = item.url === currentPath;
 							return (
 								<SidebarMenuItem key={item.title}>
 									<LocalizedNavLink to={item.url} className="block">
 										<SidebarMenuButton
-											tooltip={isCollapsed ? t(item.titleKey || item.title) : undefined}
+											tooltip={isCollapsed ? item.title : undefined}
 											className={cn(
 												'relative h-9 w-full rounded-lg px-2 transition-all duration-200',
 												'hover:!bg-blue-500 hover:!text-white text-[var(--sidebar-foreground)]',
@@ -57,7 +51,7 @@ export function NavSecondary({ ...props }: React.ComponentPropsWithoutRef<typeof
 												{item.icon}
 												{!isCollapsed && (
 													<span className="font-medium text-xs">
-														{t(item.titleKey || item.title)}
+														{item.title}
 													</span>
 												)}
 											</div>

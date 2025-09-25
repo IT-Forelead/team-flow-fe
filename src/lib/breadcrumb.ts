@@ -1,5 +1,4 @@
 import { mainMenuItems } from '@/lib/sidebar-menu';
-import { removeLocaleFromPath } from '@/plugins/i18n-routing';
 
 export interface BreadcrumbItem {
 	title: string;
@@ -9,42 +8,38 @@ export interface BreadcrumbItem {
 }
 
 export function getBreadcrumbItems(pathname: string): BreadcrumbItem[] {
-	const currentPath = removeLocaleFromPath(pathname);
+	const currentPath = pathname;
 	const breadcrumbs: BreadcrumbItem[] = [];
 
 	// Always start with "Project"
 	breadcrumbs.push({
 		title: 'Project',
-		titleKey: 'navigation.project',
 		url: '/',
 	});
 
 	// Find the current page in the menu structure
 	for (const item of mainMenuItems) {
-		// Check if current path matches a main menu item
+		// Check if the current path matches a main menu item
 		if (item.url && item.url === currentPath) {
 			// Direct main menu item (no parent)
 			breadcrumbs.push({
 				title: item.title,
-				titleKey: item.titleKey,
 				isActive: true,
 			});
 			return breadcrumbs;
 		}
 
-		// Check if current path matches a sub-item
+		// Check if the current path matches a subitem
 		if (item.items) {
 			for (const subItem of item.items) {
 				if (subItem.url === currentPath) {
-					// Sub-item found - add parent first, then sub-item
+					// Subitem found - add parent first, then subitem
 					breadcrumbs.push({
 						title: item.title,
-						titleKey: item.titleKey,
 						url: item.url || undefined,
 					});
 					breadcrumbs.push({
 						title: subItem.title,
-						titleKey: subItem.titleKey,
 						isActive: true,
 					});
 					return breadcrumbs;
@@ -53,7 +48,7 @@ export function getBreadcrumbItems(pathname: string): BreadcrumbItem[] {
 		}
 	}
 
-	// If no match found, try to infer from path
+	// If no match found, try to infer from a path
 	const pathSegments = currentPath.split('/').filter(Boolean);
 	if (pathSegments.length > 0) {
 		const lastSegment = pathSegments[pathSegments.length - 1];

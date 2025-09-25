@@ -6,6 +6,7 @@ import {
 	DialogFooter,
 	DialogHeader,
 	DialogTitle,
+	DialogTrigger,
 } from '@/components/ui/dialog';
 import {
 	Form,
@@ -23,98 +24,101 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from '@/components/ui/select.tsx';
-import { useUpdateUser } from '@/features/users/hooks/use-users';
-import { type UserUpdateSchema, userUpdateSchema } from '@/features/users/schema/users.schema.ts';
-import type { User, UserUpdate } from '@/features/users/types';
+import { useCreateUser } from '@/features/users/hooks/use-users';
+import { type UserCreateSchema, userCreateSchema } from '@/features/users/schema/users.schema.ts';
+import type { UserCreate } from '@/features/users/types';
 import { useDisclosure } from '@/hooks/use-disclosure.ts';
 import { PositionOptions, RoleOptions } from '@/types/common.ts';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Edit } from 'lucide-react';
-import { useEffect } from 'react';
+import { PlusIcon } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
-interface UpdateUserProps {
-	user: User;
-	triggerProps?: {
-		variant?: 'ghost' | 'outline' | 'default' | 'destructive' | 'secondary';
-		size?: 'default' | 'sm' | 'lg' | 'icon';
-		className?: string;
-	};
+interface CreateUserProps {
+	className?: string;
 }
 
-export function UpdateUser({ user, triggerProps }: UpdateUserProps) {
+export function CreateUser({ className }: CreateUserProps = {}) {
 	const { isOpen, onClose, onOpenChange } = useDisclosure();
-	const { mutate: updateUser, isPending } = useUpdateUser();
 
-	const form = useForm<UserUpdateSchema>({
-		resolver: zodResolver(userUpdateSchema()),
+	const { mutate: createUser, isPending } = useCreateUser();
+
+	const form = useForm<UserCreateSchema>({
+		resolver: zodResolver(userCreateSchema()),
 		defaultValues: {
 			firstName: '',
 			lastName: '',
 			email: '',
 			username: '',
-			role: undefined,
-			position: undefined,
 		},
 	});
 
-	// Populate a form with user data when user changes or modal opens
-	useEffect(() => {
-		if (user && isOpen) {
-			form.reset({
-				firstName: user.firstName,
-				lastName: user.lastName,
-				email: user.email,
-				username: user.userName,
-				role: user.role,
-				position: user.position,
-			});
-		}
-	}, [user, isOpen, form]);
+	function onSubmit(data: UserCreate) {
+		createUser(data, {
+			onSuccess: response => {
+				const message = response?.message || 'User created successfully';
 
-	function onSubmit(data: UserUpdate) {
-		updateUser(
-			{ id: user.id, data },
-			{
-				onSuccess: response => {
-					const message = response?.message || 'User updated successfully';
+				toast.success(message, {
+					duration: Number.POSITIVE_INFINITY, // Toast won't auto-close
+					action: response?.message
+						? {
+								label: 'Copy',
+								onClick: () => {
+									navigator.clipboard
+										.writeText(response.message)
+										.then(() => {
+											toast.success('Message copied to clipboard', { duration: 2000 });
+										})
+										.catch(() => {
+											toast.error('Failed to copy message', { duration: 2000 });
+										});
+								},
+							}
+						: undefined,
+					cancel: {
+						label: 'Close',
+						onClick: () => {}, // Just closes the toast
+					},
+				});
 
-					toast.success(message, {
-						duration: 3000, // Auto-close after 3 seconds for update
-					});
-
-					onClose();
-				},
-				onError: error => {
-					toast.error(error.message, {
-						duration: Number.POSITIVE_INFINITY,
-						cancel: {
-							label: 'Close',
-							onClick: () => {},
-						},
-					});
-				},
-			}
-		);
+				onClose();
+				form.reset({
+					firstName: '',
+					lastName: '',
+					email: '',
+					username: '',
+					role: undefined,
+					position: undefined,
+				});
+			},
+			onError: error => {
+				toast.error(error.message, {
+					duration: Number.POSITIVE_INFINITY,
+					cancel: {
+						label: 'Close',
+						onClick: () => {},
+					},
+				});
+			},
+		});
 	}
 
 	return (
 		<Dialog open={isOpen} onOpenChange={onOpenChange}>
 			<DialogTrigger asChild>
 				<Button
-					variant={triggerProps?.variant || 'ghost'}
-					size={triggerProps?.size || 'icon'}
-					className={triggerProps?.className}
+					leftIcon={<PlusIcon className="mr-2 h-4 w-4" />}
+					size="default"
+					className={className}
 				>
-					<Edit className="h-4 w-4" />
+					Create User
 				</Button>
 			</DialogTrigger>
 			<DialogContent>
 				<DialogHeader>
-					<DialogTitle>Update User</DialogTitle>
+					<DialogTitle>Create New User</DialogTitle>
 					<DialogDescription>
-						Update user information. Modify the fields below and save changes.
+						Create a new user account. Fill in the required information below.
 					</DialogDescription>
 				</DialogHeader>
 
@@ -195,7 +199,7 @@ export function UpdateUser({ user, triggerProps }: UpdateUserProps) {
 								render={({ field }) => (
 									<FormItem>
 										<FormLabel required>Role</FormLabel>
-										<Select onValueChange={field.onChange} value={field.value || ''}>
+										<Select onValueChange={field.onChange} defaultValue={field.value}>
 											<FormControl>
 												<SelectTrigger className="w-full">
 													<SelectValue placeholder="Select a role" />
@@ -220,7 +224,7 @@ export function UpdateUser({ user, triggerProps }: UpdateUserProps) {
 								render={({ field }) => (
 									<FormItem>
 										<FormLabel>Position</FormLabel>
-										<Select onValueChange={field.onChange} value={field.value || ''}>
+										<Select onValueChange={field.onChange} defaultValue={field.value}>
 											<FormControl>
 												<SelectTrigger className="w-full">
 													<SelectValue placeholder="Select a position" />
@@ -250,7 +254,7 @@ export function UpdateUser({ user, triggerProps }: UpdateUserProps) {
 								Cancel
 							</Button>
 							<Button type="submit" disabled={isPending}>
-								{isPending ? 'Updating...' : 'Update User'}
+								{isPending ? 'Creating...' : 'Create User'}
 							</Button>
 						</DialogFooter>
 					</form>

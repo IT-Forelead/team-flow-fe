@@ -1,4 +1,4 @@
-import { LocalizedNavLink } from '@/components/common/localized-nav-link';
+import { NavLink } from 'react-router';
 import { Button } from '@/components/ui/button.tsx';
 import {
 	Form,
@@ -8,10 +8,9 @@ import {
 	FormLabel,
 	FormMessage,
 } from '@/components/ui/form';
+import { Input } from '@/components/ui/input.tsx';
 import { PasswordInput } from '@/components/ui/password-input';
-import { PhoneInput } from '@/components/ui/phone-input.tsx';
 import { type LoginSchema, createLoginSchema } from '@/features/auth/schema/auth.schema';
-import { useI18n } from '@/hooks/use-i18n';
 import { getUserFromToken } from '@/lib/auth';
 import type { ServerError } from '@/types/common';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -26,37 +25,33 @@ export const LoginForm = () => {
 	const { mutate: login, isPending } = useLogin();
 	const navigate = useNavigate();
 	const location = useLocation();
-	const { t, locale } = useI18n('auth');
 
 	const form = useForm<LoginSchema>({
-		resolver: zodResolver(createLoginSchema(t)),
+		resolver: zodResolver(createLoginSchema()),
 	});
 
 	function onFormSubmit(values: LoginSchema) {
-		login(
-			{ ...values, phone: values.phone.replace(/([() -])/g, '') },
-			{
-				onSuccess: data => {
-					localStorage.setItem('accessToken', data?.data.accessToken);
-					localStorage.setItem('refreshToken', data?.data.refreshToken);
-					const user = getUserFromToken() ?? null;
-					if (user) {
-						// location.state?.from sahifasiga qaytish yoki default dashboard ga yo'naltirish
-						const from = location.state?.from?.pathname || `/${locale}/dashboard`;
-						navigate(from, { replace: true });
-					} else {
-						navigate(`/${locale}/auth/login`);
-					}
-				},
-				onError: error => {
-					if (isAxiosError<ServerError>(error)) {
-						toast.error(error.response?.data?.message);
-					} else {
-						toast.error('Profilga kirishda xatolik yuz berdi!');
-					}
-				},
-			}
-		);
+		login(values, {
+			onSuccess: data => {
+				localStorage.setItem('accessToken', data?.data.accessToken);
+				localStorage.setItem('refreshToken', data?.data.refreshToken);
+				const user = getUserFromToken() ?? null;
+				if (user) {
+					// location.state?.from sahifasiga qaytish yoki default dashboard ga yo'naltirish
+					const from = location.state?.from?.pathname || '/dashboard';
+					navigate(from, { replace: true });
+				} else {
+					navigate('/auth/login');
+				}
+			},
+			onError: error => {
+				if (isAxiosError<ServerError>(error)) {
+					toast.error(error.response?.data?.message);
+				} else {
+					toast.error('An error occurred during login!');
+				}
+			},
+		});
 	}
 
 	return (
@@ -66,20 +61,14 @@ export const LoginForm = () => {
 					<div className="grid gap-6">
 						<FormField
 							control={form.control}
-							name="phone"
+							name="username"
 							render={({ field }) => (
 								<FormItem>
 									<FormLabel className="text-foreground/70 dark:text-foreground/80">
-										Telefon raqam
+										Username
 									</FormLabel>
 									<FormControl>
-										<PhoneInput
-											inputClassName="border-border bg-background text-foreground dark:border-border dark:bg-background dark:text-foreground"
-											inputSize="xl"
-											defaultCountry="UZ"
-											placeholder="90 123 45 67"
-											{...field}
-										/>
+										<Input inputSize="xl" placeholder="senior_promax" {...field} />
 									</FormControl>
 									<FormMessage />
 								</FormItem>
@@ -94,18 +83,18 @@ export const LoginForm = () => {
 										<FormLabel className="text-foreground/70 dark:text-foreground/80">
 											Parol
 										</FormLabel>
-										<LocalizedNavLink
+										<NavLink
 											to="/forgot-password"
 											className="ml-auto text-muted-foreground text-sm underline-offset-2 hover:underline hover:text-foreground"
 										>
-											Parolingiz esdan chiqdimi?
-										</LocalizedNavLink>
+											Forgot your password?
+										</NavLink>
 									</div>
 									<FormControl>
 										<PasswordInput
 											className="border-border bg-background text-foreground dark:border-border dark:bg-background dark:text-foreground"
 											inputSize="xl"
-											placeholder="Parolingizni kiriting"
+											placeholder="Enter your password"
 											{...field}
 											value={field.value ?? ''}
 										/>
@@ -122,7 +111,7 @@ export const LoginForm = () => {
 							size="xl"
 							className="w-full"
 						>
-							Kirish
+							Login
 						</Button>
 					</div>
 				</form>

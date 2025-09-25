@@ -12,7 +12,6 @@ import {
 } from '@/components/ui/dropdown-menu.tsx';
 import { SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar.tsx';
 import type { CurrentUser } from '@/features/auth/types.ts';
-import { useI18n } from '@/hooks/use-i18n';
 import { useSidebar } from '@/hooks/use-sidebar';
 import { cn } from '@/utils/utils';
 
@@ -22,7 +21,6 @@ interface NavUserProps {
 }
 export function NavUser({ user, logout }: NavUserProps) {
 	const { isMobile, state } = useSidebar();
-	const { t } = useI18n();
 	const isCollapsed = state === 'collapsed';
 
 	return (
@@ -105,28 +103,28 @@ export function NavUser({ user, logout }: NavUserProps) {
 							<DropdownMenuGroup>
 								<DropdownMenuItem>
 									<Sparkles />
-									{t('navigation.upgrade')}
+									Upgrade to Pro
 								</DropdownMenuItem>
 							</DropdownMenuGroup>
 							<DropdownMenuSeparator />
 							<DropdownMenuGroup>
 								<DropdownMenuItem>
 									<BadgeCheck />
-									{t('navigation.account')}
+									Account
 								</DropdownMenuItem>
 								<DropdownMenuItem>
 									<CreditCard />
-									{t('navigation.billing')}
+									Billing
 								</DropdownMenuItem>
 								<DropdownMenuItem>
 									<Bell />
-									{t('navigation.notifications')}
+									Notifications
 								</DropdownMenuItem>
 							</DropdownMenuGroup>
 							<DropdownMenuSeparator />
 							<DropdownMenuItem onClick={logout}>
 								<LogOut />
-								{t('navigation.logout')}
+								Log out
 							</DropdownMenuItem>
 						</DropdownMenuContent>
 					</DropdownMenu>
