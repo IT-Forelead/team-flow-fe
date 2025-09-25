@@ -22,7 +22,7 @@ export function useCreateProject() {
 
 export function useUpdateProject() {
   const queryClient = useQueryClient();
-  return useMutation({
+  return useMutation<ApiResponse, ServerError, { id: string; data: ProjectUpdate }>({
     mutationFn: ({ id, data }: { id: string; data: ProjectUpdate }) => updateProject(id, data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['projects'] }).then();

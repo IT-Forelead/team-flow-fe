@@ -19,7 +19,6 @@ export interface AgentFilter extends PaginationFilter {
 }
 
 export interface AgentUpdate {
-  id: string;
   name?: string;
   prompt?: string;
   description?: string;

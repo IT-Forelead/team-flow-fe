@@ -1,4 +1,4 @@
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -6,14 +6,20 @@ import {
   DropdownMenuSeparator,
   DropdownMenuShortcut,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import type { User } from '@/features/users/types';
-import { useDisclosure } from '@/hooks/use-disclosure';
-import type { Row, Table as TanstackTable } from '@tanstack/react-table';
+} from "@/components/ui/dropdown-menu";
+import type { User } from "@/features/users/types";
+import { useDisclosure } from "@/hooks/use-disclosure";
+import type { Row, Table as TanstackTable } from "@tanstack/react-table";
 
-import { CopyIcon, EditIcon, EllipsisIcon, HeartIcon, TrashIcon } from 'lucide-react';
-import { DeleteUser } from './actions/DeleteUser';
-import { UpdateUser } from './actions/UpdateUser';
+import {
+  CopyIcon,
+  EditIcon,
+  EllipsisIcon,
+  HeartIcon,
+  TrashIcon,
+} from "lucide-react";
+import { DeleteUser } from "./actions/DeleteUser";
+import { UpdateUser } from "./actions/UpdateUser";
 
 interface DataTableRowActionsProps {
   row: Row<User>;
@@ -39,13 +45,19 @@ export function DataTableRowActions({ row }: DataTableRowActionsProps) {
     <>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button variant="ghost" className="flex h-8 w-8 p-0 data-[state=open]:bg-muted">
+          <Button
+            variant="ghost"
+            className="flex h-8 w-8 p-0 data-[state=open]:bg-muted"
+          >
             <EllipsisIcon className="h-4 w-4" />
             <span className="sr-only">Open menu</span>
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end" className="w-[160px]">
-          <DropdownMenuItem onClick={openUpdateDialog} className="flex items-center gap-2">
+          <DropdownMenuItem
+            onClick={openUpdateDialog}
+            className="flex items-center gap-2"
+          >
             <EditIcon className="h-4 w-4" />
             Edit
           </DropdownMenuItem>
@@ -69,7 +81,11 @@ export function DataTableRowActions({ row }: DataTableRowActionsProps) {
         </DropdownMenuContent>
       </DropdownMenu>
 
-      <UpdateUser open={updateDialogOpen} onOpenChange={setUpdateDialogOpen} user={user} />
+      <UpdateUser
+        open={updateDialogOpen}
+        onOpenChange={setUpdateDialogOpen}
+        user={user}
+      />
 
       <DeleteUser
         open={deleteDialogOpen}

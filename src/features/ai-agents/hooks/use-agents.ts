@@ -22,7 +22,7 @@ export function useCreateAgent() {
 
 export function useUpdateAgent() {
   const queryClient = useQueryClient();
-  return useMutation({
+  return useMutation<ApiResponse, ServerError, { id: string; data: AgentUpdate }>({
     mutationFn: ({ id, data }: { id: string; data: AgentUpdate }) => updateAgent(id, data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['agents'] }).then();

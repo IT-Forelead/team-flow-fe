@@ -2,9 +2,7 @@ import type { PaginationFilter } from '@/types/common.ts';
 
 export interface Project {
   id: string;
-  createdAt: string;
   name: string;
-  description: string;
   url: string;
 }
 

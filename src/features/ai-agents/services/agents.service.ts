@@ -11,14 +11,18 @@ export async function createAgent(data: AgentCreate): Promise<ApiResponse> {
   return response.data;
 }
 
-export async function updateAgent(id: string, data: AgentUpdate) {
-  return await axiosClient.put(`/users/${id}`, data);
+export async function updateAgent(id: string, data: AgentUpdate): Promise<ApiResponse> {
+  const response = await axiosClient.put<ApiResponse, AxiosResponse<ApiResponse, ServerError>>(
+    `/users/${id}`,
+    data
+  );
+  return response.data;
 }
 
 export async function getAgents(filter: AgentFilter) {
   return await axiosClient.post<PaginatedResponse<Agent>>('/agents', filter);
 }
 
-export async function deleteAgent(id: string) {
+export async function deleteAgent(id: string): Promise<ApiResponse> {
   return await axiosClient.delete(`/agents/${id}`);
 }
