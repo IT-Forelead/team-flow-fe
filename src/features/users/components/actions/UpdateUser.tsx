@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 import {
   Dialog,
   DialogContent,
@@ -6,7 +6,7 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog";
+} from '@/components/ui/dialog';
 import {
   Form,
   FormControl,
@@ -14,26 +14,23 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select.tsx";
-import { useUpdateUser } from "@/features/users/hooks/use-users";
-import {
-  type UserUpdateSchema,
-  userUpdateSchema,
-} from "@/features/users/schema/users.schema.ts";
-import type { User, UserUpdate } from "@/features/users/types";
-import { PositionOptions, RoleOptions } from "@/types/common.ts";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect } from "react";
-import { useForm } from "react-hook-form";
-import { toast } from "sonner";
+} from '@/components/ui/select.tsx';
+import { useUpdateUser } from '@/features/users/hooks/use-users';
+import { type UserUpdateSchema, userUpdateSchema } from '@/features/users/schema/users.schema.ts';
+import type { User, UserUpdate } from '@/features/users/types';
+import { PositionOptions, RoleOptions } from '@/types/common.ts';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useEffect } from 'react';
+import { useForm } from 'react-hook-form';
+import { toast } from 'sonner';
 
 interface UpdateUserProps {
   user: User;
@@ -47,10 +44,10 @@ export function UpdateUser({ user, open, onOpenChange }: UpdateUserProps) {
   const form = useForm<UserUpdateSchema>({
     resolver: zodResolver(userUpdateSchema()),
     defaultValues: {
-      firstName: "",
-      lastName: "",
-      email: "",
-      username: "",
+      firstName: '',
+      lastName: '',
+      email: '',
+      username: '',
       role: undefined,
       position: undefined,
     },
@@ -74,24 +71,24 @@ export function UpdateUser({ user, open, onOpenChange }: UpdateUserProps) {
     updateUser(
       { id: user.id, data },
       {
-        onSuccess: (response) => {
-          const message = response?.message || "User updated successfully";
+        onSuccess: response => {
+          const message = response?.message || 'User updated successfully';
 
           toast.success(message, {
             duration: Number.POSITIVE_INFINITY,
             cancel: {
-              label: "Close",
+              label: 'Close',
               onClick: () => {},
             },
           });
 
           onOpenChange(false);
         },
-        onError: (error) => {
+        onError: error => {
           toast.error(error.message, {
             duration: Number.POSITIVE_INFINITY,
             cancel: {
-              label: "Close",
+              label: 'Close',
               onClick: () => {},
             },
           });
@@ -187,17 +184,14 @@ export function UpdateUser({ user, open, onOpenChange }: UpdateUserProps) {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel required>Role</FormLabel>
-                    <Select
-                      onValueChange={field.onChange}
-                      value={field.value || ""}
-                    >
+                    <Select onValueChange={field.onChange} value={field.value || undefined}>
                       <FormControl>
                         <SelectTrigger className="w-full">
                           <SelectValue placeholder="Select a role" />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        {RoleOptions.map((option) => (
+                        {RoleOptions.map(option => (
                           <SelectItem key={option.value} value={option.value}>
                             {option.label}
                           </SelectItem>
@@ -215,17 +209,14 @@ export function UpdateUser({ user, open, onOpenChange }: UpdateUserProps) {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Position</FormLabel>
-                    <Select
-                      onValueChange={field.onChange}
-                      value={field.value || ""}
-                    >
+                    <Select onValueChange={field.onChange} value={field.value || undefined}>
                       <FormControl>
                         <SelectTrigger className="w-full">
                           <SelectValue placeholder="Select a position" />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        {PositionOptions.map((option) => (
+                        {PositionOptions.map(option => (
                           <SelectItem key={option.value} value={option.value}>
                             {option.label}
                           </SelectItem>
@@ -248,7 +239,7 @@ export function UpdateUser({ user, open, onOpenChange }: UpdateUserProps) {
                 Cancel
               </Button>
               <Button type="submit" disabled={isPending}>
-                {isPending ? "Updating..." : "Update User"}
+                {isPending ? 'Updating...' : 'Update User'}
               </Button>
             </DialogFooter>
           </form>
