@@ -17,6 +17,7 @@ import {
 	FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea.tsx';
 import { useCreateAgent } from '@/features/ai-agents/hooks/use-agents.ts';
 import {
 	type AgentCreateSchema,
@@ -34,7 +35,7 @@ interface CreateAgentProps {
 	className?: string;
 }
 
-export function CreateAgent({ className }: CreateAgentProps = {}) {
+export function CreateAgent({ className }: CreateAgentProps) {
 	const { t } = useI18n('agents');
 	const [open, setOpen] = useState(false);
 
@@ -47,17 +48,18 @@ export function CreateAgent({ className }: CreateAgentProps = {}) {
 		},
 	});
 
-	function onSubmit (data: AgentCreate) {
+	function onSubmit(data: AgentCreate) {
 		createAgent(data, {
-            onSuccess: () => {
-                toast.success('User created successfully');
-                setOpen(false);
-                form.reset();}
-            ,
-            onError: (error) => {
-                toast.error('Failed to create user', error.message);
-            }
-	});
+			onSuccess: () => {
+				toast.success('Agent created successfully');
+				setOpen(false);
+				form.reset();
+			},
+			onError: (error) => {
+				toast.error(error.message);
+			}
+		});
+	}
 
 	return (
 		<Dialog open={open} onOpenChange={setOpen}>
@@ -96,12 +98,12 @@ export function CreateAgent({ className }: CreateAgentProps = {}) {
 
 						<FormField
 							control={form.control}
-							name="email"
+							name="prompt"
 							render={({ field }) => (
 								<FormItem>
-									<FormLabel>Email Address</FormLabel>
+									<FormLabel>Prompt</FormLabel>
 									<FormControl>
-										<Input type="email" placeholder="john.doe@example.com" {...field} />
+										<Textarea placeholder="You are a senior code review expert..." {...field} />
 									</FormControl>
 									<FormMessage />
 								</FormItem>
@@ -110,26 +112,12 @@ export function CreateAgent({ className }: CreateAgentProps = {}) {
 
 						<FormField
 							control={form.control}
-							name="phone"
+							name="description"
 							render={({ field }) => (
 								<FormItem>
-									<FormLabel>Phone Number</FormLabel>
+									<FormLabel>Description</FormLabel>
 									<FormControl>
-										<Input type="tel" placeholder="+1234567890" {...field} />
-									</FormControl>
-									<FormMessage />
-								</FormItem>
-							)}
-						/>
-
-						<FormField
-							control={form.control}
-							name="age"
-							render={({ field }) => (
-								<FormItem>
-									<FormLabel>Age</FormLabel>
-									<FormControl>
-										<Input type="number" min="16" max="120" {...field} />
+										<Textarea placeholder="Analyzes code quality..." {...field} />
 									</FormControl>
 									<FormMessage />
 								</FormItem>
@@ -141,12 +129,12 @@ export function CreateAgent({ className }: CreateAgentProps = {}) {
 								type="button"
 								variant="outline"
 								onClick={() => setOpen(false)}
-								disabled={createMutation.isPending}
+								disabled={isPending}
 							>
 								Cancel
 							</Button>
-							<Button type="submit" disabled={createMutation.isPending}>
-								{createMutation.isPending ? 'Creating...' : 'Create User'}
+							<Button type="submit" disabled={isPending}>
+								{isPending ? 'Creating...' : 'Create Agent'}
 							</Button>
 						</DialogFooter>
 					</form>

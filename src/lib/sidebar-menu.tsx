@@ -1,3 +1,4 @@
+import type { Role } from '@/types/common.ts';
 import {
 	BrainIcon,
 	ChartNoAxesCombinedIcon,
@@ -14,7 +15,7 @@ export interface SidebarMenuItem {
 	icon?: ReactNode;
 	isActive?: boolean;
 	disabled?: boolean;
-	privileges?: string[];
+	roles?: Role[];
 	items?: SidebarSubMenuItem[];
 }
 
@@ -24,7 +25,7 @@ export interface SidebarSubMenuItem {
 	url: string;
 	icon?: ReactNode;
 	disabled?: boolean;
-	privileges?: string[];
+	roles?: Role[];
 }
 
 export interface SidebarFooterItem {
@@ -32,6 +33,7 @@ export interface SidebarFooterItem {
 	titleKey?: string; // Translation key
 	url: string;
 	icon: ReactNode;
+	roles?: Role[];
 }
 
 export const mainMenuItems: SidebarMenuItem[] = [
@@ -55,22 +57,24 @@ export const mainMenuItems: SidebarMenuItem[] = [
 		url: '/',
 	},
 	{
-		title: 'Reports',
-		titleKey: 'navigation.reports',
+		title: 'Dashboard',
+		titleKey: 'navigation.dashboard',
 		icon: <ChartNoAxesCombinedIcon />,
-		url: '/reports',
+		url: '/dashboard',
 	},
 	{
 		title: 'Users',
 		titleKey: 'navigation.users',
 		url: '/users',
 		icon: <UsersIcon />,
+		roles: [],
 	},
 	{
 		title: 'AI Agents',
 		titleKey: 'navigation.agents',
 		url: '/ai-agents',
 		icon: <BrainIcon />,
+		roles: [],
 	},
 ];
 
@@ -80,5 +84,6 @@ export const footerMenuItems: SidebarFooterItem[] = [
 		titleKey: 'navigation.settings',
 		url: '/settings',
 		icon: <SettingsIcon />,
+		roles: [],
 	},
 ];

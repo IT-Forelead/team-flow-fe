@@ -1,3 +1,5 @@
+import type { Role } from '@/types/common.ts';
+
 export interface AuthToken {
 	accessToken: string;
 	refreshToken: string;
@@ -10,12 +12,10 @@ export interface LoginCredentials {
 
 export interface CurrentUser {
 	id: string;
-	phone: string;
+	createdAt: string;
 	firstname: string;
 	lastname: string;
-	role: {
-		id: string;
-		name: string;
-		privileges: string[];
-	};
+	email: string;
+	role: Role;
+	position: string;
 }

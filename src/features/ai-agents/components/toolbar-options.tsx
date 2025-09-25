@@ -1,14 +1,8 @@
 import { Button } from '@/components/ui/button';
+import { CreateAgent } from '@/features/ai-agents/components/actions/CreateAgent.tsx';
+import { BulkDeleteUser } from '@/features/users/components/actions/BulkDeleteUser.tsx';
 import { TrashIcon } from 'lucide-react';
 import { useState } from 'react';
-import type { DateRange } from 'react-day-picker';
-import { useTranslation } from 'react-i18next';
-
-import { CalendarDatePicker } from '@/components/custom/calendar-date-picker.tsx';
-import { DatePicker } from '@/components/custom/date-picker.tsx';
-import { CreateAgent } from '@/features/ai-agents/components/actions/CreateAgent.tsx';
-import { AddUser } from '@/features/users/components/actions/AddUser.tsx';
-import { BulkDeleteUser } from '@/features/users/components/actions/BulkDeleteUser.tsx';
 
 interface ToolbarOptionsProps {
 	// Current page selected users with name data
@@ -26,14 +20,7 @@ const ToolbarOptions = ({
 	totalSelectedCount,
 	resetSelection,
 }: ToolbarOptionsProps) => {
-	const { t } = useTranslation();
 	const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
-	const [dateRange, setDateRange] = useState<DateRange>({
-		from: undefined,
-		to: undefined,
-	});
-	const [singleDate, setSingleDate] = useState<Date | undefined>(new Date());
-
 	// Use total selected count if available, otherwise fall back to the current page selection
 	const selectionCount = totalSelectedCount || selectedUsers.length;
 

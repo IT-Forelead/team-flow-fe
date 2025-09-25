@@ -57,5 +57,5 @@ export function AuthLayoutWrapper() {
  */
 export function RootRedirect() {
 	const preferredLocale = (localStorage.getItem('app-locale') as Locale) || 'uz';
-	return <Navigate to={`/${preferredLocale}/reports`} replace />;
+	return <Navigate to={`/${preferredLocale}/dashboard`} replace />;
 }
