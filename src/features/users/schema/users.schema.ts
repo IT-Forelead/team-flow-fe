@@ -11,9 +11,7 @@ export const userCreateSchema = () => {
       .min(3, 'Username is required')
       .max(16, 'Username must be 16 characters or less'),
     role: z.nativeEnum(Role, { message: 'Role is required' }),
-    position: z
-      .enum(Object.values(Position) as [Position, ...Position[]])
-      .optional(),
+    position: z.enum(Object.values(Position) as [Position, ...Position[]]).optional(),
   });
 };
 
@@ -29,9 +27,7 @@ export const userUpdateSchema = () => {
       .min(3, 'Username is required')
       .max(16, 'Username must be 16 characters or less'),
     role: z.nativeEnum(Role, { message: 'Role is required' }),
-    position: z
-      .enum(Object.values(Position) as [Position, ...Position[]])
-      .optional(),
+    position: z.enum(Object.values(Position) as [Position, ...Position[]]).optional(),
   });
 };
 
