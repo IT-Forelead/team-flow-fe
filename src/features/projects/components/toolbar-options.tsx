@@ -1,16 +1,16 @@
-import { CreateUser } from '@/features/users/components/actions/CreateUser.tsx';
+import { CreateProject } from "@/features/projects/components/actions/CreateProject";
 
 const ToolbarOptions = () => {
   return (
     <>
       {/* Desktop layout */}
       <div className="hidden lg:flex lg:items-center lg:gap-2">
-        <CreateUser />
+        <CreateProject />
       </div>
 
       {/* Mobile layout - Full width below main toolbar controls */}
       <div className="flex flex-col gap-2 lg:hidden">
-        <CreateUser className="w-full" />
+        <CreateProject className="w-full" />
       </div>
     </>
   );

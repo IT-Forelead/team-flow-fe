@@ -1,12 +1,13 @@
-import type { Role } from '@/types/common.ts';
+import type { Role } from "@/types/common.ts";
 import {
   BrainIcon,
   ChartNoAxesCombinedIcon,
+  FolderIcon,
   HomeIcon,
   SettingsIcon,
   UsersIcon,
-} from 'lucide-react';
-import type { ReactNode } from 'react';
+} from "lucide-react";
+import type { ReactNode } from "react";
 
 export interface SidebarMenuItem {
   title: string;
@@ -48,33 +49,39 @@ export const mainMenuItems: SidebarMenuItem[] = [
   // 	],
   // },
   {
-    title: 'Home',
+    title: "Home",
     icon: <HomeIcon />,
-    url: '/',
+    url: "/home",
   },
   {
-    title: 'Dashboard',
+    title: "Dashboard",
     icon: <ChartNoAxesCombinedIcon />,
-    url: '/dashboard',
+    url: "/dashboard",
   },
   {
-    title: 'Users',
-    url: '/users',
+    title: "Users",
+    url: "/users",
     icon: <UsersIcon />,
     roles: [],
   },
   {
-    title: 'AI Agents',
-    url: '/ai-agents',
+    title: "AI Agents",
+    url: "/ai-agents",
     icon: <BrainIcon />,
+    roles: [],
+  },
+  {
+    title: "Projects",
+    url: "/projects",
+    icon: <FolderIcon />,
     roles: [],
   },
 ];
 
 export const footerMenuItems: SidebarFooterItem[] = [
   {
-    title: 'Settings',
-    url: '/settings',
+    title: "Settings",
+    url: "/settings",
     icon: <SettingsIcon />,
     roles: [],
   },

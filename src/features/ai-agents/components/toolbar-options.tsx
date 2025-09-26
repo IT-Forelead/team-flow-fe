@@ -1,4 +1,4 @@
-import { CreateAgent } from '@/features/ai-agents/components/actions/CreateAgent.tsx';
+import { CreateAgent } from "@/features/ai-agents/components/actions/CreateAgent";
 
 const ToolbarOptions = () => {
   return (

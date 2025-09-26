@@ -1,4 +1,4 @@
-import { Command, Sparkles } from 'lucide-react';
+import { Network, Zap } from 'lucide-react';
 import type * as React from 'react';
 
 import { LocalizedNavLink } from '@/components/common/localized-nav-link';
@@ -54,28 +54,25 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                   className={cn(
                     'flex items-center justify-center rounded-lg relative transition-all duration-300 ease-[cubic-bezier(0.2,0.9,0.25,1)]',
                     isCollapsed ? 'size-8' : 'size-8',
-                    'bg-gradient-to-br from-[var(--system-blue)] via-[var(--system-blue)]/90 to-[var(--system-blue)]/70',
-                    'shadow-lg border border-white/20'
+                    'bg-blue-500',
+                    'shadow-lg group-hover:shadow-xl group-hover:scale-105'
                   )}
                 >
-                  {/* Glassmorphic overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent rounded-lg" />
-
                   {/* Dynamic icon based on the collapse state */}
                   {isCollapsed ? (
-                    <Sparkles className="size-4 text-white relative z-10 group-hover:rotate-12 transition-transform duration-300" />
+                    <Zap className="size-4 text-white relative z-10 group-hover:scale-110 transition-transform duration-300" />
                   ) : (
-                    <Command className="size-4 text-white relative z-10 group-hover:rotate-12 transition-transform duration-300" />
+                    <Network className="size-4 text-white relative z-10 group-hover:scale-110 transition-transform duration-300" />
                   )}
                 </div>
 
                 {!isCollapsed && (
                   <div className="grid flex-1 text-left text-sm leading-tight transition-all duration-300 ease-[cubic-bezier(0.2,0.9,0.25,1)]">
-                    <span className="truncate font-semibold bg-gradient-to-r from-[var(--label)] to-[var(--label)]/80 bg-clip-text text-transparent font-sans">
-                      Project
+                    <span className="truncate font-bold text-lg text-blue-500 font-sans tracking-wide">
+                      TeamFlow
                     </span>
-                    <span className="truncate text-xs transition-colors duration-200 group-hover:text-[var(--label)] text-[var(--secondaryLabel)] font-sans">
-                      Creative workspace
+                    <span className="truncate text-xs text-[var(--secondaryLabel)] font-sans font-medium opacity-80">
+                      Smart workspace
                     </span>
                   </div>
                 )}

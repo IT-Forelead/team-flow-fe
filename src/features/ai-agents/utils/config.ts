@@ -1,20 +1,17 @@
-import { useMemo } from 'react';
+import { useMemo } from "react";
 
 /**
- * Default export configuration for the ai-agent data table
+ * Default export configuration for the agents data table
  */
 export function useExportConfig() {
   // Column mapping for export
   const columnMapping = useMemo(() => {
     return {
-      id: 'ID',
-      name: 'Name',
-      email: 'Email',
-      phone: 'Phone',
-      age: 'Age',
-      created_at: 'Joined Date',
-      expense_count: 'Expense Count',
-      total_expenses: 'Total Expenses',
+      id: "ID",
+      name: "Name",
+      description: "Description",
+      prompt: "Prompt",
+      createdAt: "Created Date",
     };
   }, []);
 
@@ -22,25 +19,22 @@ export function useExportConfig() {
   const columnWidths = useMemo(() => {
     return [
       { wch: 10 }, // ID
-      { wch: 20 }, // Name
-      { wch: 30 }, // Email
-      { wch: 15 }, // Phone
-      { wch: 8 }, // Age
+      { wch: 25 }, // Name
+      { wch: 40 }, // Description
+      { wch: 50 }, // Prompt
       { wch: 20 }, // Created At
-      { wch: 15 }, // Expense Count
-      { wch: 15 }, // Total Expenses
     ];
   }, []);
 
   // Headers for CSV export
   const headers = useMemo(() => {
-    return ['id', 'name', 'email', 'phone', 'age', 'created_at', 'expense_count', 'total_expenses'];
+    return ["id", "name", "description", "prompt", "createdAt"];
   }, []);
 
   return {
     columnMapping,
     columnWidths,
     headers,
-    entityName: 'users',
+    entityName: "agents",
   };
 }

@@ -1,20 +1,20 @@
 import { LazyComponent } from "@/components/common/lazy-component.tsx";
 import { lazy } from "react";
 
-// Lazy load the heavy agents table component
-const AgentsTable = lazy(
-  () => import("@/features/ai-agents/components/agents-table.tsx")
+// Lazy load the heavy projects table component
+const ProjectsTable = lazy(
+  () => import("@/features/projects/components/projects-table.tsx")
 );
 
-const AIAgents = () => {
+const Projects = () => {
   return (
     <div>
       {/* DataTable with custom configuration */}
       <LazyComponent>
-        <AgentsTable />
+        <ProjectsTable />
       </LazyComponent>
     </div>
   );
 };
 
-export default AIAgents;
+export default Projects;

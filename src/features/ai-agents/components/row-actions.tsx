@@ -1,4 +1,4 @@
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -6,36 +6,58 @@ import {
   DropdownMenuSeparator,
   DropdownMenuShortcut,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import type { Row, Table as TanstackTable } from '@tanstack/react-table';
-import * as React from 'react';
+} from "@/components/ui/dropdown-menu";
+import type { Agent } from "@/features/ai-agents/types";
+import { useDisclosure } from "@/hooks/use-disclosure";
+import type { Row, Table as TanstackTable } from "@tanstack/react-table";
 
-import { CopyIcon, EditIcon, EllipsisIcon, HeartIcon, TrashIcon } from 'lucide-react';
-import { DeleteAgent } from './actions/DeleteAgent.tsx';
+import {
+  CopyIcon,
+  EditIcon,
+  EllipsisIcon,
+  HeartIcon,
+  TrashIcon,
+} from "lucide-react";
+import { DeleteAgent } from "./actions/DeleteAgent";
+import { UpdateAgent } from "./actions/UpdateAgent";
 
-interface DataTableRowActionsProps<TData> {
-  row: Row<TData>;
-  table: TanstackTable<TData>; // Table instance
+interface DataTableRowActionsProps {
+  row: Row<Agent>;
+  table: TanstackTable<Agent>;
 }
 
-export function DataTableRowActions<TData>({ row, table }: DataTableRowActionsProps<TData>) {
-  const [deleteDialogOpen, setDeleteDialogOpen] = React.useState(false);
-  // Function to reset all selections
-  const resetSelection = () => {
-    table.resetRowSelection();
-  };
+export function DataTableRowActions({ row }: DataTableRowActionsProps) {
+  const {
+    isOpen: deleteDialogOpen,
+    onOpen: openDeleteDialog,
+    onOpenChange: setDeleteDialogOpen,
+  } = useDisclosure();
+
+  const {
+    isOpen: updateDialogOpen,
+    onOpen: openUpdateDialog,
+    onOpenChange: setUpdateDialogOpen,
+  } = useDisclosure();
+
+  const agent = row.original;
 
   return (
     <>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button variant="ghost" className="flex h-8 w-8 p-0 data-[state=open]:bg-muted">
+          <Button
+            variant="ghost"
+            className="flex h-8 w-8 p-0 data-[state=open]:bg-muted"
+          >
             <EllipsisIcon className="h-4 w-4" />
             <span className="sr-only">Open menu</span>
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end" className="w-[160px]">
-          <DropdownMenuItem onClick={() => console.log(row)} className="flex items-center gap-2">
+          <DropdownMenuItem
+            onClick={openUpdateDialog}
+            className="flex items-center gap-2"
+          >
             <EditIcon className="h-4 w-4" />
             Edit
           </DropdownMenuItem>
@@ -49,7 +71,7 @@ export function DataTableRowActions<TData>({ row, table }: DataTableRowActionsPr
           </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem
-            onClick={() => setDeleteDialogOpen(true)}
+            onClick={openDeleteDialog}
             className="flex items-center gap-2 text-destructive focus:text-destructive"
           >
             <TrashIcon className="h-4 w-4" />
@@ -59,10 +81,17 @@ export function DataTableRowActions<TData>({ row, table }: DataTableRowActionsPr
         </DropdownMenuContent>
       </DropdownMenu>
 
+      <UpdateAgent
+        open={updateDialogOpen}
+        onOpenChange={setUpdateDialogOpen}
+        agent={agent}
+      />
+
       <DeleteAgent
         open={deleteDialogOpen}
         onOpenChange={setDeleteDialogOpen}
-        resetSelection={resetSelection}
+        agentId={agent.id}
+        agentName={agent.name}
       />
     </>
   );

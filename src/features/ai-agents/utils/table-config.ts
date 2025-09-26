@@ -1,4 +1,4 @@
-import type { TableConfig } from '@/components/data-table/utils/table-config';
+import type { TableConfig } from "@/components/data-table/utils/table-config";
 
 export const agentsTableConfig: Partial<TableConfig> = {
   enableRowSelection: true,
@@ -13,8 +13,8 @@ export const agentsTableConfig: Partial<TableConfig> = {
   enableExport: true,
   enableUrlState: false,
   enableColumnResizing: true,
-  columnResizingTableId: 'users-table',
-  size: 'default',
+  columnResizingTableId: "agents-table",
+  size: "default",
   manualPagination: true,
   manualSorting: true,
   manualFiltering: true,

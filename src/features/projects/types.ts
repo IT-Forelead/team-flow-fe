@@ -1,9 +1,10 @@
-import type { PaginationFilter } from '@/types/common.ts';
+import type { PaginationFilter } from "@/types/common.ts";
 
 export interface Project {
   id: string;
   name: string;
   url: string;
+  createdAt: string;
 }
 
 export interface ProjectCreate {
@@ -13,10 +14,10 @@ export interface ProjectCreate {
 
 export interface ProjectFilter extends PaginationFilter {
   name?: string;
+  url?: string;
 }
 
 export interface ProjectUpdate {
-  id: string;
   name?: string;
   url?: string;
 }

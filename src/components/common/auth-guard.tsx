@@ -4,7 +4,7 @@ import type { PropsWithChildren } from 'react';
 import { Navigate, useLocation } from 'react-router';
 
 export function AuthGuard({ children }: PropsWithChildren) {
-  const { currentUser, isLoading, isLoggedIn } = useAuthContext();
+  const { isLoading, isLoggedIn } = useAuthContext();
   const location = useLocation();
 
   // Agar ma'lumotlar yuklanayotgan bo'lsa, loading ko'rsatish

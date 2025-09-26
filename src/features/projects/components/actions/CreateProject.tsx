@@ -1,4 +1,4 @@
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -7,7 +7,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@/components/ui/dialog';
+} from "@/components/ui/dialog";
 import {
   Form,
   FormControl,
@@ -15,68 +15,84 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { useCreateUser } from '@/features/users/hooks/use-users';
-import { type UserCreateSchema, userCreateSchema } from '@/features/users/schema/users.schema.ts';
-import type { UserCreate } from '@/features/users/types';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { PlusIcon } from 'lucide-react';
-import { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { toast } from 'sonner';
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { useCreateProject } from "@/features/projects/hooks/use-projects";
+import {
+  type ProjectCreateSchema,
+  projectCreateSchema,
+} from "@/features/projects/schema/projects.schema";
+import type { ProjectCreate } from "@/features/projects/types";
+import { useDisclosure } from "@/hooks/use-disclosure";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { PlusIcon } from "lucide-react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 
-interface AddProjectProps {
+interface CreateProjectProps {
   className?: string;
 }
 
-export function CreateProject({ className }: AddProjectProps) {
-  const [open, setOpen] = useState(false);
+export function CreateProject({ className }: CreateProjectProps = {}) {
+  const { isOpen, onClose, onOpenChange } = useDisclosure();
 
-  const form = useForm<UserCreateSchema>({
-    resolver: zodResolver(userCreateSchema()),
+  const { mutate: createProject, isPending } = useCreateProject();
+
+  const form = useForm<ProjectCreateSchema>({
+    resolver: zodResolver(projectCreateSchema()),
     defaultValues: {
-      name: '',
-      email: '',
-      phone: '',
-      age: 18,
+      name: "",
+      url: "",
     },
   });
 
-  const createMutation = useCreateUser();
+  function onSubmit(data: ProjectCreate) {
+    createProject(data, {
+      onSuccess: (response) => {
+        const message = response?.message || "Project created successfully";
 
-  const onSubmit = async (data: UserCreate) => {
-    try {
-      await createMutation.mutateAsync(data);
+        toast.success(message, {
+          duration: Number.POSITIVE_INFINITY, // Toast won't auto-close
+          cancel: {
+            label: "Close",
+            onClick: () => {}, // Just closes the toast
+          },
+        });
 
-      // Show a success message
-      toast.success(`Agent "${data.name}" created successfully`);
-
-      // Reset form and close the dialog
-      form.reset();
-      setOpen(false);
-    } catch (error) {
-      console.error('Create user failed:', error);
-      toast.error('Failed to create user. Please try again.');
-    }
-  };
+        onClose();
+        form.reset({
+          name: "",
+          url: "",
+        });
+      },
+      onError: (error) => {
+        toast.error(error.message, {
+          duration: Number.POSITIVE_INFINITY,
+          cancel: {
+            label: "Close",
+            onClick: () => {},
+          },
+        });
+      },
+    });
+  }
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogTrigger asChild>
         <Button
           leftIcon={<PlusIcon className="mr-2 h-4 w-4" />}
           size="default"
           className={className}
         >
-          Add User
+          Create Project
         </Button>
       </DialogTrigger>
-      <DialogContent className="max-w-7xl sm:max-w-md">
+      <DialogContent className="max-w-lg">
         <DialogHeader>
-          <DialogTitle>Add New User</DialogTitle>
+          <DialogTitle>Create New Project</DialogTitle>
           <DialogDescription>
-            Create a new user account. Fill in the required information below.
+            Create a new project. Fill in the required information below.
           </DialogDescription>
         </DialogHeader>
 
@@ -87,9 +103,13 @@ export function CreateProject({ className }: AddProjectProps) {
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel required>Full Name</FormLabel>
+                  <FormLabel>Name</FormLabel>
                   <FormControl>
-                    <Input inputSize="md" placeholder="John Doe" {...field} />
+                    <Input
+                      inputSize="md"
+                      placeholder="Enter project name (optional)"
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -98,40 +118,17 @@ export function CreateProject({ className }: AddProjectProps) {
 
             <FormField
               control={form.control}
-              name="email"
+              name="url"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Email Address</FormLabel>
+                  <FormLabel required>URL</FormLabel>
                   <FormControl>
-                    <Input type="email" placeholder="john.doe@example.com" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="phone"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Phone Number</FormLabel>
-                  <FormControl>
-                    <Input type="tel" placeholder="+1234567890" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="age"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Age</FormLabel>
-                  <FormControl>
-                    <Input type="number" min="16" max="120" {...field} />
+                    <Input
+                      inputSize="md"
+                      type="url"
+                      placeholder="https://example.com"
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -142,13 +139,13 @@ export function CreateProject({ className }: AddProjectProps) {
               <Button
                 type="button"
                 variant="outline"
-                onClick={() => setOpen(false)}
-                disabled={createMutation.isPending}
+                onClick={onClose}
+                disabled={isPending}
               >
                 Cancel
               </Button>
-              <Button type="submit" disabled={createMutation.isPending}>
-                {createMutation.isPending ? 'Creating...' : 'Create User'}
+              <Button type="submit" disabled={isPending}>
+                {isPending ? "Creating..." : "Create Project"}
               </Button>
             </DialogFooter>
           </form>
