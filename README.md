@@ -136,7 +136,7 @@ The project uses TypeScript path aliases for clean imports:
 2. **Token Storage**: Access and refresh tokens stored in localStorage
 3. **API Requests**: Axios interceptor adds Bearer token
 4. **Auto Refresh**: 401/403 responses trigger token refresh
-5. **Logout**: Failed refresh redirects to login page
+5. **Logout**: Failed refresh redirects to the login page
 
 ### Token Refresh Implementation
 ```typescript
