@@ -27,7 +27,6 @@ import {
 import { Typography } from '@/components/ui/typography.tsx';
 import { useCheckUser, useCreateUser } from '@/features/users/hooks/use-users';
 import { type UserCreateSchema, userCreateSchema } from '@/features/users/schema/users.schema.ts';
-import type { UserCreate } from '@/features/users/types';
 import { useDisclosure } from '@/hooks/use-disclosure.ts';
 import { PositionOptions, RoleOptions } from '@/types/common.ts';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -78,7 +77,7 @@ export function CreateUser({ className }: CreateUserProps = {}) {
     setMembershipStatus(null);
   }, [username, checkUser]);
 
-  function onSubmit(data: UserCreate) {
+  function onSubmit(data: UserCreateSchema) {
     createUser(data, {
       onSuccess: response => {
         const message = response?.message || 'User created successfully';

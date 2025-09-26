@@ -1,0 +1,114 @@
+name: Pipeline Frontend (Helm)
+
+on:
+  push:
+    branches: ["staging", "production"]
+
+env:
+  IMAGE_TAG: ${{ github.sha }}
+
+jobs:
+  build:
+    name: Build & Publish Frontend Image
+    runs-on: ubuntu-latest
+    outputs:
+      image_tag: ${{ steps.set-tag.outputs.IMAGE_TAG }}
+      image_repo: ${{ steps.set-tag.outputs.IMAGE_REPO }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set image repo, tag, and build mode
+        id: set-tag
+        run: |
+          SHORT_SHA=$(echo "$GITHUB_SHA" | cut -c1-8)
+
+          if [[ "${GITHUB_REF##*/}" == "production" ]]; then
+            echo "IMAGE_REPO=fpscala/sellware-prod" >> $GITHUB_OUTPUT
+            echo "BUILD_MODE=production" >> $GITHUB_ENV
+          else
+            echo "IMAGE_REPO=fpscala/sellware-staging" >> $GITHUB_OUTPUT
+            echo "BUILD_MODE=staging" >> $GITHUB_ENV
+          fi
+
+          echo "IMAGE_TAG=$SHORT_SHA" >> $GITHUB_ENV
+          echo "IMAGE_TAG=$SHORT_SHA" >> $GITHUB_OUTPUT
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build & Push Frontend Image
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          file: ./Dockerfile
+          push: true
+          tags: ${{ steps.set-tag.outputs.IMAGE_REPO }}:${{ env.IMAGE_TAG }}
+          build-args: |
+            BUILD_MODE=${{ env.BUILD_MODE }}
+
+  deploy-staging:
+    name: Deploy Frontend to Staging
+    if: github.ref_name == 'staging'
+    needs: build
+    runs-on: ubuntu-latest
+    env:
+      IMAGE_TAG: ${{ needs.build.outputs.image_tag }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup kubectl
+        uses: azure/setup-kubectl@v3
+        with:
+          version: 'v1.28.0'
+
+      - name: Setup Helm
+        uses: azure/setup-helm@v3
+
+      - name: Create kubeconfig
+        run: |
+          mkdir -p ~/.kube
+          echo "${{ secrets.KUBECONFIG }}" > ~/.kube/config
+          chmod 600 ~/.kube/config
+
+      - name: Deploy via Helm (staging)
+        run: |
+          helm upgrade --install frontend-staging ./helm \
+            --namespace staging \
+            --create-namespace \
+            --values helm/values.yaml \
+            --set image.tag=${IMAGE_TAG}
+
+  deploy-prod:
+    name: Deploy Frontend to Production
+    if: github.ref_name == 'production'
+    needs: build
+    runs-on: ubuntu-latest
+    env:
+      IMAGE_TAG: ${{ needs.build.outputs.image_tag }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup kubectl
+        uses: azure/setup-kubectl@v3
+        with:
+          version: 'v1.28.0'
+
+      - name: Setup Helm
+        uses: azure/setup-helm@v3
+
+      - name: Create kubeconfig
+        run: |
+          mkdir -p ~/.kube
+          echo "${{ secrets.KUBECONFIG }}" > ~/.kube/config
+          chmod 600 ~/.kube/config
+
+      - name: Deploy via Helm (prod)
+        run: |
+          helm upgrade --install frontend-prod ./helm \
+            --namespace production \
+            --create-namespace \
+            --values helm/values-prod.yaml \
+            --set image.tag=${IMAGE_TAG}

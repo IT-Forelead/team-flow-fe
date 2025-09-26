@@ -1,0 +1,13 @@
+services:
+  sellware-stage:
+    restart: always
+    build: .
+    hostname: teamflow-stage
+    container_name: teamflow-stage
+    networks:
+      - external-net
+
+networks:
+  external-net:
+    name: external-net
+    external: true

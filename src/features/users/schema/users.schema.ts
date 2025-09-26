@@ -1,4 +1,3 @@
-import type { UserCreate, UserUpdate } from '@/features/users/types.ts';
 import { Position, Role } from '@/types/common.ts';
 import { z } from 'zod';
 
@@ -13,10 +12,9 @@ export const userCreateSchema = () => {
       .max(16, 'Username must be 16 characters or less'),
     role: z.nativeEnum(Role, { message: 'Role is required' }),
     position: z
-      .nativeEnum(Position)
-      .optional()
-      .transform(val => (val === '' ? undefined : val)),
-  }) satisfies z.ZodType<UserCreate>;
+      .enum(Object.values(Position) as [Position, ...Position[]])
+      .optional(),
+  });
 };
 
 export type UserCreateSchema = z.infer<ReturnType<typeof userCreateSchema>>;
@@ -32,10 +30,9 @@ export const userUpdateSchema = () => {
       .max(16, 'Username must be 16 characters or less'),
     role: z.nativeEnum(Role, { message: 'Role is required' }),
     position: z
-      .nativeEnum(Position)
-      .optional()
-      .transform(val => (val === '' ? undefined : val)),
-  }) satisfies z.ZodType<UserUpdate>;
+      .enum(Object.values(Position) as [Position, ...Position[]])
+      .optional(),
+  });
 };
 
 export type UserUpdateSchema = z.infer<ReturnType<typeof userUpdateSchema>>;

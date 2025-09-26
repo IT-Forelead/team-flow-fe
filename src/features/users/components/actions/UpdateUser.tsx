@@ -25,7 +25,7 @@ import {
 } from '@/components/ui/select.tsx';
 import { useUpdateUser } from '@/features/users/hooks/use-users';
 import { type UserUpdateSchema, userUpdateSchema } from '@/features/users/schema/users.schema.ts';
-import type { User, UserUpdate } from '@/features/users/types';
+import type { User } from '@/features/users/types';
 import { PositionOptions, RoleOptions } from '@/types/common.ts';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect } from 'react';
@@ -67,7 +67,7 @@ export function UpdateUser({ user, open, onOpenChange }: UpdateUserProps) {
     }
   }, [user, open, form]);
 
-  function onSubmit(data: UserUpdate) {
+  function onSubmit(data: UserUpdateSchema) {
     updateUser(
       { id: user.id, data },
       {
