@@ -1,497 +1,277 @@
-# React Dashboard Template
+# Team Flow - Smart Workspace
 
-A modern and professional dashboard application built with React 19, TypeScript, and Vite. This project includes comprehensive user management, data visualization, internationalization, and many other enterprise-level features for a complete admin panel solution.
+A modern React dashboard application for team collaboration and AI agent management, built with enterprise-level architecture.
 
 ## 🚀 Features
 
-### Core Features
+### Core Functionality
+- 🏠 **Dashboard** - Comprehensive overview with analytics and metrics
+- 👥 **User Management** - Complete CRUD operations with real-time username validation
+- 🤖 **AI Agents** - Create and manage intelligent agents with custom prompts and descriptions
+- 📁 **Project Management** - Repository integration with GitHub-like functionality
+- 🔐 **Authentication** - JWT-based auth with automatic token refresh (401/403 handling)
 
-- 🔐 **Authentication** - Secure JWT token-based login/logout system
-- 👥 **User Management** - Complete CRUD operations with role-based access
-- 📊 **Data Tables** - Advanced tables with search, filtering, sorting, and export
-- 🌐 **Internationalization** - Multi-language support (English, Russian, Uzbek) with react-i18next
-- 🎨 **Modern UI** - Beautiful interface using Shadcn/ui components and Tailwind CSS
-- 📱 **Responsive Design** - Optimized for all screen sizes and devices
-- 🌙 **Theme Support** - Dark/Light mode with user preference persistence
-- 📈 **Charts & Analytics** - Interactive charts and data visualization with Recharts
-- � **Form Management** - Advanced forms with validation using React Hook Form + Zod
-- 🔄 **Real-time Updates** - Optimistic updates and real-time data synchronization
+### Advanced Features
+- ✅ **Real-time Validation** - Username availability checking with debounced API calls
+- 🔍 **Repository Checking** - Verify and display repository information before project creation
+- 📊 **Advanced Data Tables** - Sorting, filtering, column resizing, bulk operations, and data export
+- 💬 **Smart Tooltips** - Scrollable content tooltips for large text fields
+- 📱 **Responsive Design** - Mobile-first approach with dark/light theme support
+- 🔄 **Token Management** - Automatic refresh handling for seamless user experience
 
-### Technology Stack
+## 🛠 Tech Stack
 
-- **Frontend Framework**: React 19 with TypeScript
-- **Build Tool**: Vite 6.3.5 with Hot Module Replacement
-- **Routing**: React Router v7 with nested routing
-- **State Management**: TanStack Query v5 + React Context
-- **UI Framework**: Tailwind CSS v4 + Shadcn/ui components
-- **Form Handling**: React Hook Form v7 with Zod schema validation
-- **Data Visualization**: Recharts v2 for charts and graphs
-- **HTTP Client**: Axios with interceptors and error handling
-- **Code Quality**: Biome for formatting and linting
-- **Animation**: Framer Motion for smooth animations
-- **Icons**: Lucide React icon library
+### Frontend
+- **React 19** with TypeScript for type-safe development
+- **Vite** for fast development and optimized builds
+- **React Router v7** with nested routing
+- **Tailwind CSS v4** for utility-first styling
+- **Shadcn/ui** + **Radix UI** for accessible components
 
-## 📦 Installation & Setup
+### State & Data Management
+- **TanStack Query v5** for server state management and caching
+- **React Hook Form** + **Zod** for form validation and schema definitions
+- **TanStack Table** for advanced data grid functionality
+- **React Context** for global state management
 
-### Prerequisites
+### Development Tools
+- **Biome** for code formatting (tabs, single quotes) and linting
+- **TypeScript** strict mode with path aliases (@/*)
+- **Axios** with JWT interceptors and automatic token refresh
+- **Lucide React** for consistent iconography
 
-- Node.js 18+ or Bun (recommended)
-- Git
-
-### Quick Start
-
-1. **Clone the repository**
+## 📦 Installation
 
 ```bash
+# Clone the repository
 git clone <repository-url>
-cd new-dashboard
-```
+cd team-flow-fe
 
-2. **Install dependencies**
-
-```bash
-# Using Bun (recommended)
+# Install dependencies
 bun install
 
-# Or using npm
-npm install
+# Set up environment variables
+cp .env.example .env
+# Edit .env with your API configuration
 
-# Or using yarn
-yarn install
-```
-
-3. **Start development server**
-
-```bash
-# Using Bun
-bun dev
-
-# Or using npm
-npm run dev
-```
-
-The application will start at http://localhost:3000
-
-## 🛠 Available Scripts
-
-```bash
 # Start development server
 bun dev
+```
 
-# Build for production
+## 🚦 Development Commands
+
+```bash
+# Start development server (Vite on port 3000)
+bun dev
+
+# Build for production (TypeScript compilation + Vite build)
 bun run build
 
 # Preview production build
 bun run preview
 
-# Format code with Biome
+# Format code using Biome (tab indentation, single quotes)
 bun run format
 
-# Lint code with Biome
+# Lint code using Biome (recommended rules enabled)
 bun run lint
 ```
 
-## 📁 Project Structure
+## 🏗 Project Structure
 
 ```
 src/
 ├── components/
-│   ├── common/          # Shared components (sidebar, nav, etc.)
-│   ├── custom/          # Custom UI components (3D cards, animations)
-│   ├── data-table/      # Advanced data table components
+│   ├── common/          # Shared components (sidebar, nav, auth-guard)
+│   ├── custom/          # Custom UI components (3d-card, animations)
+│   ├── data-table/      # Advanced table system with export/resize/search
 │   └── ui/              # Shadcn/ui base components
-├── context/             # React Context providers
-├── features/            # Feature-based code organization
-│   ├── auth/           # Authentication features
-│   └── users/          # User management features
+├── features/            # Feature-based organization
+│   ├── auth/           # Authentication (JWT, forms, guards)
+│   ├── users/          # User management (CRUD, table, actions)
+│   ├── ai-agents/      # AI agent management with prompts
+│   └── projects/       # Project and repository management
 ├── hooks/              # Custom React hooks
-├── layout/             # Layout components (Auth, Default)
-├── lib/                # Utility functions and configurations
-├── messages/           # Internationalization files
-├── pages/              # Page components
-│   ├── auth/           # Authentication pages
-│   ├── dashboard/      # Dashboard pages
-│   └── users/          # User management pages
-├── plugins/            # Third-party configurations
-├── provider/           # Context providers setup
-├── router/             # Routing configuration
-├── services/           # API services and HTTP clients
-├── styles/             # Global styles and CSS
-└── types/              # TypeScript type definitions
+├── layout/             # Layout components (AuthLayout, DefaultLayout)
+├── lib/                # Utilities (i18n, auth, sidebar config)
+├── pages/              # Page components organized by routes
+├── plugins/            # Third-party configurations (axios setup)
+├── provider/           # Context providers (theme, i18n, auth)
+├── router/             # Route definitions and loaders
+└── services/           # API services and HTTP clients
 ```
 
 ## ⚙️ Configuration
 
 ### Environment Variables
-
-Create a `.env` file in the root directory and add the following variables:
-
 ```env
-VITE_API_BASE_URL=your_api_base_url
-VITE_APP_NAME=Dashboard
-VITE_JWT_SECRET=your_jwt_secret
+VITE_API_URL=your_api_base_url
 ```
 
-### Internationalization
+### Path Aliases
+The project uses TypeScript path aliases for clean imports:
+- `@/*` maps to `src/*`
 
-The project supports 3 languages out of the box:
+### Code Style
+- **Indentation**: Tabs (configured in biome.json)
+- **Quotes**: Single quotes for strings
+- **Semicolons**: Required
+- **Formatting**: Biome with recommended rules
 
-- 🇺🇸 English (`en`)
-- 🇷🇺 Russian (`ru`)
-- 🇺🇿 Uzbek (`uz`)
+## 🎨 UI/UX Features
 
-Translation files are located in `src/messages/` directory.
+### Theme System
+- **Dark/Light Mode**: System preference detection
+- **Consistent Styling**: Tailwind CSS with custom theme variables
+- **Responsive Design**: Mobile-first responsive layouts
 
-### Theme Configuration
+### Component Library
+- **Shadcn/ui Components**: Modern, accessible UI components
+- **Custom Components**: 3D cards, animations, loading states
+- **Form Components**: Enhanced inputs, textareas, selects with validation
 
-The application supports both light and dark themes with automatic system preference detection.
+## 🔐 Authentication Flow
 
-## 🎨 UI Components
+1. **Login**: User provides credentials
+2. **Token Storage**: Access and refresh tokens stored in localStorage
+3. **API Requests**: Axios interceptor adds Bearer token
+4. **Auto Refresh**: 401/403 responses trigger token refresh
+5. **Logout**: Failed refresh redirects to login page
 
-Built with [Shadcn/ui](https://ui.shadcn.com/) component library:
-
-### Form Components
-
-- **Button** - Various sizes and variants
-- **Input** - Text, password, phone number inputs
-- **Label** - Accessible form labels
-- **Checkbox** - Custom styled checkboxes
-- **Select** - Dropdown selections
-
-### Layout Components
-
-- **Sidebar** - Collapsible navigation sidebar
-- **Dialog** - Modal dialogs and confirmations
-- **Popover** - Contextual pop-up content
-- **Tooltip** - Helpful hover information
-
-### Data Display
-
-- **Table** - Advanced data tables with sorting
-- **Avatar** - User profile pictures
-- **Badge** - Status indicators
-- **Card** - Content containers
-- **Separator** - Visual dividers
-
-### Navigation
-
-- **Breadcrumb** - Hierarchical navigation
-- **Command** - Command palette interface
-- **Dropdown Menu** - Context menus
-
-## 📊 Data Management
-
-### State Management Architecture
-
-- **TanStack Query** - Server state management with caching
-- **React Context** - Global state for auth, theme, and i18n
-- **Local Storage** - Persistent user preferences
-
-### Form Handling
-
-- **React Hook Form** - Performant form library
-- **Zod** - TypeScript-first schema validation
-- **Error Handling** - Comprehensive error states
-
-### API Integration
-
-- **Axios** - HTTP client with interceptors
-- **JWT Authentication** - Token-based security
-- **Request/Response Transformation** - Data normalization
-
-## 🔐 Authentication System
-
-### Features
-
-- JWT token-based authentication
-- Automatic token refresh
-- Protected routes with role-based access
-- Persistent login sessions
-- Secure logout with token cleanup
-
-### Implementation
-
-```tsx
-// Example: Protected route component
-function ProtectedRoute({ children }: { children: React.ReactNode }) {
-  const { isAuthenticated, isLoading } = useAuthContext();
-
-  if (isLoading) return <Spinner />;
-  if (!isAuthenticated) return <Navigate to="/auth/login" />;
-
-  return <>{children}</>;
+### Token Refresh Implementation
+```typescript
+// Handles both 401 and 403 status codes
+if ((err.response.status === 401 || err.response.status === 403) && !config?.sent) {
+  const result = await refreshToken();
+  if (result?.accessToken) {
+    localStorage.setItem('accessToken', result.accessToken);
+    return api.request(originalRequest);
+  }
 }
 ```
 
-## 🌐 Internationalization (i18n)
+## 📊 Data Table Features
+
+The advanced data table system includes:
+- **Column Operations**: Sort, filter, resize, hide/show
+- **Row Selection**: Single and bulk selection with actions
+- **Data Export**: Excel and CSV export functionality
+- **URL State**: Table state persisted in URL parameters
+- **Keyboard Navigation**: Full keyboard accessibility
+- **Custom Styling**: Conditional row and cell styling
+
+## 🤖 AI Agents Management
 
 ### Features
+- **Create Agents**: Custom name, description, and system prompts
+- **Real-time Validation**: Form validation with Zod schemas
+- **Scrollable Content**: Large prompts and descriptions with tooltips
+- **Character Limits**: Enforced limits for optimal performance
+  - Names: 2-100 characters
+  - Descriptions: Up to 1000 characters
+  - Prompts: Up to 10000 characters
 
-- URL-based locale routing (`/en/dashboard`, `/ru/dashboard`)
-- Dynamic language switching
-- Lazy-loaded translations
-- Date and number formatting per locale
-- RTL support ready
-
-### Usage
-
-```tsx
-// Using translations in components
-const { t } = useI18n();
-
-return <h1>{t("dashboard.welcome")}</h1>;
+### Form Validation
+```typescript
+// Transform empty strings to undefined to prevent server errors
+description: z
+  .string()
+  .max(1000, 'Description must be 1000 characters or less')
+  .optional()
+  .transform(val => (val === '' ? undefined : val))
 ```
+
+## 👥 User Management
+
+### Features
+- **Real-time Username Checking**: Debounced validation (500ms)
+- **Visual Feedback**: Green/red indicators for availability
+- **Role Management**: Admin, Manager, Developer roles
+- **Position Assignment**: Optional position selection
+- **Bulk Operations**: Multi-user actions via data table
+
+### Username Validation
+```typescript
+// Real-time checking with useCheckUser hook
+const { data: checkResult, isLoading } = useCheckUser(
+  watch('username'),
+  { enabled: !!watch('username') }
+);
+```
+
+## 🏢 Project Management
+
+### Repository Integration
+- **Repository Verification**: Check repository existence before creation
+- **GitHub Integration**: Support for GitHub repositories
+- **Repository Details**: Display owner, description, language, stars
+- **Permissions Check**: Verify repository access permissions
 
 ## 📱 Responsive Design
 
-### Breakpoints
-
+The application is fully responsive with breakpoints:
 - **Mobile**: < 768px
 - **Tablet**: 768px - 1024px
 - **Desktop**: > 1024px
 
-### Features
+### Mobile Features
+- **Touch Navigation**: Optimized for touch interactions
+- **Responsive Tables**: Horizontal scrolling for large datasets
+- **Mobile Menu**: Collapsible sidebar navigation
 
-- Mobile-first approach
-- Touch-friendly interfaces
-- Adaptive navigation
-- Optimized performance on all devices
+## 🔧 Development Guidelines
 
-## 🚀 Production Deployment
+### Code Organization
+- **Feature-based**: Code organized by business domains
+- **TypeScript Strict**: All components and functions typed
+- **Error Boundaries**: Comprehensive error handling
+- **Loading States**: User feedback during async operations
 
-### Building for Production
+### Best Practices
+- Use React Hook Form + Zod for all forms
+- Implement proper error handling with try/catch
+- Follow established i18n patterns
+- Use existing axios configuration
+- Prefer editing existing files over creating new ones
 
-1. **Create production build**
+## 🚀 Deployment
 
+### Build Process
 ```bash
+# Production build
 bun run build
-```
 
-2. **Preview production build locally**
-
-```bash
+# Preview build locally
 bun run preview
 ```
 
-3. **Deploy to hosting platforms**
-
-#### Vercel
-
-```bash
-# Install Vercel CLI
-npm i -g vercel
-
-# Deploy
-vercel --prod
-```
-
-#### Netlify
-
-```bash
-# Build and deploy
-npm run build
-# Upload dist/ folder to Netlify
-```
-
-#### Docker
-
-```dockerfile
-FROM node:18-alpine
-WORKDIR /app
-COPY package*.json ./
-RUN npm ci --only=production
-COPY . .
-RUN npm run build
-EXPOSE 3000
-CMD ["npm", "run", "preview"]
-```
-
-## 👨‍💻 Development Guidelines
-
-### Code Style & Standards
-
-- **Biome** for consistent formatting and linting
-- **TypeScript** strict mode enabled
-- **ESLint** with React and TypeScript rules
-- **Conventional Commits** for commit messages
-
-### Component Development
-
-```tsx
-// Example: Creating a new component
-import { cn } from "@/lib/utils";
-import { VariantProps, cva } from "class-variance-authority";
-
-const buttonVariants = cva(
-  "inline-flex items-center justify-center rounded-md text-sm font-medium",
-  {
-    variants: {
-      variant: {
-        default: "bg-primary text-primary-foreground hover:bg-primary/90",
-        destructive:
-          "bg-destructive text-destructive-foreground hover:bg-destructive/90",
-      },
-      size: {
-        default: "h-10 px-4 py-2",
-        sm: "h-9 rounded-md px-3",
-        lg: "h-11 rounded-md px-8",
-      },
-    },
-    defaultVariants: {
-      variant: "default",
-      size: "default",
-    },
-  }
-);
-
-interface ButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
-    VariantProps<typeof buttonVariants> {
-  asChild?: boolean;
-}
-
-export function Button({ className, variant, size, ...props }: ButtonProps) {
-  return (
-    <button
-      className={cn(buttonVariants({ variant, size, className }))}
-      {...props}
-    />
-  );
-}
-```
-
-### Custom Hooks
-
-```ts
-// Example: Custom hook for API calls
-import { useQuery } from "@tanstack/react-query";
-import { getUserById } from "@/services/user-service";
-
-export function useUser(userId: string) {
-  return useQuery({
-    queryKey: ["user", userId],
-    queryFn: () => getUserById(userId),
-    staleTime: 5 * 60 * 1000, // 5 minutes
-    enabled: !!userId,
-  });
-}
-```
-
-### Testing (Setup Ready)
-
-```bash
-# Install testing dependencies
-bun add -d @testing-library/react @testing-library/jest-dom vitest jsdom
-
-# Run tests
-bun test
-```
-
-## 📈 Performance Optimization
-
-### Bundle Analysis
-
-```bash
-# Analyze bundle size
-bun run build --analyze
-```
-
-### Code Splitting
-
-- Route-based code splitting implemented
-- Lazy loading for heavy components
-- Dynamic imports for better performance
-
-### Caching Strategy
-
-- TanStack Query for API response caching
-- Service Worker ready for offline support
-- Static asset caching with Vite
-
-## 🔧 Customization
-
-### Adding New Features
-
-1. Create feature directory in `src/features/`
-2. Add routes in `src/router/`
-3. Create necessary components and hooks
-4. Add translations if needed
-5. Update navigation menus
-
-### Styling
-
-- Modify `tailwind.config.js` for design tokens
-- Add custom CSS in `src/styles/`
-- Use CSS variables for theme customization
-
-### API Integration
-
-- Add new services in `src/services/`
-- Create corresponding TypeScript types
-- Implement error handling and loading states
+### Build Optimization
+- **Code Splitting**: Manual chunking for better performance
+- **Asset Optimization**: Vite optimizations for production
+- **Bundle Analysis**: Built-in analysis for optimization
 
 ## 🤝 Contributing
 
-We welcome contributions! Please follow these steps:
-
-1. **Fork the repository**
-2. **Create a feature branch**
-   ```bash
-   git checkout -b feature/amazing-feature
-   ```
-3. **Make your changes**
-4. **Run tests and linting**
-   ```bash
-   bun run lint
-   bun run format
-   ```
-5. **Commit your changes**
-   ```bash
-   git commit -m 'feat: add amazing feature'
-   ```
-6. **Push to the branch**
-   ```bash
-   git push origin feature/amazing-feature
-   ```
-7. **Open a Pull Request**
-
-### Commit Convention
-
-We use [Conventional Commits](https://conventionalcommits.org/):
-
-- `feat:` new features
-- `fix:` bug fixes
-- `docs:` documentation changes
-- `style:` formatting changes
-- `refactor:` code refactoring
-- `test:` adding tests
-- `chore:` maintenance tasks
+1. Follow the existing code style (Biome configuration)
+2. Use TypeScript strict mode
+3. Write meaningful commit messages
+4. Test all forms and validation logic
+5. Ensure internationalization support
+6. Maintain responsive design principles
 
 ## 📄 License
 
-This project is licensed under the [MIT License](LICENSE).
+[Your License Here]
 
-## 👥 Author & Team
 
-**Matkarim Matkarimov** - [https://scala.uz](https://scala.uz)
 
-## 🆘 Support & Help
+## 🆘 Support
 
-If you encounter any issues or need help:
-
-1. Check the GitHub Issues section for existing problems
-2. Create a new issue with detailed information
-3. Contact us at [scala.uz](https://scala.uz)
-4. Join our community discussions
-
-## 🙏 Acknowledgments
-
-- [Shadcn/ui](https://ui.shadcn.com/) for the beautiful component library
-- [Tailwind CSS](https://tailwindcss.com/) for the utility-first CSS framework
-- [Vite](https://vitejs.dev/) for the fast build tool
-- [React](https://reactjs.org/) team for the amazing framework
-- [TanStack](https://tanstack.com/) for the excellent data fetching libraries
+For issues and questions:
+- Create an issue in the repository
+- Check existing documentation
+- Review the CLAUDE.md file for development guidance
 
 ---
 
-**Made with ❤️ by the Scala.uz team**
+**Team Flow** - Building the future of smart workspace collaboration.

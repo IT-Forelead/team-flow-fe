@@ -24,7 +24,7 @@ export const mainRoutes: RouteObject[] = [
     path: 'home',
     element: (
       <LazyComponent>
-        <PageTitle title="navigation.home" />
+        <PageTitle title="Home" />
         <Home />
       </LazyComponent>
     ),
@@ -33,7 +33,7 @@ export const mainRoutes: RouteObject[] = [
     path: 'dashboard',
     element: (
       <LazyComponent>
-        <PageTitle title="navigation.dashboard" />
+        <PageTitle title="Dashboard" />
         <Dashboard />
       </LazyComponent>
     ),
@@ -42,7 +42,7 @@ export const mainRoutes: RouteObject[] = [
     path: 'users',
     element: (
       <LazyComponent>
-        <PageTitle title="navigation.users" />
+        <PageTitle title="Users" />
         <Users />
       </LazyComponent>
     ),
@@ -51,7 +51,7 @@ export const mainRoutes: RouteObject[] = [
     path: 'ai-agents',
     element: (
       <LazyComponent>
-        <PageTitle title="navigation.agents" />
+        <PageTitle title="AI Agents" />
         <AIAgents />
       </LazyComponent>
     ),
@@ -60,7 +60,7 @@ export const mainRoutes: RouteObject[] = [
     path: 'projects',
     element: (
       <LazyComponent>
-        <PageTitle title="navigation.projects" />
+        <PageTitle title="Projects" />
         <Projects />
       </LazyComponent>
     ),
@@ -69,7 +69,7 @@ export const mainRoutes: RouteObject[] = [
     path: 'settings',
     element: (
       <LazyComponent>
-        <PageTitle title="navigation.settings" />
+        <PageTitle title="Settings" />
         <Settings />
       </LazyComponent>
     ),
