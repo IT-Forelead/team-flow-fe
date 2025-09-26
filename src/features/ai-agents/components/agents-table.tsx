@@ -1,15 +1,13 @@
-import { LazyComponent } from "@/components/common/lazy-component.tsx";
-import { DataTable } from "@/components/data-table/data-table.tsx";
-import { getColumns } from "@/features/ai-agents/components/columns.tsx";
-import type { Agent } from "@/features/ai-agents/types.ts";
-import { useExportConfig } from "@/features/ai-agents/utils/config.ts";
-import { agentsTableConfig } from "@/features/ai-agents/utils/table-config.ts";
-import { lazy } from "react";
-import { useAgentsData } from "../utils/data-fetching";
+import { LazyComponent } from '@/components/common/lazy-component.tsx';
+import { DataTable } from '@/components/data-table/data-table.tsx';
+import { getColumns } from '@/features/ai-agents/components/columns.tsx';
+import type { Agent } from '@/features/ai-agents/types.ts';
+import { useExportConfig } from '@/features/ai-agents/utils/config.ts';
+import { agentsTableConfig } from '@/features/ai-agents/utils/table-config.ts';
+import { lazy } from 'react';
+import { useAgentsData } from '../utils/data-fetching';
 
-const ToolbarOptions = lazy(
-  () => import("@/features/ai-agents/components/toolbar-options.tsx")
-);
+const ToolbarOptions = lazy(() => import('@/features/ai-agents/components/toolbar-options.tsx'));
 
 const AgentsTable = () => {
   const {

@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useMemo } from 'react';
 
 /**
  * Default export configuration for the agents data table
@@ -7,11 +7,11 @@ export function useExportConfig() {
   // Column mapping for export
   const columnMapping = useMemo(() => {
     return {
-      id: "ID",
-      name: "Name",
-      description: "Description",
-      prompt: "Prompt",
-      createdAt: "Created Date",
+      id: 'ID',
+      name: 'Name',
+      description: 'Description',
+      prompt: 'Prompt',
+      createdAt: 'Created Date',
     };
   }, []);
 
@@ -28,13 +28,13 @@ export function useExportConfig() {
 
   // Headers for CSV export
   const headers = useMemo(() => {
-    return ["id", "name", "description", "prompt", "createdAt"];
+    return ['id', 'name', 'description', 'prompt', 'createdAt'];
   }, []);
 
   return {
     columnMapping,
     columnWidths,
     headers,
-    entityName: "agents",
+    entityName: 'agents',
   };
 }

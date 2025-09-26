@@ -1,6 +1,6 @@
-import { AlertModal } from "@/components/custom/alert-modal";
-import { useDeleteProject } from "@/features/projects/hooks/use-projects";
-import { toast } from "sonner";
+import { AlertModal } from '@/components/custom/alert-modal';
+import { useDeleteProject } from '@/features/projects/hooks/use-projects';
+import { toast } from 'sonner';
 
 interface DeleteProjectProps {
   open: boolean;
@@ -19,12 +19,12 @@ export const DeleteProject = ({
 
   const onSubmit = () => {
     deleteProject(projectId, {
-      onSuccess: (response) => {
-        toast.success(response?.message || "Project deleted successfully");
+      onSuccess: response => {
+        toast.success(response?.message || 'Project deleted successfully');
         onOpenChange(false);
       },
-      onError: (error) => {
-        toast.error(error.message || "Failed to delete project");
+      onError: error => {
+        toast.error(error.message || 'Failed to delete project');
       },
     });
   };

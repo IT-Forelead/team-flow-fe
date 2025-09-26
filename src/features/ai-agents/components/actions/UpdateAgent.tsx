@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 import {
   Dialog,
   DialogContent,
@@ -6,7 +6,7 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog";
+} from '@/components/ui/dialog';
 import {
   Form,
   FormControl,
@@ -14,19 +14,19 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { useUpdateAgent } from "@/features/ai-agents/hooks/use-agents";
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
+import { useUpdateAgent } from '@/features/ai-agents/hooks/use-agents';
 import {
   type AgentUpdateSchema,
   agentUpdateSchema,
-} from "@/features/ai-agents/schema/agents.schema";
-import type { Agent, AgentUpdate } from "@/features/ai-agents/types";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect } from "react";
-import { useForm } from "react-hook-form";
-import { toast } from "sonner";
+} from '@/features/ai-agents/schema/agents.schema';
+import type { Agent, AgentUpdate } from '@/features/ai-agents/types';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useEffect } from 'react';
+import { useForm } from 'react-hook-form';
+import { toast } from 'sonner';
 
 interface UpdateAgentProps {
   agent: Agent;
@@ -40,9 +40,9 @@ export function UpdateAgent({ agent, open, onOpenChange }: UpdateAgentProps) {
   const form = useForm<AgentUpdateSchema>({
     resolver: zodResolver(agentUpdateSchema()),
     defaultValues: {
-      name: "",
-      prompt: "",
-      description: "",
+      name: '',
+      prompt: '',
+      description: '',
     },
   });
 
@@ -52,7 +52,7 @@ export function UpdateAgent({ agent, open, onOpenChange }: UpdateAgentProps) {
       form.reset({
         name: agent.name,
         prompt: agent.prompt,
-        description: agent.description || "",
+        description: agent.description || '',
       });
     }
   }, [agent, open, form]);
@@ -61,24 +61,24 @@ export function UpdateAgent({ agent, open, onOpenChange }: UpdateAgentProps) {
     updateAgent(
       { id: agent.id, data },
       {
-        onSuccess: (response) => {
-          const message = response?.message || "Agent updated successfully";
+        onSuccess: response => {
+          const message = response?.message || 'Agent updated successfully';
 
           toast.success(message, {
             duration: Number.POSITIVE_INFINITY,
             cancel: {
-              label: "Close",
+              label: 'Close',
               onClick: () => {},
             },
           });
 
           onOpenChange(false);
         },
-        onError: (error) => {
+        onError: error => {
           toast.error(error.message, {
             duration: Number.POSITIVE_INFINITY,
             cancel: {
-              label: "Close",
+              label: 'Close',
               onClick: () => {},
             },
           });
@@ -106,11 +106,7 @@ export function UpdateAgent({ agent, open, onOpenChange }: UpdateAgentProps) {
                 <FormItem>
                   <FormLabel required>Name</FormLabel>
                   <FormControl>
-                    <Input
-                      inputSize="md"
-                      placeholder="Enter agent name"
-                      {...field}
-                    />
+                    <Input inputSize="md" placeholder="Enter agent name" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -163,7 +159,7 @@ export function UpdateAgent({ agent, open, onOpenChange }: UpdateAgentProps) {
                 Cancel
               </Button>
               <Button type="submit" disabled={isPending}>
-                {isPending ? "Updating..." : "Update Agent"}
+                {isPending ? 'Updating...' : 'Update Agent'}
               </Button>
             </DialogFooter>
           </form>

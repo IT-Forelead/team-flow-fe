@@ -1,15 +1,13 @@
-import { LazyComponent } from "@/components/common/lazy-component.tsx";
-import { DataTable } from "@/components/data-table/data-table.tsx";
-import { getColumns } from "@/features/projects/components/columns.tsx";
-import type { Project } from "@/features/projects/types.ts";
-import { useExportConfig } from "@/features/projects/utils/config.ts";
-import { projectsTableConfig } from "@/features/projects/utils/table-config.ts";
-import { lazy } from "react";
-import { useProjectsData } from "../utils/data-fetching";
+import { LazyComponent } from '@/components/common/lazy-component.tsx';
+import { DataTable } from '@/components/data-table/data-table.tsx';
+import { getColumns } from '@/features/projects/components/columns.tsx';
+import type { Project } from '@/features/projects/types.ts';
+import { useExportConfig } from '@/features/projects/utils/config.ts';
+import { projectsTableConfig } from '@/features/projects/utils/table-config.ts';
+import { lazy } from 'react';
+import { useProjectsData } from '../utils/data-fetching';
 
-const ToolbarOptions = lazy(
-  () => import("@/features/projects/components/toolbar-options.tsx")
-);
+const ToolbarOptions = lazy(() => import('@/features/projects/components/toolbar-options.tsx'));
 
 const ProjectsTable = () => {
   const {

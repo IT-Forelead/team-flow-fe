@@ -47,7 +47,7 @@ axiosClient.interceptors.response.use(
         localStorage.removeItem('accessToken');
         const result = await refreshToken();
         if (result?.accessToken) {
-          // Update localStorage with new token
+          // Update localStorage with a new token
           localStorage.setItem('accessToken', result.accessToken);
           config.headers = {
             ...config.headers,

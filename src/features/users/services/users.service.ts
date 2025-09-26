@@ -24,7 +24,8 @@ export async function getUsers(filter: UserFilter) {
 }
 
 export async function deleteUser(id: string): Promise<ApiResponse> {
-  return await axiosClient.delete(`/users/${id}`);
+  const response = await axiosClient.delete(`/users/${id}`);
+  return response.data;
 }
 
 export async function checkUser(username: string): Promise<boolean> {

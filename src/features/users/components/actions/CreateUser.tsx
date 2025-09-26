@@ -117,13 +117,7 @@ export function CreateUser({ className }: CreateUserProps = {}) {
         });
       },
       onError: error => {
-        toast.error(error.message, {
-          duration: Number.POSITIVE_INFINITY,
-          cancel: {
-            label: 'Close',
-            onClick: () => {},
-          },
-        });
+        toast.error(error.message || 'Failed to create user');
       },
     });
   }

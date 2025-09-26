@@ -1,16 +1,16 @@
-import { LazyComponent } from "@/components/common/lazy-component.tsx";
-import { PageTitle } from "@/components/common/page-title.tsx";
-import AIAgents from "@/pages/ai-agents/AIAgents.tsx";
-import Settings from "@/pages/settings/Settings.tsx";
-import { lazy } from "react";
-import { Navigate } from "react-router";
-import type { RouteObject } from "react-router";
+import { LazyComponent } from '@/components/common/lazy-component.tsx';
+import { PageTitle } from '@/components/common/page-title.tsx';
+import AIAgents from '@/pages/ai-agents/AIAgents.tsx';
+import Settings from '@/pages/settings/Settings.tsx';
+import { lazy } from 'react';
+import { Navigate } from 'react-router';
+import type { RouteObject } from 'react-router';
 
 // Lazy load all main components for better code splitting
-const Home = lazy(() => import("@/pages/home/Home.tsx"));
-const Dashboard = lazy(() => import("@/pages/dashboard/index.tsx"));
-const Users = lazy(() => import("@/pages/users/Users.tsx"));
-const Projects = lazy(() => import("@/pages/projects/Projects.tsx"));
+const Home = lazy(() => import('@/pages/home/Home.tsx'));
+const Dashboard = lazy(() => import('@/pages/dashboard/index.tsx'));
+const Users = lazy(() => import('@/pages/users/Users.tsx'));
+const Projects = lazy(() => import('@/pages/projects/Projects.tsx'));
 
 /**
  * Main application routes with required authentication
@@ -21,7 +21,7 @@ export const mainRoutes: RouteObject[] = [
     element: <Navigate to="home" replace />,
   },
   {
-    path: "home",
+    path: 'home',
     element: (
       <LazyComponent>
         <PageTitle title="navigation.home" />
@@ -30,7 +30,7 @@ export const mainRoutes: RouteObject[] = [
     ),
   },
   {
-    path: "dashboard",
+    path: 'dashboard',
     element: (
       <LazyComponent>
         <PageTitle title="navigation.dashboard" />
@@ -39,7 +39,7 @@ export const mainRoutes: RouteObject[] = [
     ),
   },
   {
-    path: "users",
+    path: 'users',
     element: (
       <LazyComponent>
         <PageTitle title="navigation.users" />
@@ -48,7 +48,7 @@ export const mainRoutes: RouteObject[] = [
     ),
   },
   {
-    path: "ai-agents",
+    path: 'ai-agents',
     element: (
       <LazyComponent>
         <PageTitle title="navigation.agents" />
@@ -57,7 +57,7 @@ export const mainRoutes: RouteObject[] = [
     ),
   },
   {
-    path: "projects",
+    path: 'projects',
     element: (
       <LazyComponent>
         <PageTitle title="navigation.projects" />
@@ -66,7 +66,7 @@ export const mainRoutes: RouteObject[] = [
     ),
   },
   {
-    path: "settings",
+    path: 'settings',
     element: (
       <LazyComponent>
         <PageTitle title="navigation.settings" />

@@ -1,4 +1,4 @@
-import type { TableConfig } from "@/components/data-table/utils/table-config";
+import type { TableConfig } from '@/components/data-table/utils/table-config';
 
 export const projectsTableConfig: Partial<TableConfig> = {
   enableRowSelection: true,
@@ -13,8 +13,8 @@ export const projectsTableConfig: Partial<TableConfig> = {
   enableExport: true,
   enableUrlState: false,
   enableColumnResizing: true,
-  columnResizingTableId: "projects-table",
-  size: "default",
+  columnResizingTableId: 'projects-table',
+  size: 'default',
   manualPagination: true,
   manualSorting: true,
   manualFiltering: true,

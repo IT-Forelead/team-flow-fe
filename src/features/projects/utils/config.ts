@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useMemo } from 'react';
 
 /**
  * Default export configuration for the projects data table
@@ -7,10 +7,10 @@ export function useExportConfig() {
   // Column mapping for export
   const columnMapping = useMemo(() => {
     return {
-      id: "ID",
-      name: "Name",
-      url: "URL",
-      createdAt: "Created Date",
+      id: 'ID',
+      name: 'Name',
+      url: 'URL',
+      createdAt: 'Created Date',
     };
   }, []);
 
@@ -26,13 +26,13 @@ export function useExportConfig() {
 
   // Headers for CSV export
   const headers = useMemo(() => {
-    return ["id", "name", "url", "createdAt"];
+    return ['id', 'name', 'url', 'createdAt'];
   }, []);
 
   return {
     columnMapping,
     columnWidths,
     headers,
-    entityName: "projects",
+    entityName: 'projects',
   };
 }

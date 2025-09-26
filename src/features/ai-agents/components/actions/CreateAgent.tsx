@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 import {
   Dialog,
   DialogContent,
@@ -7,7 +7,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog";
+} from '@/components/ui/dialog';
 import {
   Form,
   FormControl,
@@ -15,20 +15,20 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { useCreateAgent } from "@/features/ai-agents/hooks/use-agents";
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
+import { useCreateAgent } from '@/features/ai-agents/hooks/use-agents';
 import {
   type AgentCreateSchema,
   agentCreateSchema,
-} from "@/features/ai-agents/schema/agents.schema";
-import type { AgentCreate } from "@/features/ai-agents/types";
-import { useDisclosure } from "@/hooks/use-disclosure";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { PlusIcon } from "lucide-react";
-import { useForm } from "react-hook-form";
-import { toast } from "sonner";
+} from '@/features/ai-agents/schema/agents.schema';
+import type { AgentCreate } from '@/features/ai-agents/types';
+import { useDisclosure } from '@/hooks/use-disclosure';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { PlusIcon } from 'lucide-react';
+import { useForm } from 'react-hook-form';
+import { toast } from 'sonner';
 
 interface CreateAgentProps {
   className?: string;
@@ -42,37 +42,37 @@ export function CreateAgent({ className }: CreateAgentProps = {}) {
   const form = useForm<AgentCreateSchema>({
     resolver: zodResolver(agentCreateSchema()),
     defaultValues: {
-      name: "",
-      prompt: "",
-      description: "",
+      name: '',
+      prompt: '',
+      description: '',
     },
   });
 
   function onSubmit(data: AgentCreate) {
     createAgent(data, {
-      onSuccess: (response) => {
-        const message = response?.message || "Agent created successfully";
+      onSuccess: response => {
+        const message = response?.message || 'Agent created successfully';
 
         toast.success(message, {
           duration: Number.POSITIVE_INFINITY, // Toast won't auto-close
           cancel: {
-            label: "Close",
+            label: 'Close',
             onClick: () => {}, // Just closes the toast
           },
         });
 
         onClose();
         form.reset({
-          name: "",
-          prompt: "",
-          description: "",
+          name: '',
+          prompt: '',
+          description: '',
         });
       },
-      onError: (error) => {
+      onError: error => {
         toast.error(error.message, {
           duration: Number.POSITIVE_INFINITY,
           cancel: {
-            label: "Close",
+            label: 'Close',
             onClick: () => {},
           },
         });
@@ -108,11 +108,7 @@ export function CreateAgent({ className }: CreateAgentProps = {}) {
                 <FormItem>
                   <FormLabel required>Name</FormLabel>
                   <FormControl>
-                    <Input
-                      inputSize="md"
-                      placeholder="Enter agent name"
-                      {...field}
-                    />
+                    <Input inputSize="md" placeholder="Enter agent name" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -156,16 +152,11 @@ export function CreateAgent({ className }: CreateAgentProps = {}) {
             />
 
             <DialogFooter>
-              <Button
-                type="button"
-                variant="outline"
-                onClick={onClose}
-                disabled={isPending}
-              >
+              <Button type="button" variant="outline" onClick={onClose} disabled={isPending}>
                 Cancel
               </Button>
               <Button type="submit" disabled={isPending}>
-                {isPending ? "Creating..." : "Create Agent"}
+                {isPending ? 'Creating...' : 'Create Agent'}
               </Button>
             </DialogFooter>
           </form>

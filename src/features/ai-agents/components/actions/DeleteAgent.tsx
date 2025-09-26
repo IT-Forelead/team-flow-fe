@@ -1,6 +1,6 @@
-import { AlertModal } from "@/components/custom/alert-modal";
-import { useDeleteAgent } from "@/features/ai-agents/hooks/use-agents";
-import { toast } from "sonner";
+import { AlertModal } from '@/components/custom/alert-modal';
+import { useDeleteAgent } from '@/features/ai-agents/hooks/use-agents';
+import { toast } from 'sonner';
 
 interface DeleteAgentProps {
   open: boolean;
@@ -9,22 +9,17 @@ interface DeleteAgentProps {
   agentName?: string;
 }
 
-export const DeleteAgent = ({
-  open,
-  onOpenChange,
-  agentId,
-  agentName,
-}: DeleteAgentProps) => {
+export const DeleteAgent = ({ open, onOpenChange, agentId, agentName }: DeleteAgentProps) => {
   const { mutate: deleteAgent, isPending } = useDeleteAgent();
 
   const onSubmit = () => {
     deleteAgent(agentId, {
-      onSuccess: (response) => {
-        toast.success(response?.message || "Agent deleted successfully");
+      onSuccess: response => {
+        toast.success(response?.message || 'Agent deleted successfully');
         onOpenChange(false);
       },
-      onError: (error) => {
-        toast.error(error.message || "Failed to delete agent");
+      onError: error => {
+        toast.error(error.message || 'Failed to delete agent');
       },
     });
   };

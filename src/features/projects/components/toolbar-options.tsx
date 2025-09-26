@@ -1,4 +1,4 @@
-import { CreateProject } from "@/features/projects/components/actions/CreateProject";
+import { CreateProject } from '@/features/projects/components/actions/CreateProject';
 
 const ToolbarOptions = () => {
   return (

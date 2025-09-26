@@ -16,8 +16,12 @@ import {
 } from '../services/users.service.ts';
 
 export function useCreateUser() {
+  const queryClient = useQueryClient();
   return useMutation<ApiResponse, ServerError, UserCreate>({
     mutationFn: createUser,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['users'] }).then();
+    },
   });
 }
 

@@ -1,10 +1,10 @@
-import { DataTableColumnHeader } from "@/components/data-table/column-header";
-import { Checkbox } from "@/components/ui/checkbox.tsx";
-import type { Project } from "@/features/projects/types.ts";
-import { humanizeDateTime } from "@/utils/humanize.ts";
-import type { ColumnDef } from "@tanstack/react-table";
-import { ExternalLinkIcon } from "lucide-react";
-import { DataTableRowActions } from "./row-actions";
+import { DataTableColumnHeader } from '@/components/data-table/column-header';
+import { Checkbox } from '@/components/ui/checkbox.tsx';
+import type { Project } from '@/features/projects/types.ts';
+import { humanizeDateTime } from '@/utils/humanize.ts';
+import type { ColumnDef } from '@tanstack/react-table';
+import { ExternalLinkIcon } from 'lucide-react';
+import { DataTableRowActions } from './row-actions';
 
 export const getColumns = (
   handleRowDeselection: ((rowId: string) => void) | null | undefined
@@ -12,24 +12,18 @@ export const getColumns = (
   // Base columns without the select column
   const baseColumns: ColumnDef<Project>[] = [
     {
-      id: "rowNumber",
-      header: ({ column }) => (
-        <DataTableColumnHeader column={column} title="№" />
-      ),
+      id: 'rowNumber',
+      header: ({ column }) => <DataTableColumnHeader column={column} title="№" />,
       cell: ({ row }) => row.index + 1,
       size: 70,
     },
     {
-      accessorKey: "name",
-      header: ({ column }) => (
-        <DataTableColumnHeader column={column} title="Name" />
-      ),
+      accessorKey: 'name',
+      header: ({ column }) => <DataTableColumnHeader column={column} title="Name" />,
       cell: ({ row }) => {
         const name = row.original.name;
         if (!name) {
-          return (
-            <div className="text-muted-foreground italic">Unnamed project</div>
-          );
+          return <div className="text-muted-foreground italic">Unnamed project</div>;
         }
 
         return <div className="truncate text-left font-medium">{name}</div>;
@@ -37,10 +31,8 @@ export const getColumns = (
       size: 200,
     },
     {
-      accessorKey: "url",
-      header: ({ column }) => (
-        <DataTableColumnHeader column={column} title="URL" />
-      ),
+      accessorKey: 'url',
+      header: ({ column }) => <DataTableColumnHeader column={column} title="URL" />,
       cell: ({ row }) => {
         const url = row.original.url;
 
@@ -61,10 +53,8 @@ export const getColumns = (
       size: 300,
     },
     {
-      accessorKey: "createdAt",
-      header: ({ column }) => (
-        <DataTableColumnHeader column={column} title="Created At" />
-      ),
+      accessorKey: 'createdAt',
+      header: ({ column }) => <DataTableColumnHeader column={column} title="Created At" />,
       cell: ({ row }) => {
         return (
           <div className="max-w-full truncate text-left">
@@ -75,10 +65,8 @@ export const getColumns = (
       size: 120,
     },
     {
-      id: "actions",
-      header: ({ column }) => (
-        <DataTableColumnHeader column={column} title="Actions" />
-      ),
+      id: 'actions',
+      header: ({ column }) => <DataTableColumnHeader column={column} title="Actions" />,
       cell: ({ row, table }) => <DataTableRowActions row={row} table={table} />,
       size: 100,
     },
@@ -88,17 +76,15 @@ export const getColumns = (
   if (handleRowDeselection !== null) {
     return [
       {
-        id: "select",
+        id: 'select',
         header: ({ table }) => (
           <div className="truncate pl-2">
             <Checkbox
               checked={
                 table.getIsAllPageRowsSelected() ||
-                (table.getIsSomePageRowsSelected() && "indeterminate")
+                (table.getIsSomePageRowsSelected() && 'indeterminate')
               }
-              onCheckedChange={(value) =>
-                table.toggleAllPageRowsSelected(!!value)
-              }
+              onCheckedChange={value => table.toggleAllPageRowsSelected(!!value)}
               aria-label="Select all"
               className="translate-y-0.5 cursor-pointer"
             />
@@ -108,7 +94,7 @@ export const getColumns = (
           <div className="truncate">
             <Checkbox
               checked={row.getIsSelected()}
-              onCheckedChange={(value) => {
+              onCheckedChange={value => {
                 if (value) {
                   row.toggleSelected(true);
                 } else {

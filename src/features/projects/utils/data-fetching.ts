@@ -1,7 +1,7 @@
-import { useGetProjects } from "@/features/projects/hooks/use-projects";
-import { useDebounce } from "@/hooks/use-debounce.tsx";
-import type { PaginationState, SortingState } from "@tanstack/react-table";
-import { useState } from "react";
+import { useGetProjects } from '@/features/projects/hooks/use-projects';
+import { useDebounce } from '@/hooks/use-debounce.tsx';
+import type { PaginationState, SortingState } from '@tanstack/react-table';
+import { useState } from 'react';
 
 export function useProjectsData() {
   const [pagination, setPagination] = useState<PaginationState>({
@@ -10,7 +10,7 @@ export function useProjectsData() {
   });
 
   const [sorting, setSorting] = useState<SortingState>([]);
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState('');
   const debouncedSearch = useDebounce(search, 300);
 
   // Derived values from pagination and sorting for easier access
@@ -19,11 +19,11 @@ export function useProjectsData() {
 
   // Handlers for pagination changes
   const handlePageChange = (page: number) => {
-    setPagination((prev) => ({ ...prev, pageIndex: page - 1 }));
+    setPagination(prev => ({ ...prev, pageIndex: page - 1 }));
   };
 
   const handlePageSizeChange = (size: number) => {
-    setPagination((prev) => ({ ...prev, pageSize: size, pageIndex: 0 }));
+    setPagination(prev => ({ ...prev, pageSize: size, pageIndex: 0 }));
   };
 
   // Handler for sorting changes
@@ -31,19 +31,17 @@ export function useProjectsData() {
     updaterOrValue: SortingState | ((prev: SortingState) => SortingState)
   ) => {
     const newSorting =
-      typeof updaterOrValue === "function"
-        ? updaterOrValue(sorting)
-        : updaterOrValue;
+      typeof updaterOrValue === 'function' ? updaterOrValue(sorting) : updaterOrValue;
     setSorting(newSorting);
     // Reset to the first page when sorting changes
-    setPagination((prev) => ({ ...prev, pageIndex: 0 }));
+    setPagination(prev => ({ ...prev, pageIndex: 0 }));
   };
 
   // Handler for search changes
   const handleSearchChange = (searchValue: string) => {
     setSearch(searchValue);
     // Reset to the first page when search changes
-    setPagination((prev) => ({ ...prev, pageIndex: 0 }));
+    setPagination(prev => ({ ...prev, pageIndex: 0 }));
   };
 
   const {
@@ -58,7 +56,7 @@ export function useProjectsData() {
     ...(sorting.length > 0
       ? {
           sortBy: sorting[0].id,
-          sortOrder: sorting[0].desc ? "desc" : "asc",
+          sortOrder: sorting[0].desc ? 'desc' : 'asc',
         }
       : {}),
   });

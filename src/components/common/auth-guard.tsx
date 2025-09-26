@@ -9,7 +9,7 @@ export function AuthGuard({ children }: PropsWithChildren) {
 
   // Agar ma'lumotlar yuklanayotgan bo'lsa, loading ko'rsatish
   if (isLoading) {
-    return <Spinner show />;
+    return <Spinner show size="medium" className="flex justify-center items-center min-h-screen" />;
   }
 
   // Agar foydalanuvchi autentifikatsiya qilinmagan bo'lsa, login sahifasiga yo'naltirish

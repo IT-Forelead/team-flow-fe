@@ -81,7 +81,7 @@ export const DefaultLayout = () => {
             <Suspense
               fallback={
                 <div className="flex h-full items-center justify-center bg-background">
-                  <Spinner size="large" className="animate-pulse" />
+                  <Spinner show size="large" className="animate-pulse" />
                 </div>
               }
             >
