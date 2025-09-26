@@ -11,7 +11,7 @@ import type { AxiosResponse } from 'axios';
 
 export async function createProject(data: ProjectCreate): Promise<ApiResponse> {
   const response = await axiosClient.post<ApiResponse, AxiosResponse<ApiResponse, ServerError>>(
-    '/projects',
+    '/projects/create',
     data
   );
   return response.data;

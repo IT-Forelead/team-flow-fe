@@ -72,26 +72,11 @@ export function UpdateUser({ user, open, onOpenChange }: UpdateUserProps) {
       { id: user.id, data },
       {
         onSuccess: response => {
-          const message = response?.message || 'User updated successfully';
-
-          toast.success(message, {
-            duration: Number.POSITIVE_INFINITY,
-            cancel: {
-              label: 'Close',
-              onClick: () => {},
-            },
-          });
-
+          toast.success(response?.message || 'User updated successfully');
           onOpenChange(false);
         },
         onError: error => {
-          toast.error(error.message, {
-            duration: Number.POSITIVE_INFINITY,
-            cancel: {
-              label: 'Close',
-              onClick: () => {},
-            },
-          });
+          toast.error(error.message || 'Failed to update user');
         },
       }
     );

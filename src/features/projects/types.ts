@@ -4,7 +4,6 @@ export interface Project {
   id: string;
   name: string;
   url: string;
-  createdAt: string;
 }
 
 export interface ProjectCreate {

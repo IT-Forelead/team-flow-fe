@@ -46,7 +46,7 @@ export function UpdateAgent({ agent, open, onOpenChange }: UpdateAgentProps) {
     },
   });
 
-  // Populate form with agent data when agent changes or modal opens
+  // Populate form with agent data when the agent changes or modal opens
   useEffect(() => {
     if (agent && open) {
       form.reset({
@@ -62,26 +62,11 @@ export function UpdateAgent({ agent, open, onOpenChange }: UpdateAgentProps) {
       { id: agent.id, data },
       {
         onSuccess: response => {
-          const message = response?.message || 'Agent updated successfully';
-
-          toast.success(message, {
-            duration: Number.POSITIVE_INFINITY,
-            cancel: {
-              label: 'Close',
-              onClick: () => {},
-            },
-          });
-
+          toast.success(response?.message || 'Agent updated successfully');
           onOpenChange(false);
         },
         onError: error => {
-          toast.error(error.message, {
-            duration: Number.POSITIVE_INFINITY,
-            cancel: {
-              label: 'Close',
-              onClick: () => {},
-            },
-          });
+          toast.error(error.message || 'Failed to update agent');
         },
       }
     );
@@ -120,9 +105,9 @@ export function UpdateAgent({ agent, open, onOpenChange }: UpdateAgentProps) {
                 <FormItem>
                   <FormLabel>Description</FormLabel>
                   <FormControl>
-                    <Input
-                      inputSize="md"
+                    <Textarea
                       placeholder="Enter agent description (optional)"
+                      className="min-h-20 max-h-32 resize-y overflow-y-auto"
                       {...field}
                     />
                   </FormControl>
@@ -140,7 +125,7 @@ export function UpdateAgent({ agent, open, onOpenChange }: UpdateAgentProps) {
                   <FormControl>
                     <Textarea
                       placeholder="Enter the agent's system prompt..."
-                      className="min-h-32"
+                      className="min-h-40 max-h-60 resize-y overflow-y-auto"
                       {...field}
                     />
                   </FormControl>

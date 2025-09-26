@@ -18,6 +18,7 @@ const typographyVariants = cva('', {
       muted: 'text-sm text-muted-foreground',
       large: 'text-lg font-semibold',
       title: 'text-2xl font-bold tracking-tight',
+      a: 'font-medium text-primary underline underline-offset-4 hover:text-primary/80 transition-colors',
     },
   },
   defaultVariants: {
@@ -38,11 +39,16 @@ type VariantType =
   | 'small'
   | 'muted'
   | 'large'
-  | 'title';
+  | 'title'
+  | 'a';
 
 export interface TypographyProps extends React.HTMLAttributes<HTMLElement> {
   variant?: VariantType;
   asChild?: boolean;
+  // Link props for 'a' variant
+  href?: string;
+  target?: React.HTMLAttributeAnchorTarget;
+  rel?: string;
 }
 
 const variantToElement: Record<VariantType, React.ElementType> = {
@@ -59,6 +65,7 @@ const variantToElement: Record<VariantType, React.ElementType> = {
   muted: 'p',
   large: 'div',
   title: 'h1',
+  a: 'a',
 };
 
 const Typography = React.forwardRef<HTMLElement, TypographyProps>(

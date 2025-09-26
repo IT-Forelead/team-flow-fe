@@ -12,7 +12,10 @@ export const userCreateSchema = () => {
       .min(3, 'Username is required')
       .max(16, 'Username must be 16 characters or less'),
     role: z.nativeEnum(Role, { message: 'Role is required' }),
-    position: z.nativeEnum(Position, { message: 'Position is required' }).optional(),
+    position: z
+      .nativeEnum(Position)
+      .optional()
+      .transform(val => (val === '' ? undefined : val)),
   }) satisfies z.ZodType<UserCreate>;
 };
 
@@ -28,7 +31,10 @@ export const userUpdateSchema = () => {
       .min(3, 'Username is required')
       .max(16, 'Username must be 16 characters or less'),
     role: z.nativeEnum(Role, { message: 'Role is required' }),
-    position: z.nativeEnum(Position, { message: 'Position is required' }).optional(),
+    position: z
+      .nativeEnum(Position)
+      .optional()
+      .transform(val => (val === '' ? undefined : val)),
   }) satisfies z.ZodType<UserUpdate>;
 };
 

@@ -32,10 +32,22 @@ export const getColumns = (
           return <div className="text-muted-foreground italic">No description</div>;
         }
 
+        const truncatedDescription =
+          description.length > 40 ? `${description.substring(0, 40)}...` : description;
+
         return (
-          <div className="flex space-x-2 truncate">
-            <span className="truncate">{description}</span>
-          </div>
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <div className="flex items-center truncate cursor-help">
+                  <span className="truncate">{truncatedDescription}</span>
+                </div>
+              </TooltipTrigger>
+              <TooltipContent side="bottom" className="max-w-md max-h-60 overflow-y-auto">
+                <p className="whitespace-pre-wrap">{description}</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
         );
       },
       size: 250,
@@ -55,7 +67,7 @@ export const getColumns = (
                   <span className="truncate">{truncatedPrompt}</span>
                 </div>
               </TooltipTrigger>
-              <TooltipContent side="bottom" className="max-w-md">
+              <TooltipContent side="bottom" className="max-w-md max-h-60 overflow-y-auto">
                 <p className="whitespace-pre-wrap">{prompt}</p>
               </TooltipContent>
             </Tooltip>

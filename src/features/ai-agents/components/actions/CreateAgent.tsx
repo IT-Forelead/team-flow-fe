@@ -34,7 +34,7 @@ interface CreateAgentProps {
   className?: string;
 }
 
-export function CreateAgent({ className }: CreateAgentProps = {}) {
+export function CreateAgent({ className }: CreateAgentProps) {
   const { isOpen, onClose, onOpenChange } = useDisclosure();
 
   const { mutate: createAgent, isPending } = useCreateAgent();
@@ -51,16 +51,7 @@ export function CreateAgent({ className }: CreateAgentProps = {}) {
   function onSubmit(data: AgentCreate) {
     createAgent(data, {
       onSuccess: response => {
-        const message = response?.message || 'Agent created successfully';
-
-        toast.success(message, {
-          duration: Number.POSITIVE_INFINITY, // Toast won't auto-close
-          cancel: {
-            label: 'Close',
-            onClick: () => {}, // Just closes the toast
-          },
-        });
-
+        toast.success(response?.message || 'Agent created successfully');
         onClose();
         form.reset({
           name: '',
@@ -69,13 +60,7 @@ export function CreateAgent({ className }: CreateAgentProps = {}) {
         });
       },
       onError: error => {
-        toast.error(error.message, {
-          duration: Number.POSITIVE_INFINITY,
-          cancel: {
-            label: 'Close',
-            onClick: () => {},
-          },
-        });
+        toast.error(error.message || 'Failed to create agent');
       },
     });
   }
@@ -91,7 +76,7 @@ export function CreateAgent({ className }: CreateAgentProps = {}) {
           Create Agent
         </Button>
       </DialogTrigger>
-      <DialogContent className="max-w-2xl">
+      <DialogContent className="md:!max-w-2xl">
         <DialogHeader>
           <DialogTitle>Create New Agent</DialogTitle>
           <DialogDescription>
@@ -122,9 +107,9 @@ export function CreateAgent({ className }: CreateAgentProps = {}) {
                 <FormItem>
                   <FormLabel>Description</FormLabel>
                   <FormControl>
-                    <Input
-                      inputSize="md"
+                    <Textarea
                       placeholder="Enter agent description (optional)"
+                      className="min-h-20 max-h-32 resize-y overflow-y-auto"
                       {...field}
                     />
                   </FormControl>
@@ -142,7 +127,7 @@ export function CreateAgent({ className }: CreateAgentProps = {}) {
                   <FormControl>
                     <Textarea
                       placeholder="Enter the agent's system prompt..."
-                      className="min-h-32"
+                      className="min-h-40 max-h-60 resize-y overflow-y-auto"
                       {...field}
                     />
                   </FormControl>

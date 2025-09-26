@@ -1,7 +1,7 @@
 import { DataTableColumnHeader } from '@/components/data-table/column-header';
 import { Checkbox } from '@/components/ui/checkbox.tsx';
+import { Typography } from '@/components/ui/typography.tsx';
 import type { Project } from '@/features/projects/types.ts';
-import { humanizeDateTime } from '@/utils/humanize.ts';
 import type { ColumnDef } from '@tanstack/react-table';
 import { ExternalLinkIcon } from 'lucide-react';
 import { DataTableRowActions } from './row-actions';
@@ -38,31 +38,20 @@ export const getColumns = (
 
         return (
           <div className="flex items-center space-x-2 truncate">
-            <a
+            <Typography
+              variant="a"
               href={url}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center space-x-1 truncate text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 hover:underline"
+              className="flex items-center gap-2 truncate text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 hover:underline"
             >
-              <span className="truncate">{url}</span>
+              {url}
               <ExternalLinkIcon className="h-3 w-3 flex-shrink-0" />
-            </a>
+            </Typography>
           </div>
         );
       },
       size: 300,
-    },
-    {
-      accessorKey: 'createdAt',
-      header: ({ column }) => <DataTableColumnHeader column={column} title="Created At" />,
-      cell: ({ row }) => {
-        return (
-          <div className="max-w-full truncate text-left">
-            {humanizeDateTime(row.original.createdAt)}
-          </div>
-        );
-      },
-      size: 120,
     },
     {
       id: 'actions',
