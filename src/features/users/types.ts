@@ -9,6 +9,7 @@ export interface User {
   username: string;
   role: Role;
   position?: Position;
+  isGithubMember: boolean;
 }
 
 export interface UserCreate {

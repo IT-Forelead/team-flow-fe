@@ -24,13 +24,15 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select.tsx';
-import { useCreateUser } from '@/features/users/hooks/use-users';
+import { Typography } from '@/components/ui/typography.tsx';
+import { useCheckUser, useCreateUser } from '@/features/users/hooks/use-users';
 import { type UserCreateSchema, userCreateSchema } from '@/features/users/schema/users.schema.ts';
 import type { UserCreate } from '@/features/users/types';
 import { useDisclosure } from '@/hooks/use-disclosure.ts';
 import { PositionOptions, RoleOptions } from '@/types/common.ts';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { PlusIcon } from 'lucide-react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
@@ -42,6 +44,9 @@ export function CreateUser({ className }: CreateUserProps = {}) {
   const { isOpen, onClose, onOpenChange } = useDisclosure();
 
   const { mutate: createUser, isPending } = useCreateUser();
+  const { mutate: checkUser } = useCheckUser();
+
+  const [membershipStatus, setMembershipStatus] = useState<boolean | null>(null);
 
   const form = useForm<UserCreateSchema>({
     resolver: zodResolver(userCreateSchema()),
@@ -52,6 +57,26 @@ export function CreateUser({ className }: CreateUserProps = {}) {
       username: '',
     },
   });
+
+  const username = form.watch('username');
+
+  useEffect(() => {
+    if (username && username.trim().length > 0) {
+      const timeoutId = setTimeout(() => {
+        checkUser(username, {
+          onSuccess: result => {
+            setMembershipStatus(result);
+          },
+          onError: () => {
+            setMembershipStatus(null);
+          },
+        });
+      }, 500); // 500ms debounce
+
+      return () => clearTimeout(timeoutId);
+    }
+    setMembershipStatus(null);
+  }, [username, checkUser]);
 
   function onSubmit(data: UserCreate) {
     createUser(data, {
@@ -181,7 +206,21 @@ export function CreateUser({ className }: CreateUserProps = {}) {
                 name="username"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel required>Username</FormLabel>
+                    <div className="flex items-center gap-2">
+                      <FormLabel required>Username</FormLabel>
+                      {membershipStatus !== null && (
+                        <Typography
+                          variant="p"
+                          className={`text-sm !mt-0 font-medium ${
+                            membershipStatus
+                              ? 'text-green-600 dark:text-green-400'
+                              : 'text-red-600 dark:text-red-400'
+                          }`}
+                        >
+                          {membershipStatus ? 'Member' : 'Not Member'}
+                        </Typography>
+                      )}
+                    </div>
                     <FormControl>
                       <Input inputSize="md" placeholder="johndoe" {...field} />
                     </FormControl>

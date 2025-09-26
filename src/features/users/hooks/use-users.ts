@@ -7,11 +7,23 @@ import {
   useQuery,
   useQueryClient,
 } from '@tanstack/react-query';
-import { createUser, deleteUser, getUsers, updateUser } from '../services/users.service.ts';
+import {
+  checkUser,
+  createUser,
+  deleteUser,
+  getUsers,
+  updateUser,
+} from '../services/users.service.ts';
 
 export function useCreateUser() {
   return useMutation<ApiResponse, ServerError, UserCreate>({
     mutationFn: createUser,
+  });
+}
+
+export function useCheckUser() {
+  return useMutation<boolean, ServerError, string>({
+    mutationFn: checkUser,
   });
 }
 

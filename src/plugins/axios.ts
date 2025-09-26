@@ -41,16 +41,19 @@ axiosClient.interceptors.response.use(
     const config = err.config;
 
     if (config.url !== '/auth/login' && err.response) {
-      if (err.response.status === 401 && !config?.sent) {
+      // Handle both 401 Unauthorized and 403 Forbidden (expired token)
+      if ((err.response.status === 401 || err.response.status === 403) && !config?.sent) {
         config.sent = true;
         localStorage.removeItem('accessToken');
         const result = await refreshToken();
         if (result?.accessToken) {
+          // Update localStorage with new token
+          localStorage.setItem('accessToken', result.accessToken);
           config.headers = {
             ...config.headers,
-            Authorization: `Bearer ${result?.accessToken}`,
+            Authorization: `Bearer ${result.accessToken}`,
           };
-          return axios(config);
+          return axiosClient(config);
         }
       }
     }

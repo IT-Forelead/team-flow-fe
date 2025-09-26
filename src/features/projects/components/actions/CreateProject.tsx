@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 import {
   Dialog,
   DialogContent,
@@ -7,7 +7,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog";
+} from '@/components/ui/dialog';
 import {
   Form,
   FormControl,
@@ -15,19 +15,19 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { useCreateProject } from "@/features/projects/hooks/use-projects";
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { useCreateProject } from '@/features/projects/hooks/use-projects';
 import {
   type ProjectCreateSchema,
   projectCreateSchema,
-} from "@/features/projects/schema/projects.schema";
-import type { ProjectCreate } from "@/features/projects/types";
-import { useDisclosure } from "@/hooks/use-disclosure";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { PlusIcon } from "lucide-react";
-import { useForm } from "react-hook-form";
-import { toast } from "sonner";
+} from '@/features/projects/schema/projects.schema';
+import type { ProjectCreate } from '@/features/projects/types';
+import { useDisclosure } from '@/hooks/use-disclosure';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { PlusIcon } from 'lucide-react';
+import { useForm } from 'react-hook-form';
+import { toast } from 'sonner';
 
 interface CreateProjectProps {
   className?: string;
@@ -41,38 +41,21 @@ export function CreateProject({ className }: CreateProjectProps = {}) {
   const form = useForm<ProjectCreateSchema>({
     resolver: zodResolver(projectCreateSchema()),
     defaultValues: {
-      name: "",
-      url: "",
+      url: '',
     },
   });
 
   function onSubmit(data: ProjectCreate) {
     createProject(data, {
-      onSuccess: (response) => {
-        const message = response?.message || "Project created successfully";
-
-        toast.success(message, {
-          duration: Number.POSITIVE_INFINITY, // Toast won't auto-close
-          cancel: {
-            label: "Close",
-            onClick: () => {}, // Just closes the toast
-          },
-        });
-
+      onSuccess: response => {
+        toast.success(response?.message || 'Project created successfully');
         onClose();
         form.reset({
-          name: "",
-          url: "",
+          url: '',
         });
       },
-      onError: (error) => {
-        toast.error(error.message, {
-          duration: Number.POSITIVE_INFINITY,
-          cancel: {
-            label: "Close",
-            onClick: () => {},
-          },
-        });
+      onError: error => {
+        toast.error(error.message || 'Failed to create project');
       },
     });
   }
@@ -100,35 +83,12 @@ export function CreateProject({ className }: CreateProjectProps = {}) {
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
             <FormField
               control={form.control}
-              name="name"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Name</FormLabel>
-                  <FormControl>
-                    <Input
-                      inputSize="md"
-                      placeholder="Enter project name (optional)"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
               name="url"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel required>URL</FormLabel>
                   <FormControl>
-                    <Input
-                      inputSize="md"
-                      type="url"
-                      placeholder="https://example.com"
-                      {...field}
-                    />
+                    <Input inputSize="md" type="url" placeholder="https://example.com" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -136,16 +96,11 @@ export function CreateProject({ className }: CreateProjectProps = {}) {
             />
 
             <DialogFooter>
-              <Button
-                type="button"
-                variant="outline"
-                onClick={onClose}
-                disabled={isPending}
-              >
+              <Button type="button" variant="outline" onClick={onClose} disabled={isPending}>
                 Cancel
               </Button>
               <Button type="submit" disabled={isPending}>
-                {isPending ? "Creating..." : "Create Project"}
+                {isPending ? 'Creating...' : 'Create Project'}
               </Button>
             </DialogFooter>
           </form>
