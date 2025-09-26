@@ -1,5 +1,5 @@
 services:
-  sellware-stage:
+  teamflow-stage:
     restart: always
     build: .
     hostname: teamflow-stage
