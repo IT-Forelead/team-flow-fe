@@ -26,7 +26,7 @@ const selectTriggerVariants = cva(
           'bg-control border-control text-primary',
           'hover:bg-control-ghost hover:border',
           'focus:focus-ring',
-          'data-[placeholder]:text-secondary',
+          'data-[placeholder]:text-secondary data-[placeholder]:text-sm',
           "[&_svg:not([class*='text-'])]:text-secondary",
         ],
         ghost: ['bg-transparent border text-primary', 'hover:bg-control-ghost', 'focus:focus-ring'],

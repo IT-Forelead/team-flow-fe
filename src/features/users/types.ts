@@ -10,6 +10,7 @@ export interface User {
   role: Role;
   position?: Position;
   isGithubMember: boolean;
+  avatarUrl?: string;
 }
 
 export interface UserCreate {

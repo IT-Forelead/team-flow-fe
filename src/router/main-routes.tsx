@@ -11,6 +11,8 @@ const Home = lazy(() => import('@/pages/home/Home.tsx'));
 const Dashboard = lazy(() => import('@/pages/dashboard/index.tsx'));
 const Users = lazy(() => import('@/pages/users/Users.tsx'));
 const Projects = lazy(() => import('@/pages/projects/Projects.tsx'));
+const Analysis = lazy(() => import('@/pages/analysis/Analysis.tsx'));
+const CreateAnalysis = lazy(() => import('@/pages/analysis/CreateAnalysis.tsx'));
 
 /**
  * Main application routes with required authentication
@@ -62,6 +64,24 @@ export const mainRoutes: RouteObject[] = [
       <LazyComponent>
         <PageTitle title="Projects" />
         <Projects />
+      </LazyComponent>
+    ),
+  },
+  {
+    path: 'analysis',
+    element: (
+      <LazyComponent>
+        <PageTitle title="Analysis" />
+        <Analysis />
+      </LazyComponent>
+    ),
+  },
+  {
+    path: 'analysis/create',
+    element: (
+      <LazyComponent>
+        <PageTitle title="Create Analysis" />
+        <CreateAnalysis />
       </LazyComponent>
     ),
   },

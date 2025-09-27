@@ -6,6 +6,7 @@ import {
   HomeIcon,
   SettingsIcon,
   UsersIcon,
+  FileTextIcon,
 } from 'lucide-react';
 import type { ReactNode } from 'react';
 
@@ -74,6 +75,12 @@ export const mainMenuItems: SidebarMenuItem[] = [
     title: 'Projects',
     url: '/projects',
     icon: <FolderIcon />,
+    roles: [],
+  },
+  {
+    title: 'Analysis',
+    url: '/analysis',
+    icon: <FileTextIcon />,
     roles: [],
   },
 ];

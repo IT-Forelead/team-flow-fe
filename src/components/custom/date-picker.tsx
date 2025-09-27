@@ -24,6 +24,7 @@ interface DatePickerProps extends React.HTMLAttributes<HTMLButtonElement> {
   disabled?: boolean;
   allowClear?: boolean;
   variant?: 'default' | 'destructive' | 'outline' | 'secondary' | 'ghost' | 'link';
+  size?: 'xs' | 'default' | 'sm' | 'lg' | 'md' | 'xl';
 }
 
 export const DatePicker = React.forwardRef<HTMLButtonElement, DatePickerProps>(
@@ -38,6 +39,7 @@ export const DatePicker = React.forwardRef<HTMLButtonElement, DatePickerProps>(
       placeholder,
       disabled = false,
       allowClear = true,
+      size = 'default',
       ...props
     },
     ref
@@ -206,7 +208,7 @@ export const DatePicker = React.forwardRef<HTMLButtonElement, DatePickerProps>(
               {...props}
               variant={variant}
               className={cn('w-auto justify-start text-left font-normal relative pr-8', className)}
-              size="default"
+              size={size}
               onClick={handleTogglePopover}
               disabled={disabled}
               suppressHydrationWarning
@@ -230,7 +232,7 @@ export const DatePicker = React.forwardRef<HTMLButtonElement, DatePickerProps>(
                 <button
                   type="button"
                   onClick={handleClearSelection}
-                  className="absolute right-2 top-1/2 -translate-y-1/2 h-4 w-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 z-10 bg-background"
+                  className="absolute right-2 top-1/2 -translate-y-1/2 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 z-10 bg-background"
                   aria-label={'Clear'}
                 >
                   <X className="h-3 w-3" />

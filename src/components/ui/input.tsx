@@ -38,7 +38,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
     // Apply reduced motion classes if the user prefers reduced motion
     const motionAwareClassName = React.useMemo(() => {
       return cn(
-        'flex w-full bg-control border-2 border-[var(--control-border)] rounded-md text-primary font file:border-0 file:bg-transparent file:font-medium file:text-primary placeholder:text-secondary placeholder:opacity-90 focus:outline-none disabled:cursor-not-allowed disabled:opacity-60 appearance-none',
+        'flex w-full bg-control border-2 border-[var(--control-border)] rounded-md text-primary font file:border-0 file:bg-transparent file:font-medium file:text-primary placeholder:text-secondary placeholder:opacity-75 placeholder:text-sm focus:outline-none disabled:cursor-not-allowed disabled:opacity-60 appearance-none',
         // Focus styles - blue focus ring (smaller)
         'focus-visible:ring-1 focus-visible:ring-blue-500 focus-visible:ring-offset-0 focus:border-blue-500',
         // Transition with conditional duration
